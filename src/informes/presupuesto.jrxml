@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="53d74cfc-5bd5-4668-9129-55eb91d2eff0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idPresupuesto" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     presupuesto.`total` AS presupuesto_total,
+     detallepresupuesto.`descripcion` AS detallepresupuesto_descripcion,
+     detallepresupuesto.`subtotal` AS detallepresupuesto_subtotal,
+     detallepresupuesto.`cantidad` AS detallepresupuesto_cantidad,
+     material.`precioUnitarioM` AS material_precioUnitarioM,
+     detallepresupuesto.`idPresupuesto` AS detallepresupuesto_idPresupuesto,
+     presupuesto.`idPresupuesto` AS presupuesto_idPresupuesto
+FROM
+     `presupuesto` presupuesto INNER JOIN `detallepresupuesto` detallepresupuesto ON presupuesto.`idPresupuesto` = detallepresupuesto.`idPresupuesto`
+     INNER JOIN `material` material ON detallepresupuesto.`idMaterial` = material.`idMaterial`
+WHERE
+     presupuesto.`idPresupuesto` = $P!{idPresupuesto}]]>
+	</queryString>
+	<field name="presupuesto_total" class="java.lang.Double"/>
+	<field name="detallepresupuesto_descripcion" class="java.lang.String"/>
+	<field name="detallepresupuesto_subtotal" class="java.lang.Double"/>
+	<field name="detallepresupuesto_cantidad" class="java.lang.Integer"/>
+	<field name="material_precioUnitarioM" class="java.lang.Double"/>
+	<field name="detallepresupuesto_idPresupuesto" class="java.lang.Integer"/>
+	<field name="presupuesto_idPresupuesto" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="0" width="161" height="33" uuid="a84fc1ec-0de5-40ad-997f-a929d634ee0b"/>
+				<textElement>
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presupuesto]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="0" width="100" height="20" uuid="86b7d4bd-7eb4-479a-8da4-72932e0e6a2e"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="33" width="100" height="20" uuid="ae3ce8ef-e957-4c2c-b61c-9d85ef03df61"/>
+				<textFieldExpression><![CDATA[$F{presupuesto_idPresupuesto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="33" width="75" height="20" uuid="0035eada-b28d-4462-9ff1-0fbcf69eb455"/>
+				<text><![CDATA[ID Presupuesto: ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="46" y="19" width="129" height="20" uuid="b47f40fc-6b00-4981-8728-91f63fb82e34"/>
+				<text><![CDATA[Nombre - Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="19" width="100" height="20" uuid="e194aa08-de74-44bc-87fa-3223942d565e"/>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="421" y="19" width="100" height="20" uuid="01586b94-0d04-4511-8c70-1925c4016f07"/>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="303" y="19" width="100" height="20" uuid="08e03888-41d4-40c1-99a2-22a0142d1844"/>
+				<text><![CDATA[Precio Unitario]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="46" y="9" width="129" height="20" uuid="cf9e61a2-207a-4d14-94fd-5df4ff68bc22"/>
+				<textFieldExpression><![CDATA[$F{detallepresupuesto_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="9" width="100" height="20" uuid="672d9d24-aeda-46cd-aa95-baa848c6a2f1"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{detallepresupuesto_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="9" width="100" height="20" uuid="1ac90df1-ec17-4ebe-ba38-96026bd3e479"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{detallepresupuesto_subtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="303" y="9" width="100" height="20" uuid="cf15e2f8-c2fa-4ba3-9333-1b8699d058bc"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{material_precioUnitarioM}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="f9ded41e-a2af-4adf-bd78-cbdb0b16f412"/>
+				<textFieldExpression><![CDATA[$F{presupuesto_total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="421" y="0" width="34" height="20" uuid="6d24a056-1083-456c-bec6-f2612d8c11a9"/>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="223" y="34" width="80" height="20" uuid="86bbf539-d314-4738-90cd-1f4f062140fa"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="303" y="34" width="40" height="20" uuid="8f0f2ef6-8d46-41c9-bd3a-a48bde7b6fac"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
