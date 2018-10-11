@@ -104,6 +104,7 @@ public class Compra extends javax.swing.JFrame {
         btnElectricidad = new javax.swing.JButton();
         btnConstruccion = new javax.swing.JButton();
         btnPintureria = new javax.swing.JButton();
+        btnVerCatalogos = new javax.swing.JButton();
         jLabel26 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         labelRubro = new javax.swing.JLabel();
@@ -324,6 +325,15 @@ public class Compra extends javax.swing.JFrame {
         });
         dialogRealizarPedidoOne.getContentPane().add(btnPintureria);
         btnPintureria.setBounds(540, 90, 79, 23);
+
+        btnVerCatalogos.setText("Ver Catalogo");
+        btnVerCatalogos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerCatalogosActionPerformed(evt);
+            }
+        });
+        dialogRealizarPedidoOne.getContentPane().add(btnVerCatalogos);
+        btnVerCatalogos.setBounds(650, 230, 110, 23);
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
@@ -1143,6 +1153,24 @@ public class Compra extends javax.swing.JFrame {
         // TODO add your handling code here:
         dialogRecibirPedido.dispose();
     }//GEN-LAST:event_btnAtrasROActionPerformed
+
+    private void btnVerCatalogosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerCatalogosActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            proveedorCompra = proveedores.get(tableProveedoresxRubro.getSelectedRow());
+            JasperReport reporte = null;
+            Map parametro = new HashMap();
+            parametro.put("cuit", proveedorCompra.getCuit());
+            reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/catalogo.jasper"));
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
+            JasperViewer view = new JasperViewer(jprint, false);
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            view.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnVerCatalogosActionPerformed
     
     public void setTablePedido() {
         
@@ -1270,6 +1298,7 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JButton btnRecibirPedido;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnSiguienteRPO;
+    private javax.swing.JButton btnVerCatalogos;
     private javax.swing.JDialog dialogRealizarPedido;
     private javax.swing.JDialog dialogRealizarPedidoOne;
     private javax.swing.JDialog dialogRealizarPedidoTwo;
