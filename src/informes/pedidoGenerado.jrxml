@@ -51,6 +51,17 @@ WHERE
 				<reportElement x="455" y="0" width="100" height="20" uuid="123546e7-4232-437a-a58b-03ae2b3cbc3d"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="16" y="9" width="34" height="33" uuid="6eb4e5a5-d116-4cbf-b2d2-ef993682e9d4"/>
+				<imageExpression><![CDATA["C:\\Users\\leori\\Desktop\\Siac\\SiacFinal\\src\\images\\home.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="51" y="16" width="60" height="20" uuid="4a8bbe28-4673-41b0-86f1-4df6d26d235e"/>
+				<textElement>
+					<font fontName="Cooper Std Black" size="16"/>
+				</textElement>
+				<text><![CDATA[SIAC]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

@@ -41,6 +41,17 @@ WHERE proveedor.`cuit`=$P!{cuit}]]>
 				</textElement>
 				<text><![CDATA[Catalogo]]></text>
 			</staticText>
+			<image>
+				<reportElement x="10" y="10" width="34" height="33" uuid="0344cbee-ec57-4277-9655-120d699c7a3f"/>
+				<imageExpression><![CDATA["C:\\Users\\leori\\Desktop\\Siac\\SiacFinal\\src\\images\\home.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="44" y="17" width="60" height="20" uuid="e8cae6f8-5a51-4dd6-8e29-802df721019a"/>
+				<textElement>
+					<font fontName="Cooper Std Black" size="16"/>
+				</textElement>
+				<text><![CDATA[SIAC]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

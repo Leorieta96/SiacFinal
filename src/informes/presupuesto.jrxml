@@ -32,7 +32,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="66" splitType="Stretch">
+		<band height="74" splitType="Stretch">
 			<staticText>
 				<reportElement x="200" y="0" width="161" height="33" uuid="a84fc1ec-0de5-40ad-997f-a929d634ee0b"/>
 				<textElement>
@@ -45,12 +45,23 @@ WHERE
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="75" y="33" width="100" height="20" uuid="ae3ce8ef-e957-4c2c-b61c-9d85ef03df61"/>
+				<reportElement x="75" y="54" width="100" height="20" uuid="ae3ce8ef-e957-4c2c-b61c-9d85ef03df61"/>
 				<textFieldExpression><![CDATA[$F{presupuesto_idPresupuesto}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="33" width="75" height="20" uuid="0035eada-b28d-4462-9ff1-0fbcf69eb455"/>
+				<reportElement x="0" y="54" width="75" height="20" uuid="0035eada-b28d-4462-9ff1-0fbcf69eb455"/>
 				<text><![CDATA[ID Presupuesto: ]]></text>
+			</staticText>
+			<image>
+				<reportElement x="12" y="7" width="34" height="33" uuid="6cb7aa5e-544c-43d7-ac27-4a3c6e759691"/>
+				<imageExpression><![CDATA["C:\\Users\\leori\\Desktop\\Siac\\SiacFinal\\src\\images\\home.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="47" y="14" width="60" height="20" uuid="075f84be-3389-4cba-a8c6-d348a854fe82"/>
+				<textElement>
+					<font fontName="Cooper Std Black" size="16"/>
+				</textElement>
+				<text><![CDATA[SIAC]]></text>
 			</staticText>
 		</band>
 	</title>
