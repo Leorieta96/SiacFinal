@@ -8,6 +8,7 @@ package vistas;
 import MySQL.MySQLDaoManager;
 import dao.DAOManager;
 import java.sql.SQLException;
+import vistas.home;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
@@ -133,13 +134,10 @@ public class vtnInformes extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            home home = new home();
-            home.setVisible(true);
-            home.setLocationRelativeTo(null);
+            home vtnHome = new home(home.mod);
         } catch (SQLException ex) {
             Logger.getLogger(vtnInformes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -778,7 +778,7 @@ public class ventVenta extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         home ventaHome;
         try {
-            ventaHome = new home();
+            ventaHome = new home(home.mod);
             ventaHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);

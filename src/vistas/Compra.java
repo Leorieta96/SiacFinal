@@ -66,6 +66,7 @@ public class Compra extends javax.swing.JFrame {
     List<Material> datosComprarM = new ArrayList<>();
     List<Proveedor> proveedores = new ArrayList<>();
     Proveedor proveedorCompra;
+    
 
     /**
      * Creates new form Compra
@@ -798,7 +799,7 @@ public class Compra extends javax.swing.JFrame {
     private void btnAtrasCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasCActionPerformed
         home ventHome;
         try {
-            ventHome = new home();
+            ventHome = new home(home.mod);
             ventHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);

@@ -19,17 +19,39 @@ import java.util.logging.Logger;
 public class home extends javax.swing.JFrame {
 
     DAOManager manager;
+    public static int mod;
 
     /**
      * Creates new form inicio
      */
-    public home() throws SQLException {
+    
+    private home() throws SQLException {
         this.manager = new MySQLDaoManager("localhost", "root", "", "siac");
         initComponents();
-        setSize(800,510);
+        setSize(800, 510);
         setResizable(false);
         setLocationRelativeTo(null);
-
+    }
+    
+    public home(int mod) throws SQLException {
+        this.manager = new MySQLDaoManager("localhost", "root", "", "siac");
+        initComponents();
+        setSize(800, 510);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        if (mod == 1) {
+            btnCompra.setVisible(false);
+            btnVenta.setVisible(true);
+            btnInforme.setVisible(true);
+        } else if (mod == 2) {
+            btnCompra.setVisible(true);
+            btnVenta.setVisible(false);
+            btnInforme.setVisible(true);
+        }else{
+            btnCompra.setVisible(true);
+            btnVenta.setVisible(true);
+            btnInforme.setVisible(true);
+        }
     }
 
     /**
@@ -158,7 +180,7 @@ public class home extends javax.swing.JFrame {
         try {
             ventanaCompra = new Compra(manager);
             ventanaCompra.setVisible(true);
-            ventanaCompra.setSize(500,400);
+            ventanaCompra.setSize(500, 400);
             ventanaCompra.setResizable(false);
         } catch (DAOException ex) {
             Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,7 +218,7 @@ public class home extends javax.swing.JFrame {
         vtnInformes vtn = new vtnInformes(manager);
         vtn.setTitle("Informes");
         vtn.setVisible(true);
-        vtn.setSize(500,400);
+        vtn.setSize(500, 400);
         this.dispose();
     }//GEN-LAST:event_btnInformeActionPerformed
 
