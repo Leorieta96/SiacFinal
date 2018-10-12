@@ -123,7 +123,7 @@ public class validaciones {
         if (!isEmpty(n) && !(n.contains("!") || n.contains("#")
                 || n.contains("$") || n.contains("%") || n.contains("&")
                 || n.contains("#") || n.contains("/") || n.contains("=")
-                || n.contains("?") || n.contains("¡"))) {
+                || n.contains("?") || n.contains("¡")) && !isNumber(n)) {
             return true;
         } else {
             return false;

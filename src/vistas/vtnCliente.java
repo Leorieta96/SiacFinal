@@ -10,6 +10,7 @@ import dao.DAOManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modelo.Cliente;
 
 /**
@@ -19,6 +20,7 @@ import modelo.Cliente;
 public class vtnCliente extends javax.swing.JFrame {
 
     private final DAOManager manager;
+
     /**
      * Creates new form vtnCliente
      */
@@ -351,17 +353,51 @@ public class vtnCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
-        Cliente cliente = new Cliente(
-            Long.valueOf(txtDni.getText()), txtNombre.getText(),
-            Integer.valueOf(txtTelefono.getText()), txtDireccion.getText(),
-            txtEmail.getText());
-        try {
-            manager.getClienteDAO().insertar(cliente);
-            dialogSucces.setVisible(true);
-            dialogSucces.setSize(400, 250);
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        String dni = txtDni.getText();
+        String nombre = txtNombre.getText();
+        String telefono = txtTelefono.getText();
+        String direccion = txtDireccion.getText();
+        String email = txtEmail.getText();
+        if (validaciones.isNumber(dni)) {
+            if (validaciones.isString(nombre)) {
+                if (validaciones.isNumber(telefono)) {
+                    if (validaciones.isString(direccion)) {
+                        if (validaciones.isEmail(email)) {
+                            try {
+                                Cliente cliente = new Cliente(
+                                        Long.valueOf(dni), nombre,
+                                        Integer.valueOf(telefono), direccion,
+                                        email);
+                                manager.getClienteDAO().insertar(cliente);
+                                dialogSucces.setVisible(true);
+                                dialogSucces.setSize(400, 250);
+                            } catch (DAOException ex) {
+                                Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(this,
+                                    "Ingrese un email valido", "Information",
+                                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Ingrese una direccion valido", "Information",
+                                javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Ingrese numero de telefono valido", "Information",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Ingrese Nombre valido", "Information",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese DNI valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -371,22 +407,31 @@ public class vtnCliente extends javax.swing.JFrame {
 
     private void btnBuscarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProveedorActionPerformed
 
-        Long dniBuscado;
-        dniBuscado = Long.valueOf(txtDniBM.getText());
-      
-            Cliente p;
-        try {
-            p = manager.getClienteDAO().obtener(dniBuscado);
-            if(p != null){
-                txtDniM.setText(p.getdni().toString());
-                txtDniM.setEditable(false);
-                txtNombreM.setText(p.getNombre());
-                txtTelefonoM.setText(String.valueOf(p.getTelefono()));
-                txtDireccionM.setText(p.getDireccion());
-                txtEmailM.setText(p.getEmail());
+        String dniBuscado;
+        dniBuscado = txtDniBM.getText();
+        if (validaciones.isNumber(dniBuscado)) {
+            try {
+                Cliente p;
+                p = manager.getClienteDAO().obtener(Long.valueOf(dniBuscado));
+                if (p != null) {
+                    txtDniM.setText(p.getdni().toString());
+                    txtDniM.setEditable(false);
+                    txtNombreM.setText(p.getNombre());
+                    txtTelefonoM.setText(String.valueOf(p.getTelefono()));
+                    txtDireccionM.setText(p.getDireccion());
+                    txtEmailM.setText(p.getEmail());
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Cliente Inexistente", "Information",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (DAOException ex) {
+                Logger.getLogger(vtnCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese DNI valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarProveedorActionPerformed
 
@@ -396,16 +441,45 @@ public class vtnCliente extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        Cliente cliente = new Cliente(
-            Long.valueOf(txtDniM.getText()), txtNombreM.getText(),
-            Integer.valueOf(txtTelefonoM.getText()), txtDireccionM.getText(),
-            txtEmailM.getText());
-        try {
-            manager.getClienteDAO().modificar(cliente);
-            dialogSucces.setVisible(true);
-            dialogSucces.setSize(400, 250);
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        String nombre = txtNombreM.getText();
+        String telefono = txtTelefonoM.getText();
+        String direccion = txtDireccionM.getText();
+        String email = txtEmailM.getText();
+        if (validaciones.isString(nombre)) {
+            if (validaciones.isNumber(telefono)) {
+                if (validaciones.isString(direccion)) {
+                    if (validaciones.isEmail(email)) {
+                        try {
+                            Cliente cliente = new Cliente(
+                                    Long.valueOf(txtDniM.getText()), nombre,
+                                    Integer.valueOf(telefono), direccion,
+                                    email);
+                            manager.getClienteDAO().modificar(cliente);
+                            dialogSucces.setVisible(true);
+                            dialogSucces.setSize(400, 250);
+                        } catch (DAOException ex) {
+                            Logger.getLogger(vtnProveedores.class.getName()).
+                                    log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Ingrese un email valido", "Information",
+                                javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Ingrese una direccion valido", "Information",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Ingrese numero de telefono valido", "Information",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese Nombre valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
