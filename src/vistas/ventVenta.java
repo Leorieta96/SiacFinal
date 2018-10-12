@@ -34,6 +34,7 @@ import modelo.Presupuesto;
 import modelo.Proveedor;
 import net.sf.jasperreports.engine.JasperReport;
 import java.util.HashMap;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -238,7 +239,7 @@ public class ventVenta extends javax.swing.JFrame {
         jScrollPane5.setViewportView(tablaSeleccionados);
 
         DialogoVentaSinPresupuesto.getContentPane().add(jScrollPane5);
-        jScrollPane5.setBounds(90, 260, 600, 149);
+        jScrollPane5.setBounds(70, 260, 670, 149);
 
         calcular.setText("Calcular");
         calcular.addActionListener(new java.awt.event.ActionListener() {
@@ -786,39 +787,44 @@ public class ventVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        Long ID = Long.valueOf(TxtIDPresupuesto.getText());
-        Presupuesto p = null;
-        try {
-            p = manager.getPresupuestoDAO().obtener(ID);
-        } catch (DAOException ex) {
-            Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (p == null) {
-            labelFailedPresupuesto.setText("Presupuesto Inexistente");
-        } else {
-            int dias = (int) ((sqlDate.getTime() - p.getFecha().getTime()) / 86400000);
-            if (dias > 30) {
-                labelFailedPresupuesto.setText("Presupuesto sin validez");
-            } else {
-                try {
-                    listDetalle = manager.getDetallePresupuestoDAO().obtenerXIdPresupuesto(p.getIdPresupuesto());
-                } catch (DAOException ex) {
-                    Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                setTablePresupuesto(listDetalle);
+        if (validaciones.isNumber(TxtIDPresupuesto.getText())) {
+            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+            Long ID = Long.valueOf(TxtIDPresupuesto.getText());
+            Presupuesto p = null;
+            try {
+                p = manager.getPresupuestoDAO().obtener(ID);
+            } catch (DAOException ex) {
+                Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
+            if (p == null) {
+                labelFailedPresupuesto.setText("Presupuesto Inexistente");
+            } else {
+                int dias = (int) ((sqlDate.getTime() - p.getFecha().getTime()) / 86400000);
+                if (dias > 30) {
+                    labelFailedPresupuesto.setText("Presupuesto sin validez");
+                } else {
+                    try {
+                        listDetalle = manager.getDetallePresupuestoDAO().obtenerXIdPresupuesto(p.getIdPresupuesto());
+                    } catch (DAOException ex) {
+                        Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    setTablePresupuesto(listDetalle);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese un ID Presupuesto valido", "Information", javax.swing.JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void btnSiguienteVentaPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteVentaPresupuestoActionPerformed
         // TODO add your handling code here:
-        dialogVentaConPresupuestoOne.setVisible(true);
-        dialogVentaConPresupuestoOne.setSize(400, 300);
-        dialogVentaConPresupuestoOne.setLocationRelativeTo(null);
-        dialogVentaConPresupuestoOne.setTitle("Venta son Presupuesto");
+        if (tablePresupuesto.getValueAt(0, 0) != null) {
+            dialogVentaConPresupuestoOne.setVisible(true);
+            dialogVentaConPresupuestoOne.setSize(400, 300);
+            dialogVentaConPresupuestoOne.setLocationRelativeTo(null);
+            dialogVentaConPresupuestoOne.setTitle("Venta con Presupuesto");
+        }
     }//GEN-LAST:event_btnSiguienteVentaPresupuestoActionPerformed
 
     private void txtDniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniClienteActionPerformed
@@ -826,21 +832,23 @@ public class ventVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDniClienteActionPerformed
 
     private void btnSiguienteVPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteVPOActionPerformed
-        // TODO add your handling code here:
-
-        Long dni = Long.valueOf(txtDniCliente.getText());
-        try {
-            clientePedidoPresupuesto = manager.getClienteDAO().obtener(dni);
-        } catch (DAOException ex) {
-            Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (clientePedidoPresupuesto == null) {
-            dialogFailedCliente.setTitle("Agregar Cliente");
-            dialogFailedCliente.setLocationRelativeTo(null);
-            dialogFailedCliente.setSize(400, 300);
-            dialogFailedCliente.setVisible(true);
+        if (validaciones.isNumber(txtDniCliente.getText())) {
+            Long dni = Long.valueOf(txtDniCliente.getText());
+            try {
+                clientePedidoPresupuesto = manager.getClienteDAO().obtener(dni);
+            } catch (DAOException ex) {
+                Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (clientePedidoPresupuesto == null) {
+                dialogFailedCliente.setTitle("Agregar Cliente");
+                dialogFailedCliente.setLocationRelativeTo(null);
+                dialogFailedCliente.setSize(400, 300);
+                dialogFailedCliente.setVisible(true);
+            } else {
+                generarPresupuesto();
+            }
         } else {
-            generarPresupuesto();
+            JOptionPane.showMessageDialog(this, "Ingrese un DNI valido", "Information", javax.swing.JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnSiguienteVPOActionPerformed
 
@@ -958,25 +966,40 @@ public class ventVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdPedidoNotificarActionPerformed
 
     private void btnNotificarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificarPedidoActionPerformed
-        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        try {
-            // TODO add your handling code here:
-            Long idPedido = Long.valueOf(txtIdPedidoNotificar.getText());
-            PedidoCliente pedido = manager.getPedidoClienteDAO().obtener(idPedido);
-            if (pedido != null) {
-                pedido.setEstadoPedidoC("Entregado");
-                pedido.setFechaRecibido(sqlDate);
-                manager.getPedidoClienteDAO().modificar(pedido);
-                dialogSuccesNotificado.setVisible(true);
-                dialogSuccesNotificado.setTitle("Notificado");
-                dialogSuccesNotificado.setSize(300, 200);
-                dialogSuccesNotificado.setLocationRelativeTo(null);
-            }
-        } catch (DAOException ex) {
-            Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+        if (validaciones.isNumber(txtIdPedidoNotificar.getText())) {
+            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+            try {
+                // TODO add your handling code here:
+                Long idPedido = Long.valueOf(txtIdPedidoNotificar.getText());
+                PedidoCliente pedido = manager.getPedidoClienteDAO().obtener(idPedido);
+                if (pedido != null) {
+                    if (!pedido.getEstadoPedidoC().equals("Entregado")) {
+                        pedido.setEstadoPedidoC("Entregado");
+                        pedido.setFechaRecibido(sqlDate);
+                        manager.getPedidoClienteDAO().modificar(pedido);
+                        dialogSuccesNotificado.setVisible(true);
+                        dialogSuccesNotificado.setTitle("Notificado");
+                        dialogSuccesNotificado.setSize(300, 200);
+                        dialogSuccesNotificado.setLocationRelativeTo(null);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Pedido ya notificado", "Information",
+                                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Ingrese un ID Pedido valido", "Information",
+                            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (DAOException ex) {
+                Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese un ID Pedido valido",
+                    "Information", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnNotificarPedidoActionPerformed
 
     private void btnAceptarNPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarNPActionPerformed
@@ -992,14 +1015,14 @@ public class ventVenta extends javax.swing.JFrame {
     private void botonBuscarMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarMaterialActionPerformed
         String material;
         material = ingresoidMaterial.getText();
-        try {
-            listamateriales = manager.getMaterialDAO().obtenerTodosxNombre(material);//cambiar obtener todo por nombre
+        if (validaciones.isString(material)) {
+            try {
+                listamateriales = manager.getMaterialDAO().obtenerTodosxNombre(material);//cambiar obtener todo por nombre
+                setTablaMaterialesPedidos();
+            } catch (DAOException ex) {
+                Logger.getLogger(vtnPresupuesto.class.getName()).log(Level.SEVERE, null, ex);
 
-            setTablaMaterialesPedidos();
-
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnPresupuesto.class.getName()).log(Level.SEVERE, null, ex);
-
+            }
         }
     }//GEN-LAST:event_botonBuscarMaterialActionPerformed
 
@@ -1083,7 +1106,7 @@ public class ventVenta extends javax.swing.JFrame {
             if (m.getStockMaterial() > cantidad) {
                 sum = Long.valueOf(tablaSeleccionados.getValueAt(i, 3).toString()) * cantidad;
                 tablaSeleccionados.setValueAt(sum, i, 6);
-            }else{
+            } else {
                 tablaSeleccionados.setValueAt("Stock disponible " + m.getStockMaterial(), i, 6);
             }
 
@@ -1136,55 +1159,59 @@ public class ventVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        try {
-            // TODO add your handling code here:
-            Long dni = Long.valueOf(txtDniVSP.getText());
-            Cliente c = manager.getClienteDAO().obtener(dni);
-            if (c != null) {
-                LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-                java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-                PedidoCliente p = new PedidoCliente(null, "En espera", (double) total, sqlDate, sqlDate, c.getdni());
-                try {
-                    manager.getPedidoClienteDAO().insertar(p);
-                } catch (DAOException ex) {
-                    Logger.getLogger(vtnPresupuesto.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                Long idpre = p.getIdPedidoCliente();
-                int i = 0;
-                for (Material m : listaseleccionados) {
-                    Long subtotal = Long.valueOf(tablaSeleccionados.getValueAt(i, 6).toString());
-                    Integer cantidad = Integer.valueOf(tablaSeleccionados.getValueAt(i, 5).toString());
-                    DetallePedidoCliente nuevo = new DetallePedidoCliente(idpre, m.getidMaterial(), m.getNombre() + " " + m.getdescripcion(), subtotal, cantidad);
-                    m.setStockMaterial(m.getStockMaterial() - cantidad);
+        if (validaciones.isNumber(txtDniVSP.getText())) {
+            try {
+                Long dni = Long.valueOf(txtDniVSP.getText());
+                Cliente c = manager.getClienteDAO().obtener(dni);
+                if (c != null) {
+                    LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+                    java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+                    PedidoCliente p = new PedidoCliente(null, "En espera", (double) total, sqlDate, sqlDate, c.getdni());
                     try {
-                        manager.getMaterialDAO().modificar(m);
-                        manager.getDetallePedidoDAO().insertar(nuevo);
+                        manager.getPedidoClienteDAO().insertar(p);
                     } catch (DAOException ex) {
                         Logger.getLogger(vtnPresupuesto.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    JasperReport reporte = null;
+                    Long idpre = p.getIdPedidoCliente();
+                    int i = 0;
+                    for (Material m : listaseleccionados) {
+                        Long subtotal = Long.valueOf(tablaSeleccionados.getValueAt(i, 6).toString());
+                        Integer cantidad = Integer.valueOf(tablaSeleccionados.getValueAt(i, 5).toString());
+                        DetallePedidoCliente nuevo = new DetallePedidoCliente(idpre, m.getidMaterial(), m.getNombre() + " " + m.getdescripcion(), subtotal, cantidad);
+                        m.setStockMaterial(m.getStockMaterial() - cantidad);
+                        try {
+                            manager.getMaterialDAO().modificar(m);
+                            manager.getDetallePedidoDAO().insertar(nuevo);
+                        } catch (DAOException ex) {
+                            Logger.getLogger(vtnPresupuesto.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        JasperReport reporte = null;
 //                    String path = "src\\informes\\pedidoGenerado.jasper";
-                    Map parametro = new HashMap();
-                    parametro.put("idPedidoCliente", idpre);
-                    reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/pedidoGenerado.jasper"));
-                    JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
-                    JasperViewer view = new JasperViewer(jprint, false);
-                    view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    view.setVisible(true);
+                        Map parametro = new HashMap();
+                        parametro.put("idPedidoCliente", idpre);
+                        reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/pedidoGenerado.jasper"));
+                        JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
+                        JasperViewer view = new JasperViewer(jprint, false);
+                        view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                        view.setVisible(true);
+                    }
+                } else {
+                    vtnCliente vtn = new vtnCliente(manager);
+                    vtn.setVisible(true);
+                    vtn.setSize(500, 400);
+                    vtn.setTitle("Agregar Cliente");
+                    vtn.setLocationRelativeTo(null);
                 }
-            } else {
-                vtnCliente vtn = new vtnCliente(manager);
-                vtn.setVisible(true);
-                vtn.setSize(500, 400);
-                vtn.setTitle("Agregar Cliente");
-                vtn.setLocationRelativeTo(null);
+            } catch (DAOException ex) {
+                Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JRException ex) {
+                Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (DAOException ex) {
-            Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JRException ex) {
-            Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
+            DialogoVentaSinPresupuesto.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese un dni valido", "Information", javax.swing.JOptionPane.INFORMATION_MESSAGE);
         }
-        DialogoVentaSinPresupuesto.dispose();
+
         //dialogVentaSinPresupuestoOne.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
