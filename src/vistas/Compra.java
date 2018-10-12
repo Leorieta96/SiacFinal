@@ -5,38 +5,18 @@
  */
 package vistas;
 
-import MySQL.MySQLDaoManager;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import dao.DAOException;
 import dao.DAOManager;
-import dao.ItemCalatalogoDAO;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.RadioButton;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JToggleButton;
-import javax.swing.ListSelectionModel;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import modelo.Catalogo;
 import modelo.DetallePedidoProveedor;
 import modelo.DetallePedidoProveedor.Id;
@@ -56,7 +36,7 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author leori
  */
 public class Compra extends javax.swing.JFrame {
-    
+
     private final DAOManager manager;
     private MaterialEscasoTableModel model;
     private List<ItemCatalogo> listItemCatalogo = new ArrayList<>();
@@ -66,7 +46,7 @@ public class Compra extends javax.swing.JFrame {
     List<Material> datosComprarM = new ArrayList<>();
     List<Proveedor> proveedores = new ArrayList<>();
     Proveedor proveedorCompra;
-    
+    int mod;
 
     /**
      * Creates new form Compra
@@ -74,9 +54,10 @@ public class Compra extends javax.swing.JFrame {
      * @param manager
      * @throws dao.DAOException
      */
-    public Compra(DAOManager manager) throws DAOException {
+    public Compra(DAOManager manager, int mod) throws DAOException {
         initComponents();
         this.manager = manager;
+        this.mod = mod;
     }
 
     /**
@@ -799,7 +780,7 @@ public class Compra extends javax.swing.JFrame {
     private void btnAtrasCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasCActionPerformed
         home ventHome;
         try {
-            ventHome = new home(home.mod);
+            ventHome = new home(mod);
             ventHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
@@ -866,7 +847,7 @@ public class Compra extends javax.swing.JFrame {
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
         Catalogo catalogo = new Catalogo(sqlDate, Long.valueOf(txtCuitRC.getText()));
-        
+
         try {
             manager.getCatalogoDAO().insertar(catalogo);
             Long id = catalogo.getIdCatalogo();
@@ -879,7 +860,7 @@ public class Compra extends javax.swing.JFrame {
                 i++;
             }
             fila = 1;
-            
+
         } catch (DAOException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -900,12 +881,12 @@ public class Compra extends javax.swing.JFrame {
         try {
             Proveedor p = manager.getProveedorDAO().obtener(cuitBuscado);
             if (p != null) {
-                
+
                 txtNombreP.setText(p.getNombre());
                 txtNombreP.setEditable(false);
                 txtDireccionP.setText(p.getDireccion());
                 txtDireccionP.setEditable(false);
-                
+
             } else {
                 vtnProveedores vtnProveedores;
                 vtnProveedores = new vtnProveedores(manager);
@@ -930,7 +911,7 @@ public class Compra extends javax.swing.JFrame {
         Long id = null;
         ItemCatalogo item = new ItemCatalogo(precio, mat, marca, id);
         listItemCatalogo.add(item);
-        
+
         tableItemCatalogo.setValueAt(mat, fila, 0);
         tableItemCatalogo.setValueAt(precio, fila, 1);
         tableItemCatalogo.setValueAt(marca, fila, 2);
@@ -1134,7 +1115,7 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarPedidoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         dialogSuccesPrint.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -1172,18 +1153,18 @@ public class Compra extends javax.swing.JFrame {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnVerCatalogosActionPerformed
-    
+
     public void setTablePedido() {
-        
+
         tableProveedoresxRubro.removeAll();
-        
+
         String[] columnas = new String[]{
             "Nombre",
             "Descripcion",
             "Cantidad"
         //"Seleccionar"
         };
-        
+
         final Class[] tiposColumnas = new Class[]{
             java.lang.String.class,
             java.lang.String.class,
@@ -1191,7 +1172,7 @@ public class Compra extends javax.swing.JFrame {
         };
         Object[][] datos = new Object[datosComprar.size()][3];
         int i = 0;
-        
+
         for (Material m : datosComprarM) {
             datos[i][0] = m.getNombre();
             datos[i][1] = m.getdescripcion();
@@ -1200,21 +1181,21 @@ public class Compra extends javax.swing.JFrame {
         }
         tablePedidoFinal.setModel(new javax.swing.table.DefaultTableModel(datos, columnas) {
             Class[] tipos = tiposColumnas;
-            
+
             @Override
             public Class getColumnClass(int columnIndex) {
                 return tipos[columnIndex];
             }
-            
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Sobrescribimos este método para evitar que la columna que contiene los botones sea editada.
                 return column == 2;
             }
         });
-        
+
     }
-    
+
     public void setTableProveedor(String rubro) throws DAOException {
 
 ///        tableProveedoresxRubro.removeRowSelectionInterval(0, tablePedidoFinal.getRowCount() - 1);
@@ -1224,14 +1205,14 @@ public class Compra extends javax.swing.JFrame {
             "Telefono",
             "Direccion", //"Seleccionar"
         };
-        
+
         final Class[] tiposColumnas = new Class[]{
             java.lang.Long.class,
             java.lang.String.class,
             java.lang.Long.class,
             java.lang.String.class, //JButton.class
         };
-        
+
         proveedores = manager.getProveedorDAO().obtenerXrubros(rubro);
         Object[][] datos = new Object[proveedores.size()][5];
         int i = 0;
@@ -1245,12 +1226,12 @@ public class Compra extends javax.swing.JFrame {
         }
         tableProveedoresxRubro.setModel(new javax.swing.table.DefaultTableModel(datos, columnas) {
             Class[] tipos = tiposColumnas;
-            
+
             @Override
             public Class getColumnClass(int columnIndex) {
                 return tipos[columnIndex];
             }
-            
+
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Sobrescribimos este método para evitar que la columna que contiene los botones sea editada.

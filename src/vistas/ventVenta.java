@@ -54,14 +54,15 @@ public class ventVenta extends javax.swing.JFrame {
     private List<Material> listaseleccionados = new ArrayList<>();
     int fila = 0;
     float total = 0;
+    int mod;
 
     /**
      * Creates new form vtcompra
      */
-    public ventVenta(DAOManager manager) throws SQLException {
+    public ventVenta(DAOManager manager, int mod) throws SQLException {
         ventVenta.manager = manager;
         initComponents();
-
+        this.mod = mod;
     }
 
     /**
@@ -778,7 +779,7 @@ public class ventVenta extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         home ventaHome;
         try {
-            ventaHome = new home(home.mod);
+            ventaHome = new home(mod);
             ventaHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);

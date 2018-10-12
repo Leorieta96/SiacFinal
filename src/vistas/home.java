@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class home extends javax.swing.JFrame {
 
     DAOManager manager;
-    public static int mod;
+    int mod;
 
     /**
      * Creates new form inicio
@@ -39,6 +39,7 @@ public class home extends javax.swing.JFrame {
         setSize(800, 510);
         setResizable(false);
         setLocationRelativeTo(null);
+        this.mod = mod;
         if (mod == 1) {
             btnCompra.setVisible(false);
             btnVenta.setVisible(true);
@@ -178,7 +179,7 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         Compra ventanaCompra;
         try {
-            ventanaCompra = new Compra(manager);
+            ventanaCompra = new Compra(manager, mod);
             ventanaCompra.setVisible(true);
             ventanaCompra.setSize(500, 400);
             ventanaCompra.setResizable(false);
@@ -203,7 +204,7 @@ public class home extends javax.swing.JFrame {
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
         ventVenta ventanaVenta;
         try {
-            ventanaVenta = new ventVenta(manager);
+            ventanaVenta = new ventVenta(manager, mod);
             ventanaVenta.setVisible(true);
             ventanaVenta.setTitle("Venta");
             ventanaVenta.setSize(500, 400);
@@ -215,7 +216,7 @@ public class home extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private void btnInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeActionPerformed
-        vtnInformes vtn = new vtnInformes(manager);
+        vtnInformes vtn = new vtnInformes(manager, mod);
         vtn.setTitle("Informes");
         vtn.setVisible(true);
         vtn.setSize(500, 400);

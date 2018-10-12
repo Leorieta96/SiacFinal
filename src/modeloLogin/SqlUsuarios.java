@@ -43,7 +43,7 @@ public class SqlUsuarios extends Conexion {
         ResultSet rs = null;
         Connection con = getConexion();
 
-        String sql = "SELECT id, usuario, password, nombre, id_tipo FROM usuarios WHERE usuario = ? LIMIT 1";
+        String sql = "SELECT id, usuario, password, nombre, idTipo FROM usuarios WHERE usuario = ? LIMIT 1";
 
         try {
             ps = con.prepareStatement(sql);
