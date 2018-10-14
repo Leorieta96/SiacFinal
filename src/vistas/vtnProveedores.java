@@ -9,6 +9,7 @@ import dao.DAOException;
 import dao.DAOManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import modelo.Proveedor;
 
 /**
@@ -18,7 +19,7 @@ import modelo.Proveedor;
 public class vtnProveedores extends javax.swing.JFrame {
 
     DAOManager manager;
-    
+
     /**
      * Creates new form vtnProveedores
      */
@@ -359,16 +360,52 @@ public class vtnProveedores extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        Proveedor proveedor = new Proveedor(
-                Long.valueOf(txtCuit.getText()), txtNombre.getText(), 
-                Integer.valueOf(txtTelefono.getText()), txtDireccion.getText(), 
-                cbRubros.getSelectedItem().toString());
-        try {
-            manager.getProveedorDAO().insertar(proveedor);
-            dialogSucces.setVisible(true);
-            dialogSucces.setSize(400, 250);
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        String cuit = txtCuit.getText();
+        String nombre = txtNombre.getText();
+        String telefono = txtTelefono.getText();
+        String direccion = txtDireccion.getText();
+        String rubro = cbRubros.getSelectedItem().toString();
+
+        if (validaciones.isNumber(cuit)) {
+            if (validaciones.isString(nombre)) {
+                if (validaciones.isNumber(telefono)) {
+                    if (validaciones.isString(direccion)) {
+                        if (rubro.equals("Seleccionar...")) {
+                            Proveedor proveedor = new Proveedor(
+                                    Long.valueOf(cuit), nombre,
+                                    Integer.valueOf(telefono), direccion,
+                                    rubro);
+                            try {
+                                manager.getProveedorDAO().insertar(proveedor);
+                                dialogSucces.setVisible(true);
+                                dialogSucces.setSize(400, 250);
+                            } catch (DAOException ex) {
+                                Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(this,
+                                    "Ingrese un rubro valido", "Information",
+                                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Ingrese una direccion valido", "Information",
+                                javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Ingrese numero de telefono valido", "Information",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Ingrese Nombre valido", "Information",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese CUIT valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -388,35 +425,73 @@ public class vtnProveedores extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        Proveedor proveedor = new Proveedor(
-                Long.valueOf(txtCuit2.getText()), txtNombre2.getText(), 
-                Integer.valueOf(txtTelefono2.getText()), txtDireccion1.getText(), 
-                cbRubros2.getSelectedItem().toString());
-        try {
-            manager.getProveedorDAO().modificar(proveedor);
-            dialogSucces.setVisible(true);
-            dialogSucces.setSize(400, 250);
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        String nombre = txtNombre2.getText();
+        String telefono = txtTelefono2.getText();
+        String direccion = txtDireccion1.getText();
+        String rubro = cbRubros2.getSelectedItem().toString();
+
+        if (validaciones.isString(nombre)) {
+            if (validaciones.isNumber(telefono)) {
+                if (validaciones.isString(direccion)) {
+                    if (rubro.equals("Seleccionar...")) {
+                        Proveedor proveedor = new Proveedor(
+                                Long.valueOf(txtCuitM.getText()), nombre,
+                                Integer.valueOf(telefono), direccion,
+                                rubro);
+                        try {
+                            manager.getProveedorDAO().insertar(proveedor);
+                            dialogSucces.setVisible(true);
+                            dialogSucces.setSize(400, 250);
+                        } catch (DAOException ex) {
+                            Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Ingrese un rubro valido", "Information",
+                                javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Ingrese una direccion valido", "Information",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Ingrese numero de telefono valido", "Information",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese Nombre valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProveedorActionPerformed
-        
-        Long cuitBuscado;
-        cuitBuscado = Long.valueOf(txtCuitM.getText());
-        try {
-            Proveedor p = manager.getProveedorDAO().obtener(cuitBuscado);
-            if(p != null){
-                txtCuit2.setText(p.getCuit().toString());
-                txtCuit2.setEditable(false);
-                txtNombre2.setText(p.getNombre());
-                txtTelefono2.setText(String.valueOf(p.getTelefono()));
-                txtDireccion1.setText(p.getDireccion());
-                cbRubros2.setSelectedItem(p.getRubro());
+        String cuitBuscado;
+        cuitBuscado = txtCuitM.getText();
+        if (validaciones.isNumber(cuitBuscado)) {
+            try {
+                Proveedor p = manager.getProveedorDAO().obtener(Long.valueOf(cuitBuscado));
+                if (p != null) {
+                    txtCuit2.setText(p.getCuit().toString());
+                    txtCuit2.setEditable(false);
+                    txtNombre2.setText(p.getNombre());
+                    txtTelefono2.setText(String.valueOf(p.getTelefono()));
+                    txtDireccion1.setText(p.getDireccion());
+                    cbRubros2.setSelectedItem(p.getRubro());
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Porveedor Inexistente", "Information",
+                            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (DAOException ex) {
+                Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese CUIT valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarProveedorActionPerformed
 

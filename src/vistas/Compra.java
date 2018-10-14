@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import modelo.Catalogo;
 import modelo.DetallePedidoProveedor;
@@ -876,26 +877,31 @@ public class Compra extends javax.swing.JFrame {
 
     private void btnBuscarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProveedorActionPerformed
         // TODO add your handling code here:
-        Long cuitBuscado;
-        cuitBuscado = Long.valueOf(txtCuitRC.getText());
-        try {
-            Proveedor p = manager.getProveedorDAO().obtener(cuitBuscado);
-            if (p != null) {
 
-                txtNombreP.setText(p.getNombre());
-                txtNombreP.setEditable(false);
-                txtDireccionP.setText(p.getDireccion());
-                txtDireccionP.setEditable(false);
-
-            } else {
-                vtnProveedores vtnProveedores;
-                vtnProveedores = new vtnProveedores(manager);
-                vtnProveedores.setVisible(true);
-                vtnProveedores.setSize(500, 400);
-                vtnProveedores.setResizable(false);
+        if (validaciones.isNumber(txtCuitRC.getText())) {
+            Long cuitBuscado;
+            cuitBuscado = Long.valueOf(txtCuitRC.getText());
+            try {
+                Proveedor p = manager.getProveedorDAO().obtener(cuitBuscado);
+                if (p != null) {
+                    txtNombreP.setText(p.getNombre());
+                    txtNombreP.setEditable(false);
+                    txtDireccionP.setText(p.getDireccion());
+                    txtDireccionP.setEditable(false);
+                } else {
+                    vtnProveedores vtnProveedores;
+                    vtnProveedores = new vtnProveedores(manager);
+                    vtnProveedores.setVisible(true);
+                    vtnProveedores.setSize(500, 400);
+                    vtnProveedores.setResizable(false);
+                }
+            } catch (DAOException ex) {
+                Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (DAOException ex) {
-            Logger.getLogger(vtnProveedores.class.getName()).log(Level.SEVERE, null, ex);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese un CUIT valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarProveedorActionPerformed
 
@@ -929,20 +935,25 @@ public class Compra extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         int j = 0;
-        for (Material m : model.getDatos()) {
-            if (jTable1.getValueAt(j, 6).equals(true)) {
-                datosComprar.add(m);
-                datosComprarM.add(m);
+        if (jTable1.getValueAt(0, 0) != null) {
+            for (Material m : model.getDatos()) {
+                if (jTable1.getValueAt(j, 6).equals(true)) {
+                    datosComprar.add(m);
+                    datosComprarM.add(m);
+                }
+                j++;
             }
-            j++;
+            dialogRealizarPedidoOne.setVisible(true);
+            dialogRealizarPedidoOne.setSize(800, 530);
+            dialogRealizarPedidoOne.setTitle("Realizar Pedido a Proveedor");
+            dialogRealizarPedidoOne.setResizable(false);
+            dialogRealizarPedidoOne.setLocationRelativeTo(null);
+            dialogRealizarPedido.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione un material", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-        dialogRealizarPedidoOne.setVisible(true);
-        dialogRealizarPedidoOne.setSize(800, 530);
-        dialogRealizarPedidoOne.setTitle("Realizar Pedido a Proveedor");
-        dialogRealizarPedidoOne.setResizable(false);
-        dialogRealizarPedidoOne.setLocationRelativeTo(null);
-        dialogRealizarPedido.setVisible(false);
-
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnPVCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPVCActionPerformed
@@ -997,18 +1008,24 @@ public class Compra extends javax.swing.JFrame {
 
     private void btnSiguienteRPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteRPOActionPerformed
         // TODO add your handling code here:
-        proveedorCompra = proveedores.get(tableProveedoresxRubro.getSelectedRow());
-        txtProveedorRPT.setText(proveedorCompra.getNombre());
-        txtDireccionRPT.setText(proveedorCompra.getDireccion());
-        txtTelefonoRPT.setText(String.valueOf(proveedorCompra.getTelefono()));
-        setTablePedido();
-        dialogRealizarPedidoTwo.setVisible(true);
-        dialogRealizarPedidoTwo.setSize(800, 530);
-        dialogRealizarPedidoTwo.setResizable(false);
-        dialogRealizarPedidoTwo.setLocationRelativeTo(null);
-        dialogRealizarPedidoTwo.setTitle("REalizar Pedido a Proveedor");
-        dialogRealizarPedidoOne.dispose();
-
+        int seleccion = tableProveedoresxRubro.getSelectedRow();
+        if (seleccion == -1) {
+            proveedorCompra = proveedores.get(seleccion);
+            txtProveedorRPT.setText(proveedorCompra.getNombre());
+            txtDireccionRPT.setText(proveedorCompra.getDireccion());
+            txtTelefonoRPT.setText(String.valueOf(proveedorCompra.getTelefono()));
+            setTablePedido();
+            dialogRealizarPedidoTwo.setVisible(true);
+            dialogRealizarPedidoTwo.setSize(800, 530);
+            dialogRealizarPedidoTwo.setResizable(false);
+            dialogRealizarPedidoTwo.setLocationRelativeTo(null);
+            dialogRealizarPedidoTwo.setTitle("REalizar Pedido a Proveedor");
+            dialogRealizarPedidoOne.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione un proveedor", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSiguienteRPOActionPerformed
 
     private void btnAtrasRPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasRPOActionPerformed
@@ -1075,43 +1092,51 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarRPTActionPerformed
 
     private void btnBuscarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPedidoActionPerformed
-        try {
-            // TODO add your handling code here:
-            ////buscarPDF y mstrar
-            List<DetallePedidoProveedor> listDetalleProveedor = new ArrayList<>();
-            Long idPedido = Long.valueOf(txtNumeroPedido.getText());
-            PedidoProveedor pedido = manager.getPedidoProveedorDAO().obtener(idPedido);
-            if (pedido != null) {
-                Long idP = pedido.getIdPedidoProveedor();
-                pedido.setEstado(true);
-                manager.getPedidoProveedorDAO().modificar(pedido);
-                listDetalleProveedor = manager.getDetallePedidoProveedorDAO().obtenerxPedido(pedido.getIdPedidoProveedor());
-                for (DetallePedidoProveedor d : listDetalleProveedor) {
-                    Long id = d.getId().getIdMaterial();
-                    Material m = manager.getMaterialDAO().obtener(id);
-                    m.setStockMaterial(m.getStockMaterial() + d.getCantidad());
-                    manager.getMaterialDAO().modificar(m);
-                }
-                JasperReport reporte = null;
-                //String path = "src\\informes\\pedidoProveedorGenerado.jasper";
-                Map parametro = new HashMap();
-                parametro.put("idPedidoProveedor", idP);
-                reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/pedidoProveedorGenerado.jasper"));
-                //reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
-                JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
-                JasperViewer view = new JasperViewer(jprint, false);
-                view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                view.setVisible(true);
-                dialogRecibirPedido.setVisible(false);
-            } else {
-                txtInexistente.setText("Pedido Inexistente");
-            }
-        } catch (DAOException ex) {
-            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JRException ex) {
-            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+        // TODO add your handling code here:
+        ////buscarPDF y mstrar
+        if (validaciones.isNumber(txtNumeroPedido.getText())) {
+            try {
+                List<DetallePedidoProveedor> listDetalleProveedor = new ArrayList<>();
+                Long idPedido = Long.valueOf(txtNumeroPedido.getText());
+                PedidoProveedor pedido = manager.getPedidoProveedorDAO().obtener(idPedido);
+                if (pedido != null) {
+                    Long idP = pedido.getIdPedidoProveedor();
+                    pedido.setEstado(true);
+                    manager.getPedidoProveedorDAO().modificar(pedido);
+                    listDetalleProveedor = manager.getDetallePedidoProveedorDAO().obtenerxPedido(pedido.getIdPedidoProveedor());
+                    for (DetallePedidoProveedor d : listDetalleProveedor) {
+                        Long id = d.getId().getIdMaterial();
+                        Material m = manager.getMaterialDAO().obtener(id);
+                        m.setStockMaterial(m.getStockMaterial() + d.getCantidad());
+                        manager.getMaterialDAO().modificar(m);
+                    }
+                    JasperReport reporte = null;
+                    //String path = "src\\informes\\pedidoProveedorGenerado.jasper";
+                    Map parametro = new HashMap();
+                    parametro.put("idPedidoProveedor", idP);
+                    reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/pedidoProveedorGenerado.jasper"));
+                    //reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+                    JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
+                    JasperViewer view = new JasperViewer(jprint, false);
+                    view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    view.setVisible(true);
+                    dialogRecibirPedido.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Pedido inexistente", "Information",
+                            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (DAOException ex) {
+                Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JRException ex) {
+                Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese un numero de pedido valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarPedidoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
