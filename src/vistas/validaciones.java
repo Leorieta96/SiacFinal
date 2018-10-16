@@ -14,7 +14,7 @@ public class validaciones {
     public static boolean isNumber(String n) {
         if (!isEmpty(n)) {
             try {
-                Integer.parseInt(n);
+                Long.parseLong(n);
                 return true;
             } catch (NumberFormatException nfe) {
                 return false;

@@ -455,7 +455,7 @@ public class Compra extends javax.swing.JFrame {
             }
         });
         dialogRecibirCatalgo.getContentPane().add(btnBuscarProveedor);
-        btnBuscarProveedor.setBounds(430, 70, 65, 23);
+        btnBuscarProveedor.setBounds(430, 70, 110, 23);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -1009,7 +1009,7 @@ public class Compra extends javax.swing.JFrame {
     private void btnSiguienteRPOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteRPOActionPerformed
         // TODO add your handling code here:
         int seleccion = tableProveedoresxRubro.getSelectedRow();
-        if (seleccion == -1) {
+        if (seleccion != -1) {
             proveedorCompra = proveedores.get(seleccion);
             txtProveedorRPT.setText(proveedorCompra.getNombre());
             txtDireccionRPT.setText(proveedorCompra.getDireccion());

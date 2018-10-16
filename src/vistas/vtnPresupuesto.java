@@ -362,6 +362,7 @@ public class vtnPresupuesto extends javax.swing.JFrame {
                 Long subtotal = Long.valueOf(tablaSeleccionados.getValueAt(i, 6).toString());
                 Integer cantidad = Integer.valueOf(tablaSeleccionados.getValueAt(i, 5).toString());
                 DetallePresupuesto nuevo = new DetallePresupuesto(idpre, m.getidMaterial(), m.getNombre() + " " + m.getdescripcion(), subtotal, cantidad);
+                i++;
                 try {
                     manager.getDetallePresupuestoDAO().insertar(nuevo);
                 } catch (DAOException ex) {

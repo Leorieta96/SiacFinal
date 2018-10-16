@@ -370,7 +370,7 @@ public class vtnProveedores extends javax.swing.JFrame {
             if (validaciones.isString(nombre)) {
                 if (validaciones.isNumber(telefono)) {
                     if (validaciones.isString(direccion)) {
-                        if (rubro.equals("Seleccionar...")) {
+                        if (!rubro.equals("Seleccionar...")) {
                             Proveedor proveedor = new Proveedor(
                                     Long.valueOf(cuit), nombre,
                                     Integer.valueOf(telefono), direccion,
