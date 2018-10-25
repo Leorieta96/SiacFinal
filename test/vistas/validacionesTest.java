@@ -179,11 +179,126 @@ public class validacionesTest {
     public void testIsString1() {
         System.out.println("isString");
         String n = "";
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = validaciones.isString(n);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-
+    
+    @Test
+    public void testIsString2() {
+        System.out.println("isString");
+        String n = "!";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testIsString3() {
+        System.out.println("isString");
+        String n = "#";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testIsString4() {
+        System.out.println("isString");
+        String n = "$";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testIsString5() {
+        System.out.println("isString");
+        String n = "%";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testIsString6() {
+        System.out.println("isString");
+        String n = "&";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    @Test
+    public void testIsString7() {
+        System.out.println("isString");
+        String n = "*";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    @Test
+    public void testIsString8() {
+        System.out.println("isString");
+        String n = "/";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    @Test
+    public void testIsString9() {
+        System.out.println("isString");
+        String n = "=";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testIsString10() {
+        System.out.println("isString");
+        String n = "?";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    @Test
+    public void testIsString11() {
+        System.out.println("isString");
+        String n = "¡";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    @Test
+    public void testIsString12() {
+        System.out.println("isString");
+        String n = "123";
+        boolean expResult = false;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
 }

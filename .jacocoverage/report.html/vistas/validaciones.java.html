@@ -58,13 +58,13 @@ import java.util.regex.Pattern;
     }
 
     static boolean isString(String n) {
-<span class="pc bpc" id="L61" title="3 of 6 branches missed.">        if (!isEmpty(n) &amp;&amp; !(n.contains(&quot;!&quot;) || n.contains(&quot;#&quot;)</span>
-<span class="pc bpc" id="L62" title="3 of 6 branches missed.">                || n.contains(&quot;$&quot;) || n.contains(&quot;%&quot;) || n.contains(&quot;&amp;&quot;)</span>
-<span class="pc bpc" id="L63" title="3 of 6 branches missed.">                || n.contains(&quot;#&quot;) || n.contains(&quot;/&quot;) || n.contains(&quot;=&quot;)</span>
-<span class="pc bpc" id="L64" title="3 of 6 branches missed.">                || n.contains(&quot;?&quot;) || n.contains(&quot;¡&quot;)) &amp;&amp; !isNumber(n)) {</span>
+<span class="fc bfc" id="L61" title="All 6 branches covered.">        if (!isEmpty(n) &amp;&amp; !(n.contains(&quot;!&quot;) || n.contains(&quot;#&quot;)</span>
+<span class="fc bfc" id="L62" title="All 6 branches covered.">                || n.contains(&quot;$&quot;) || n.contains(&quot;%&quot;) || n.contains(&quot;&amp;&quot;)</span>
+<span class="fc bfc" id="L63" title="All 6 branches covered.">                || n.contains(&quot;*&quot;) || n.contains(&quot;/&quot;) || n.contains(&quot;=&quot;)</span>
+<span class="fc bfc" id="L64" title="All 6 branches covered.">                || n.contains(&quot;?&quot;) || n.contains(&quot;¡&quot;)) &amp;&amp; !isNumber(n)) {</span>
 <span class="fc" id="L65">            return true;</span>
         } else {
-<span class="nc" id="L67">            return false;</span>
+<span class="fc" id="L67">            return false;</span>
         }
     }
 }

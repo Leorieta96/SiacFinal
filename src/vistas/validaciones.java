@@ -60,7 +60,7 @@ public class validaciones {
     static boolean isString(String n) {
         if (!isEmpty(n) && !(n.contains("!") || n.contains("#")
                 || n.contains("$") || n.contains("%") || n.contains("&")
-                || n.contains("#") || n.contains("/") || n.contains("=")
+                || n.contains("*") || n.contains("/") || n.contains("=")
                 || n.contains("?") || n.contains("¡")) && !isNumber(n)) {
             return true;
         } else {
