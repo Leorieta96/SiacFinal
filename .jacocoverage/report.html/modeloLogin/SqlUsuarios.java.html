@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>SqlUsuarios.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">modeloLogin</a> &gt; <span class="el_source">SqlUsuarios.java</span></div><h1>SqlUsuarios.java</h1><pre class="source lang-java linenums">
+package modeloLogin;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+
+<span class="nc" id="L12">public class SqlUsuarios extends Conexion {</span>
+
+    public boolean registrar(Usuarios usr) {
+<span class="nc" id="L15">        PreparedStatement ps = null;</span>
+<span class="nc" id="L16">        Connection con = getConexion();</span>
+
+<span class="nc" id="L18">        String sql = &quot;INSERT INTO `usuarios` ( usuario, password, nombre, correo, idTipo) VALUES ( ?, ?, ?, ?, ?)&quot;;</span>
+
+        try {
+<span class="nc" id="L21">            ps = con.prepareStatement(sql);</span>
+<span class="nc" id="L22">            ps.setString(1, usr.getUsuario());</span>
+<span class="nc" id="L23">            ps.setString(2, usr.getPassword());</span>
+<span class="nc" id="L24">            ps.setString(3, usr.getNombre());</span>
+<span class="nc" id="L25">            ps.setString(4, usr.getEmail());</span>
+<span class="nc" id="L26">            ps.setInt(5, usr.getIdTipo());</span>
+<span class="nc" id="L27">            ps.execute();</span>
+<span class="nc" id="L28">            return true;</span>
+<span class="nc" id="L29">        } catch (SQLException e) {</span>
+<span class="nc" id="L30">            JOptionPane.showMessageDialog(null, e.toString());</span>
+<span class="nc" id="L31">            return false;</span>
+        } finally {
+<span class="nc" id="L33">            try {</span>
+<span class="nc" id="L34">                con.close();</span>
+<span class="nc" id="L35">            } catch (SQLException e) {</span>
+<span class="nc" id="L36">                JOptionPane.showMessageDialog(null, e.toString());</span>
+<span class="nc" id="L37">            }</span>
+        }
+    }
+
+    public boolean login(Usuarios usr) {
+<span class="nc" id="L42">        PreparedStatement ps = null;</span>
+<span class="nc" id="L43">        ResultSet rs = null;</span>
+<span class="nc" id="L44">        Connection con = getConexion();</span>
+
+<span class="nc" id="L46">        String sql = &quot;SELECT id, usuario, password, nombre, idTipo FROM usuarios WHERE usuario = ? LIMIT 1&quot;;</span>
+
+        try {
+<span class="nc" id="L49">            ps = con.prepareStatement(sql);</span>
+<span class="nc" id="L50">            ps.setString(1, usr.getUsuario());</span>
+<span class="nc" id="L51">            rs = ps.executeQuery();</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (usr.getPassword().equals(rs.getString(3))) {</span>
+<span class="nc" id="L55">                    usr.setId(rs.getInt(1));</span>
+<span class="nc" id="L56">                    usr.setNombre(rs.getString(4));</span>
+<span class="nc" id="L57">                    usr.setIdTipo(rs.getInt(5));</span>
+<span class="nc" id="L58">                    return true;</span>
+                } else {
+<span class="nc" id="L60">                    return false;</span>
+                }
+            }
+
+<span class="nc" id="L64">            return false;</span>
+<span class="nc" id="L65">        } catch (SQLException e) {</span>
+<span class="nc" id="L66">            JOptionPane.showMessageDialog(null, e.toString());</span>
+<span class="nc" id="L67">            return false;</span>
+        } finally {
+<span class="nc" id="L69">            try {</span>
+<span class="nc" id="L70">                con.close();</span>
+<span class="nc" id="L71">            } catch (SQLException e) {</span>
+<span class="nc" id="L72">                JOptionPane.showMessageDialog(null, e.toString());</span>
+<span class="nc" id="L73">            }</span>
+        }
+    }
+
+    public int existeUsuario(String usuario) {
+<span class="nc" id="L78">        PreparedStatement ps = null;</span>
+<span class="nc" id="L79">        ResultSet rs = null;</span>
+<span class="nc" id="L80">        Connection con = getConexion();</span>
+
+<span class="nc" id="L82">        String sql = &quot;SELECT count(id) FROM usuarios WHERE usuario = ?&quot;;</span>
+
+        try {
+<span class="nc" id="L85">            ps = con.prepareStatement(sql);</span>
+<span class="nc" id="L86">            ps.setString(1, usuario);</span>
+<span class="nc" id="L87">            rs = ps.executeQuery();</span>
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L90">                return rs.getInt(1);</span>
+            }
+
+<span class="nc" id="L93">            return 1;</span>
+
+<span class="nc" id="L95">        } catch (SQLException e) {</span>
+<span class="nc" id="L96">            JOptionPane.showMessageDialog(null, e.toString());</span>
+<span class="nc" id="L97">            return 1;</span>
+        } finally {
+<span class="nc" id="L99">            try {</span>
+<span class="nc" id="L100">                con.close();</span>
+<span class="nc" id="L101">            } catch (SQLException e) {</span>
+<span class="nc" id="L102">                JOptionPane.showMessageDialog(null, e.toString());</span>
+<span class="nc" id="L103">            }</span>
+        }
+    }
+
+    public boolean esEmail(String correo) {
+
+        // Patrón para validar el email
+<span class="nc" id="L110">        Pattern pattern = Pattern.compile(&quot;^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@&quot; + &quot;[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$&quot;);</span>
+
+<span class="nc" id="L112">        Matcher mather = pattern.matcher(correo);</span>
+
+<span class="nc" id="L114">        return mather.find();</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

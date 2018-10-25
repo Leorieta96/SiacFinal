@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MySQLMaterialDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">MySQL</a> &gt; <span class="el_source">MySQLMaterialDAO.java</span></div><h1>MySQLMaterialDAO.java</h1><pre class="source lang-java linenums">package MySQL;
+
+import dao.DAOException;
+import dao.MaterialDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.Material;
+
+public class MySQLMaterialDAO implements MaterialDAO {
+
+<span class="nc" id="L17">    final String INSERT = &quot;INSERT INTO `material` (`nombre`, `descripcion`, `stockMaterial`, `precioUnitarioM`, `rubro`) VALUES ( ?, ?, ?, ?, ?)&quot;;</span>
+<span class="nc" id="L18">    final String UPDATE = &quot;UPDATE `material` SET `nombre` = ?, `descripcion` = ?, `stockMaterial` = ?, `precioUnitarioM` = ?, `rubro` = ? WHERE `material`.`idMaterial` = ? &quot;;</span>
+<span class="nc" id="L19">    final String DELETE = &quot;DELETE FROM catalogo WHERE idCatalogo = ?&quot;;</span>
+<span class="nc" id="L20">    final String GETALL = &quot;SELECT * FROM `material`&quot;;</span>
+<span class="nc" id="L21">    final String GETONE = &quot;SELECT * FROM `material` WHERE `idMaterial` = ?&quot;;</span>
+<span class="nc" id="L22">    final String GETxCANT = &quot;SELECT * FROM `material` WHERE `stockMaterial` &lt;= 5  &quot;;</span>
+<span class="nc" id="L23">    final String GETALLxNombre = &quot;SELECT * FROM `material` WHERE `nombre` = ?  &quot;;</span>
+
+    private Connection conn;
+
+<span class="nc" id="L27">    public MySQLMaterialDAO(Connection conn) {</span>
+<span class="nc" id="L28">        this.conn = conn;</span>
+<span class="nc" id="L29">    }</span>
+
+    @Override
+    public void insertar(Material a) {
+<span class="nc" id="L33">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public void eliminar(Material a) {
+<span class="nc" id="L38">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public void modificar(Material a) throws DAOException {
+<span class="nc" id="L43">        PreparedStatement stat = null;</span>
+        try {
+<span class="nc" id="L45">            stat = conn.prepareStatement(UPDATE);</span>
+<span class="nc" id="L46">            stat.setString(1, a.getNombre());</span>
+<span class="nc" id="L47">            stat.setString(2, a.getdescripcion());</span>
+<span class="nc" id="L48">            stat.setInt(3, a.getStockMaterial());</span>
+<span class="nc" id="L49">            stat.setLong(4, a.getPrecioUnitario());</span>
+<span class="nc" id="L50">            stat.setString(5, a.getRubro());</span>
+<span class="nc" id="L51">            stat.setLong(6, a.getidMaterial());</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L53">                throw new DAOException(&quot;Puede q no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L55">        } catch (SQLException ex) {</span>
+<span class="nc" id="L56">            throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L58" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L60">                    stat.close();</span>
+<span class="nc" id="L61">                } catch (SQLException ex) {</span>
+<span class="nc" id="L62">                    throw new DAOException(&quot;Error en sql&quot;, ex);</span>
+<span class="nc" id="L63">                }</span>
+            }
+        }
+<span class="nc" id="L66">    }</span>
+
+    @Override
+    public List&lt;Material&gt; obtenerTodos() throws DAOException {
+<span class="nc" id="L70">        PreparedStatement stat = null;</span>
+<span class="nc" id="L71">        ResultSet rs = null;</span>
+<span class="nc" id="L72">        List&lt;Material&gt; materiales = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L74">            stat = conn.prepareStatement(GETALL);</span>
+<span class="nc" id="L75">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L77">                materiales.add(convertir(rs));</span>
+            }
+<span class="nc" id="L79">        } catch (SQLException e) {</span>
+<span class="nc" id="L80">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L82" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L84">                    rs.close();</span>
+<span class="nc" id="L85">                } catch (SQLException e) {</span>
+<span class="nc" id="L86">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L87">                }</span>
+            }
+<span class="nc bnc" id="L89" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L91">                    stat.close();</span>
+<span class="nc" id="L92">                } catch (SQLException e) {</span>
+<span class="nc" id="L93">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L94">                }</span>
+            }
+        }
+<span class="nc" id="L97">        return materiales;</span>
+
+    }
+
+    @Override
+    public Material obtener(Long id) throws DAOException {
+<span class="nc" id="L103">        PreparedStatement stat = null;</span>
+<span class="nc" id="L104">        ResultSet rs = null;</span>
+<span class="nc" id="L105">        Material m = null;</span>
+        try {
+<span class="nc" id="L107">            stat = conn.prepareStatement(GETONE);</span>
+<span class="nc" id="L108">            stat.setLong(1, id);</span>
+<span class="nc" id="L109">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L111">                m = convertir(rs);</span>
+            } else {
+<span class="nc" id="L113">                m = null;</span>
+            }
+<span class="nc" id="L115">        } catch (SQLException e) {</span>
+<span class="nc" id="L116">            throw new DAOException(&quot;Erro SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L118" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L120">                    rs.close();</span>
+<span class="nc" id="L121">                } catch (SQLException e) {</span>
+<span class="nc" id="L122">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L123">                }</span>
+            }
+<span class="nc bnc" id="L125" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L127">                    stat.close();</span>
+<span class="nc" id="L128">                } catch (SQLException e) {</span>
+<span class="nc" id="L129">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L130">                }</span>
+            }
+        }
+<span class="nc" id="L133">        return m;</span>
+
+    }
+
+    public List&lt;Material&gt; obtenerTodosxNombre(String nombre) throws DAOException {
+<span class="nc" id="L138">        PreparedStatement stat = null;</span>
+<span class="nc" id="L139">        ResultSet rs = null;</span>
+<span class="nc" id="L140">        List&lt;Material&gt; materiales = new ArrayList&lt;&gt;();</span>
+        try {
+
+<span class="nc" id="L143">            stat = conn.prepareStatement(GETALLxNombre);</span>
+<span class="nc" id="L144">            stat.setString(1, nombre);</span>
+<span class="nc" id="L145">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L147">                materiales.add(convertir(rs));</span>
+            }
+<span class="nc" id="L149">        } catch (SQLException e) {</span>
+<span class="nc" id="L150">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L152" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L154">                    rs.close();</span>
+<span class="nc" id="L155">                } catch (SQLException e) {</span>
+<span class="nc" id="L156">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L157">                }</span>
+            }
+<span class="nc bnc" id="L159" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L161">                    stat.close();</span>
+<span class="nc" id="L162">                } catch (SQLException e) {</span>
+<span class="nc" id="L163">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L164">                }</span>
+            }
+        }
+<span class="nc" id="L167">        return materiales;</span>
+
+    }
+
+    /**
+     *
+     * @return @throws DAOException
+     */
+//    @Override
+//    public List&lt;Material&gt; obtenerxCantidad() throws DAOException{
+//        PreparedStatement stat = null;
+//        ResultSet rs = null;
+//        List&lt;Material&gt; materiales = new ArrayList&lt;&gt;();
+//        try {
+//            stat = conn.prepareStatement(GETxCANT);
+//            rs = stat.executeQuery();
+//            while (rs.next()) {
+//                materiales.add(convertir(rs));
+//            }
+//        } catch (SQLException e) {
+//            throw new DAOException(&quot;Error SQL&quot;);
+//        } finally {
+//            if (rs != null) {
+//                try {
+//                    rs.close();
+//                } catch (SQLException e) {
+//                    throw new DAOException(&quot;Error en SQL&quot;, e);
+//                }
+//            }
+//            if (stat != null) {
+//                try {
+//                    stat.close();
+//                } catch (SQLException e) {
+//                    throw new DAOException(&quot;Error SQL&quot;, e);
+//                }
+//            }
+//        }
+//        return materiales;
+//
+//    }
+    private Material convertir(ResultSet rs) throws SQLException {
+<span class="nc" id="L208">        Long id = rs.getLong(&quot;idMaterial&quot;);</span>
+<span class="nc" id="L209">        Material material = new Material(id, rs.getString(&quot;nombre&quot;), rs.getString(&quot;descripcion&quot;), rs.getInt(&quot;stockMaterial&quot;), rs.getLong(&quot;precioUnitarioM&quot;), rs.getString(&quot;rubro&quot;));</span>
+<span class="nc" id="L210">        return material;</span>
+    }
+
+    private Material convertir2(ResultSet rs) throws SQLException {
+<span class="nc" id="L214">        Material mat = new Material(rs.getLong(&quot;idMaterial&quot;), rs.getString(&quot;tipoMaterial&quot;), rs.getString(&quot;descripcion&quot;), rs.getInt(&quot;stockMaterial&quot;), rs.getLong(&quot;precioUnitario&quot;), rs.getString(&quot;rubro&quot;));</span>
+<span class="nc" id="L215">        return mat;</span>
+    }
+
+    @Override
+    public List&lt;Material&gt; obtenerxCantidad(int cant) throws DAOException {
+<span class="nc" id="L220">        PreparedStatement stat = null;</span>
+<span class="nc" id="L221">        ResultSet rs = null;</span>
+<span class="nc" id="L222">        List&lt;Material&gt; materiales = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L224">            stat = conn.prepareStatement(GETxCANT);</span>
+            //stat.setInt(4, cant);
+<span class="nc" id="L226">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L228">                materiales.add(convertir(rs));</span>
+            }
+<span class="nc" id="L230">        } catch (SQLException e) {</span>
+<span class="nc" id="L231">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L233" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L235">                    rs.close();</span>
+<span class="nc" id="L236">                } catch (SQLException e) {</span>
+<span class="nc" id="L237">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L238">                }</span>
+            }
+<span class="nc bnc" id="L240" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L242">                    stat.close();</span>
+<span class="nc" id="L243">                } catch (SQLException e) {</span>
+<span class="nc" id="L244">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L245">                }</span>
+            }
+        }
+<span class="nc" id="L248">        return materiales;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

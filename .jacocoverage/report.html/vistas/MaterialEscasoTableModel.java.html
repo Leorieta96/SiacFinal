@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MaterialEscasoTableModel.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">vistas</a> &gt; <span class="el_source">MaterialEscasoTableModel.java</span></div><h1>MaterialEscasoTableModel.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vistas;
+
+import dao.DAOException;
+import dao.MaterialDAO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.AbstractTableModel;
+import modelo.Material;
+import clases.Compra;
+import javax.swing.JCheckBox;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author leori
+ */
+public class MaterialEscasoTableModel extends DefaultTableModel {
+
+    private MaterialDAO materiales;
+    private Compra compras;
+<span class="nc" id="L26">    private List&lt;Material&gt; datos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L27">    Object[][] datoss = null;</span>
+
+<span class="nc" id="L29">    public MaterialEscasoTableModel(MaterialDAO materiales) {</span>
+<span class="nc" id="L30">        this.materiales = materiales;</span>
+<span class="nc" id="L31">    }</span>
+
+    public List&lt;Material&gt; getDatos() {
+<span class="nc" id="L34">        return datos;</span>
+    }
+
+    public void updateModel() throws DAOException {
+<span class="nc" id="L38">        datos = materiales.obtenerxCantidad(4);</span>
+<span class="nc" id="L39">    }</span>
+
+    @Override
+    public String getColumnName(int column) {
+<span class="nc bnc" id="L43" title="All 8 branches missed.">        switch (column) {</span>
+            case 0:
+<span class="nc" id="L45">                return &quot;ID Material&quot;;</span>
+            case 1:
+<span class="nc" id="L47">                return &quot;Nombre&quot;;</span>
+            case 2:
+<span class="nc" id="L49">                return &quot;Descripcion&quot;;</span>
+            case 3:
+<span class="nc" id="L51">                return &quot;Stock&quot;;</span>
+            case 4:
+<span class="nc" id="L53">                return &quot;Precio Unitario&quot;;</span>
+            case 5:
+<span class="nc" id="L55">                return &quot;Rubro&quot;;</span>
+            case 6:
+<span class="nc" id="L57">                return &quot;Seleccionar&quot;;</span>
+            default:
+<span class="nc" id="L59">                return &quot; &quot;;</span>
+        }
+    }
+
+<span class="nc" id="L63">    Class[] types = new Class[]{</span>
+        java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
+        java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
+        JCheckBox.class
+    };
+
+    @Override
+    public Class getColumnClass(int columnIndex) {
+<span class="nc" id="L71">        return types[columnIndex];</span>
+    }
+
+    public void setDatoss() {
+<span class="nc" id="L75">        datoss = new Object[datos.size()][7];</span>
+<span class="nc" id="L76">        int i = 0;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        for (Material m : datos) {</span>
+<span class="nc" id="L78">            datoss[i][0] = m.getidMaterial();</span>
+<span class="nc" id="L79">            datoss[i][1] = m.getNombre();</span>
+<span class="nc" id="L80">            datoss[i][2] = m.getdescripcion();</span>
+<span class="nc" id="L81">            datoss[i][3] = m.getStockMaterial();</span>
+<span class="nc" id="L82">            datoss[i][4] = m.getPrecioUnitario();</span>
+<span class="nc" id="L83">            datoss[i][5] = m.getRubro();</span>
+<span class="nc" id="L84">            datoss[i][6] = false;</span>
+<span class="nc" id="L85">            i++;</span>
+<span class="nc" id="L86">        }</span>
+<span class="nc" id="L87">    }</span>
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        return columnIndex == 6;</span>
+    }
+    
+//    Object[][] datoss = new Object[][]{
+//        {true, &quot;Víctor&quot;, &quot;Su casa&quot;, fecha1, 1, new JButton(&quot;Clic aquí&quot;)},
+//        {false, &quot;Fernanda&quot;, &quot;calle sin nombre #501&quot;, fecha2, 0, new JButton(&quot;Clic aquí&quot;)},
+//        {true, &quot;Julian&quot;, &quot;Orilla del rio #014&quot;, fecha3, 0, new JButton(&quot;Clic aquí&quot;)}
+//    };
+
+//    @Override
+//    public String getColumnName(int column) {
+//        switch (column) {
+//            case 0:
+//                return &quot;ID Material&quot;;
+//            case 1:
+//                return &quot;Nombre&quot;;
+//            case 2:
+//                return &quot;Descripcion&quot;;
+//            case 3:
+//                return &quot;Stock&quot;;
+//            case 4:
+//                return &quot;Precio Unitario&quot;;
+//            case 5:
+//                return &quot;Rubro&quot;;
+//            case 6:
+//                return &quot;Seleccionar&quot;;
+//            default:
+//                return &quot; &quot;;
+//        }
+//    }
+//
+//    @Override
+//    public int getRowCount() {
+//        return datos.size();
+//    }
+//
+//    @Override
+//    public int getColumnCount() {
+//        return 7;
+//    }
+//
+//    @Override
+//    public Object getValueAt(int rowIndex, int columnIndex) {
+//        Material preguntado = datos.get(rowIndex);
+//        switch (columnIndex) {
+//            case 0:
+//                return preguntado.getidMaterial();
+//            case 1:
+//                return preguntado.getNombre();
+//            case 2:
+//                return preguntado.getdescripcion();
+//            case 3:
+//                return preguntado.getStockMaterial();
+//            case 4:
+//                return preguntado.getPrecioUnitario();
+//            case 5:
+//                return preguntado.getRubro();
+//            case 6:
+//                return JCheckBox.class;
+//            default:
+//                return &quot;&quot;;
+//        }
+////        return null;
+//    }
+//
+//    Class[] types = new Class[]{
+//        java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,
+//        java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, 
+//        JCheckBox.class
+//    };
+//
+//    @Override
+//    public Class getColumnClass(int columnIndex) {
+//        return types[columnIndex];
+//    }
+//
+//    @Override
+//    public boolean isCellEditable(int rowIndex, int columnIndex) {
+//        return columnIndex == 6;
+//    }
+
+    public Object[][] getDatoss() {
+<span class="nc" id="L173">        return datoss;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

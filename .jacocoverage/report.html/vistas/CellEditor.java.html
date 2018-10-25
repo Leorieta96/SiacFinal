@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CellEditor.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">vistas</a> &gt; <span class="el_source">CellEditor.java</span></div><h1>CellEditor.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vistas;
+
+import java.awt.Component;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
+
+/**
+ *
+ * @author leori
+ */
+public class CellEditor extends DefaultCellEditor implements TableCellRenderer {
+
+<span class="nc" id="L21">    private final JComponent componet = new JCheckBox();</span>
+<span class="nc" id="L22">    private boolean value = false;</span>
+
+    public CellEditor() {
+<span class="nc" id="L25">        super(new JCheckBox());</span>
+<span class="nc" id="L26">    }</span>
+
+    @Override
+    public Object getCellEditorValue() {
+<span class="nc" id="L30">        return ((JCheckBox) componet).isSelected();</span>
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+        //((JCheckBox) componet).setBackground(new Color(200, 200, 0));
+<span class="nc" id="L36">        boolean b = ((Boolean) value);</span>
+<span class="nc" id="L37">        ((JCheckBox) componet).setSelected(b);</span>
+<span class="nc" id="L38">        return (JCheckBox) componet;</span>
+    }
+
+    @Override
+    public boolean stopCellEditing() {
+<span class="nc" id="L43">        value = ((Boolean)getCellEditorValue());</span>
+<span class="nc" id="L44">        ((JCheckBox)componet).setSelected(value);</span>
+<span class="nc" id="L45">        return super.stopCellEditing();</span>
+    }
+    
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if(value == null)</span>
+<span class="nc" id="L51">            return null;</span>
+        else
+<span class="nc" id="L53">            return ((JCheckBox)componet);</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

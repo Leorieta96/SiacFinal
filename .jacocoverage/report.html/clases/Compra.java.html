@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Compra.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">clases</a> &gt; <span class="el_source">Compra.java</span></div><h1>Compra.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package clases;
+
+import MySQL.MySQLDaoManager;
+import MySQL.MySQLMaterialDAO;
+import MySQL.MySQLProveedorDAO;
+import dao.DAOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import modelo.Material;
+import modelo.Proveedor;
+
+/**
+ *
+ * @author leori
+ */
+public class Compra {
+
+    MySQLDaoManager manager;
+
+<span class="nc" id="L27">    public Compra() throws SQLException {</span>
+<span class="nc" id="L28">        manager = new MySQLDaoManager(&quot;localhost&quot;, &quot;root&quot;,&quot;&quot;, &quot;siac&quot;);</span>
+<span class="nc" id="L29">    }</span>
+
+    class Rubro {
+
+        String nombre;
+
+<span class="nc" id="L35">        public Rubro(String nombre) {</span>
+<span class="nc" id="L36">            this.nombre = nombre;</span>
+<span class="nc" id="L37">        }</span>
+
+        public String getNombre() {
+<span class="nc" id="L40">            return nombre;</span>
+        }
+
+        public void setNombre(String nombre) {
+<span class="nc" id="L44">            this.nombre = nombre;</span>
+<span class="nc" id="L45">        }</span>
+
+    }
+
+//    public List&lt;Material&gt; obtenerEscasos() throws DAOException {
+//
+//        MySQLMaterialDAO listMatAll = new MySQLMaterialDAO(conn);
+//        List&lt;Material&gt; listMat = listMatAll.obtenerTodos();
+//        for (Material m : listMat) {
+//            if (m.getStockMaterial() &lt; 5) {
+//                listMat.remove(listMat.indexOf(m));
+//            }
+//        }
+//        return listMat;
+//    }
+//
+//    public List&lt;String&gt; rubrosPredominantes(List&lt;Material&gt; listMat) {
+//        List&lt;String&gt; listRubros = new ArrayList&lt;&gt;();
+//        int[] rubros = {0, 0, 0, 0, 0};
+//        String desc;/// cambiar a rubro
+//        for (Material m : listMat) {
+//            desc = m.getdescripcion();
+//            switch (desc) {
+//                case &quot;Pintureria&quot;:
+//                    rubros[0]++;
+//                    break;
+//                case &quot;PVC&quot;:
+//                    rubros[1]++;
+//                    break;
+//                case &quot;Construccion&quot;:
+//                    rubros[2]++;
+//                    break;
+//                case &quot;Ferreteria&quot;:
+//                    rubros[3]++;
+//                    break;
+//                case &quot;Electricidad&quot;:
+//                    rubros[4]++;
+//                    break;
+//            }
+//        }
+//        listRubros = mayores(rubros);
+//        return listRubros;
+//    }
+    private List&lt;String&gt; mayores(int[] a) {
+<span class="nc" id="L89">        List&lt;String&gt; listRubros = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        for (int j = 0; j &lt; 3; j++) {</span>
+<span class="nc" id="L91">            int may = a[0];</span>
+            int i;
+            int p;
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            for (i = 0; i &lt; 5; i++) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">                if (a[i] &gt; may) {</span>
+<span class="nc" id="L96">                    may = a[i];</span>
+<span class="nc" id="L97">                    p = i;</span>
+                }
+            }
+<span class="nc bnc" id="L100" title="All 6 branches missed.">            switch (may) {</span>
+                case 0:
+<span class="nc" id="L102">                    listRubros.add(&quot;Pintureria&quot;);</span>
+<span class="nc" id="L103">                    a[0] = 0;</span>
+<span class="nc" id="L104">                    break;</span>
+                case 1:
+<span class="nc" id="L106">                    listRubros.add(&quot;PVC&quot;);</span>
+<span class="nc" id="L107">                    a[1] = 0;</span>
+<span class="nc" id="L108">                    break;</span>
+                case 2:
+<span class="nc" id="L110">                    listRubros.add(&quot;Construccion&quot;);</span>
+<span class="nc" id="L111">                    a[2] = 0;</span>
+<span class="nc" id="L112">                    break;</span>
+                case 3:
+<span class="nc" id="L114">                    listRubros.add(&quot;Ferreteria&quot;);</span>
+<span class="nc" id="L115">                    a[3] = 0;</span>
+<span class="nc" id="L116">                    break;</span>
+                case 4:
+<span class="nc" id="L118">                    listRubros.add(&quot;Ferreteria&quot;);</span>
+<span class="nc" id="L119">                    a[4] = 0;</span>
+                    break;
+            }
+        }
+<span class="nc" id="L123">        return listRubros;</span>
+    }
+
+//    public List&lt;Proveedor&gt; obtenerProveedoresRubro(String descripcion) { // cambiar a rubro
+//        MySQLProveedorDAO listProveedorAll = new MySQLProveedorDAO();
+//        List&lt;Proveedor&gt; listProveedores = listProveedorAll.obtenerTodos();
+//        listProveedores.stream().filter((p) -&gt; (p.getRubro().equals(descripcion))).forEach((p) -&gt; {
+//            listProveedores.remove(listProveedores.indexOf(p));
+//        });
+//        return listProveedores;
+//    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

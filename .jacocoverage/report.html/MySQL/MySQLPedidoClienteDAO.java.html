@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MySQLPedidoClienteDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">MySQL</a> &gt; <span class="el_source">MySQLPedidoClienteDAO.java</span></div><h1>MySQLPedidoClienteDAO.java</h1><pre class="source lang-java linenums">package MySQL;
+
+import dao.DAOException;
+import dao.PedidoClienteDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import modelo.PedidoCliente;
+
+public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
+
+<span class="nc" id="L16">    final String INSERT = &quot;INSERT INTO PedidoCliente ( estadoPedidoC, totalPedidoC, fechaEmision, fechaRecibido,dni) VALUES ( ?, ?, ?, ?,?)&quot;;</span>
+<span class="nc" id="L17">    final String UPDATE = &quot;UPDATE `pedidocliente` SET `estadoPedidoC` = ?, `totalPedidoC` = ?, `fechaEmision` = ?, `fechaRecibido` = ? WHERE `pedidocliente`.`idPedidoCliente` = ?&quot;;</span>
+<span class="nc" id="L18">    final String DELETE = &quot;DELETE FROM PedidoCliente WHERE idPedidoCliente = ? &quot;;</span>
+<span class="nc" id="L19">    final String GETALL = &quot;SELECT idPedidoCliente, estadoPedidoC, totalPedidoC, fechaEmision, fechaRecibido,dni&quot;;</span>
+<span class="nc" id="L20">    final String GETONE = &quot;SELECT * FROM `pedidocliente` WHERE `idPedidoCliente` = ?&quot;;</span>
+
+    private Connection conn;
+
+<span class="nc" id="L24">    public MySQLPedidoClienteDAO(Connection conn) {</span>
+<span class="nc" id="L25">        this.conn = conn;</span>
+<span class="nc" id="L26">    }</span>
+
+    @Override
+    public void insertar(PedidoCliente a) throws DAOException {
+<span class="nc" id="L30">        PreparedStatement stat = null;</span>
+<span class="nc" id="L31">        ResultSet rs = null;</span>
+        try {
+<span class="nc" id="L33">            stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);</span>
+<span class="nc" id="L34">            stat.setString(1, a.getEstadoPedidoC());</span>
+<span class="nc" id="L35">            stat.setDouble(2, a.getTotalPedidoC());</span>
+<span class="nc" id="L36">            stat.setDate(3, a.getFechaEmision());</span>
+<span class="nc" id="L37">            stat.setDate(4, a.getFechaRecibido());</span>
+<span class="nc" id="L38">            stat.setLong(5, a.getdni());</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L40">                System.out.println(&quot;Puede q no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L42">            rs = stat.getGeneratedKeys();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L44">                a.setIdPedidoCliente(rs.getLong(1));</span>
+            } else {
+<span class="nc" id="L46">                throw new DAOException(&quot;Puede que no se haya generado&quot;);</span>
+            }
+<span class="nc" id="L48">        } catch (SQLException ex) {</span>
+<span class="nc" id="L49">            throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L51" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L53">                    stat.close();</span>
+<span class="nc" id="L54">                } catch (SQLException ex) {</span>
+<span class="nc" id="L55">                    throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+<span class="nc" id="L56">                }</span>
+            }
+        }
+<span class="nc" id="L59">    }</span>
+
+    @Override
+    public void eliminar(PedidoCliente a) throws DAOException {
+<span class="nc" id="L63">        PreparedStatement stat = null;</span>
+        try {
+<span class="nc" id="L65">            stat = conn.prepareStatement(DELETE);</span>
+<span class="nc" id="L66">            stat.setLong(1, a.getIdPedidoCliente());</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L69">                System.out.println(&quot;Puede que no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L71">        } catch (SQLException ex) {</span>
+<span class="nc" id="L72">            throw new DAOException(&quot;Error delete&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L74" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L76">                    stat.close();</span>
+<span class="nc" id="L77">                } catch (SQLException ex) {</span>
+<span class="nc" id="L78">                    throw new DAOException(&quot;Error delete&quot;, ex);</span>
+
+<span class="nc" id="L80">                }</span>
+            }
+        }
+
+<span class="nc" id="L84">    }</span>
+
+    @Override
+    public void modificar(PedidoCliente a) throws DAOException {
+<span class="nc" id="L88">        PreparedStatement stat = null;</span>
+        try {
+<span class="nc" id="L90">            stat = conn.prepareStatement(UPDATE);</span>
+<span class="nc" id="L91">            stat.setString(1, a.getEstadoPedidoC());</span>
+<span class="nc" id="L92">            stat.setDouble(2, a.getTotalPedidoC());</span>
+<span class="nc" id="L93">            stat.setDate(3, a.getFechaEmision());</span>
+<span class="nc" id="L94">            stat.setDate(4, a.getFechaRecibido());</span>
+<span class="nc" id="L95">            stat.setLong(5, a.getIdPedidoCliente());</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L97">                throw new DAOException(&quot;Puede q no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L99">        } catch (SQLException ex) {</span>
+<span class="nc" id="L100">            throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L102" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L104">                    stat.close();</span>
+<span class="nc" id="L105">                } catch (SQLException ex) {</span>
+<span class="nc" id="L106">                    throw new DAOException(&quot;Error en sql&quot;, ex);</span>
+<span class="nc" id="L107">                }</span>
+            }
+        }
+<span class="nc" id="L110">    }</span>
+
+    private PedidoCliente convertir(ResultSet rs) throws SQLException {
+<span class="nc" id="L113">        PedidoCliente pedido = new PedidoCliente(null, rs.getString(&quot;estadoPedidoC&quot;), rs.getDouble(&quot;totalPedidoC&quot;), rs.getDate(&quot;fechaEmision&quot;), rs.getDate(&quot;fechaRecibido&quot;), rs.getLong(&quot;dni&quot;));// falta el DNIIIIIII</span>
+<span class="nc" id="L114">        pedido.setIdPedidoCliente(rs.getLong(&quot;idPedidoCliente&quot;));</span>
+<span class="nc" id="L115">        return pedido;</span>
+
+    }
+
+    @Override
+    public List&lt;PedidoCliente&gt; obtenerTodos() throws DAOException {
+<span class="nc" id="L121">        PreparedStatement stat = null;</span>
+<span class="nc" id="L122">        ResultSet rs = null;</span>
+<span class="nc" id="L123">        List&lt;PedidoCliente&gt; pedido = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L125">            stat = conn.prepareStatement(GETALL);</span>
+
+<span class="nc" id="L127">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L129">                pedido.add(convertir(rs));</span>
+            } else {
+<span class="nc" id="L131">                throw new DAOException(&quot;No se ha encntrado ese registro&quot;);</span>
+            }
+<span class="nc" id="L133">        } catch (SQLException e) {</span>
+<span class="nc" id="L134">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L136" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L138">                    rs.close();</span>
+<span class="nc" id="L139">                } catch (SQLException e) {</span>
+<span class="nc" id="L140">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L141">                }</span>
+            }
+<span class="nc bnc" id="L143" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L145">                    stat.close();</span>
+<span class="nc" id="L146">                } catch (SQLException e) {</span>
+<span class="nc" id="L147">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L148">                }</span>
+            }
+        }
+<span class="nc" id="L151">        return pedido;</span>
+    }
+
+    @Override
+    public PedidoCliente obtener(Long id) throws DAOException {
+<span class="nc" id="L156">        PreparedStatement stat = null;</span>
+<span class="nc" id="L157">        ResultSet rs = null;</span>
+<span class="nc" id="L158">        PedidoCliente p = null;</span>
+        try {
+<span class="nc" id="L160">            stat = conn.prepareStatement(GETONE);</span>
+<span class="nc" id="L161">            stat.setLong(1, id);</span>
+<span class="nc" id="L162">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L164">                p = convertir(rs);</span>
+            } else {
+<span class="nc" id="L166">                p = null;</span>
+            }
+<span class="nc" id="L168">        } catch (SQLException e) {</span>
+<span class="nc" id="L169">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L171" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L173">                    rs.close();</span>
+<span class="nc" id="L174">                } catch (SQLException e) {</span>
+<span class="nc" id="L175">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L176">                }</span>
+            }
+<span class="nc bnc" id="L178" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L180">                    stat.close();</span>
+<span class="nc" id="L181">                } catch (SQLException e) {</span>
+<span class="nc" id="L182">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L183">                }</span>
+            }
+        }
+<span class="nc" id="L186">        return p;</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

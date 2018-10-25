@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MySQLDaoManager.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">MySQL</a> &gt; <span class="el_source">MySQLDaoManager.java</span></div><h1>MySQLDaoManager.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MySQL;
+
+import dao.CatalogoDAO;
+import dao.ClienteDAO;
+import dao.DAOException;
+import dao.DetallePedidoClienteDAO;
+import dao.DetallePedidoProveedorDAO;
+import dao.DetallePresupuestoDAO;
+import dao.ItemCalatalogoDAO;
+import dao.MaterialDAO;
+import dao.PedidoClienteDAO;
+import dao.PedidoProveedorDAO;
+import dao.PresupuestoDAO;
+import dao.ProveedorDAO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
+import modelo.Catalogo;
+
+/**
+ *
+ * @author leori
+ */
+public class MySQLDaoManager implements dao.DAOManager{
+    
+    private Connection conn;
+    
+<span class="nc" id="L34">    private CatalogoDAO catalogo = null;</span>
+<span class="nc" id="L35">    private ClienteDAO cliente = null;</span>
+<span class="nc" id="L36">    private DetallePedidoClienteDAO detallePedidoCliente = null;</span>
+<span class="nc" id="L37">    private DetallePedidoProveedorDAO detallePedidoProveedor = null;</span>
+<span class="nc" id="L38">    private DetallePresupuestoDAO detallePresupuesto = null;</span>
+<span class="nc" id="L39">    private ItemCalatalogoDAO itemCalatalogo = null;</span>
+<span class="nc" id="L40">    private MaterialDAO material = null;</span>
+<span class="nc" id="L41">    private PedidoClienteDAO pedidoCliente = null;</span>
+<span class="nc" id="L42">    private PedidoProveedorDAO pedidoProveedor = null;</span>
+<span class="nc" id="L43">    private PresupuestoDAO presupuesto = null;</span>
+<span class="nc" id="L44">    private ProveedorDAO proveedor = null;</span>
+    
+<span class="nc" id="L46">    public MySQLDaoManager(String host, String username, String password, String database) throws SQLException {</span>
+<span class="nc" id="L47">        conn = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + host + &quot;/&quot; + database, username, password );</span>
+<span class="nc" id="L48">    }</span>
+
+    public Connection getConn() {
+<span class="nc" id="L51">        return conn;</span>
+    }
+    
+    @Override
+    public CatalogoDAO getCatalogoDAO() {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if(catalogo == null){</span>
+<span class="nc" id="L57">            catalogo = new MySQLCatalogoDAO(conn);</span>
+        }
+<span class="nc" id="L59">        return catalogo;</span>
+    }
+
+
+    @Override
+    public ClienteDAO getClienteDAO() {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if(cliente == null){</span>
+<span class="nc" id="L66">            cliente = new MySQLClienteDAO(conn);</span>
+        }
+<span class="nc" id="L68">        return cliente;</span>
+    }
+
+    @Override
+    public DetallePedidoClienteDAO getDetallePedidoDAO() {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if(detallePedidoCliente == null){</span>
+<span class="nc" id="L74">            detallePedidoCliente = new MySQLDetallePedidoClienteDAO(conn);</span>
+        }
+<span class="nc" id="L76">        return detallePedidoCliente;</span>
+    }
+
+    @Override
+    public DetallePedidoProveedorDAO getDetallePedidoProveedorDAO() {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if(detallePedidoProveedor == null){</span>
+<span class="nc" id="L82">            detallePedidoProveedor = new MySQLDetallePedidoProveedorDAO(conn);</span>
+        }
+<span class="nc" id="L84">        return detallePedidoProveedor;</span>
+    }
+
+    @Override
+    public DetallePresupuestoDAO getDetallePresupuestoDAO() {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        if(detallePresupuesto == null){</span>
+<span class="nc" id="L90">            detallePresupuesto = new MySQLDetallePresupuestoDAO(conn);</span>
+        }
+<span class="nc" id="L92">        return detallePresupuesto;</span>
+    }
+
+    @Override
+    public ItemCalatalogoDAO getItemCalatalogoDAO() {
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if(itemCalatalogo == null){</span>
+<span class="nc" id="L98">            itemCalatalogo = new MySQLItemCatalogoDAO(conn);</span>
+        }
+<span class="nc" id="L100">        return itemCalatalogo;</span>
+    }
+
+    @Override
+    public MaterialDAO getMaterialDAO() {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if(material == null){</span>
+<span class="nc" id="L106">            material = new MySQLMaterialDAO(conn);</span>
+        }
+<span class="nc" id="L108">        return material;</span>
+    }
+
+    @Override
+    public PedidoClienteDAO getPedidoClienteDAO() {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if(pedidoCliente == null){</span>
+<span class="nc" id="L114">            pedidoCliente = new MySQLPedidoClienteDAO(conn);</span>
+        }
+<span class="nc" id="L116">        return pedidoCliente;</span>
+    }
+
+    @Override
+    public PedidoProveedorDAO getPedidoProveedorDAO() {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if(pedidoProveedor == null){</span>
+<span class="nc" id="L122">            pedidoProveedor = new MySQLPedidoProveedorDAO(conn);</span>
+        }
+<span class="nc" id="L124">        return pedidoProveedor;</span>
+    }
+
+    @Override
+    public ProveedorDAO getProveedorDAO() {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if(proveedor == null){</span>
+<span class="nc" id="L130">            proveedor = new MySQLProveedorDAO(conn);</span>
+        }
+<span class="nc" id="L132">        return proveedor;</span>
+    }
+//    public static void main(String[] args) throws SQLException, DAOException {
+//        MySQLDaoManager man = new MySQLDaoManager(&quot;localhost&quot;, &quot;root&quot;, &quot;&quot;, &quot;siac&quot;);
+//        List&lt;Catalogo&gt; catalogos = man.getCatalogoDAO().obtenerTodos();
+//        System.out.println(catalogos);
+//    }
+
+    @Override
+    public PresupuestoDAO getPresupuestoDAO() {
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if(presupuesto == null){</span>
+<span class="nc" id="L143">            presupuesto= new MySQLPresupuestoDAO(conn);</span>
+        }
+<span class="nc" id="L145">        return presupuesto;}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

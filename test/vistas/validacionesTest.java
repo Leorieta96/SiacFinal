@@ -17,22 +17,22 @@ import static org.junit.Assert.*;
  * @author Alumnos
  */
 public class validacionesTest {
-    
+
     public validacionesTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -52,6 +52,20 @@ public class validacionesTest {
     }
 
     /**
+     * Test of isNumber method, of class validaciones.
+     */
+    @Test
+    public void testIsNumber2() {
+        System.out.println("isNumber");
+        String n = "";
+        boolean expResult = false;
+        boolean result = validaciones.isNumber(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
+    /**
      * Test of isFloat method, of class validaciones.
      */
     @Test
@@ -59,6 +73,32 @@ public class validacionesTest {
         System.out.println("isFloat");
         String n = "2.6";
         boolean expResult = true;
+        boolean result = validaciones.isFloat(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of isFloat method, of class validaciones.
+     */
+    @Test//(expected = NumberFormatException.class)
+    public void testIsFloat2() {
+        System.out.println("isFloat");
+        String n = "jj";
+        boolean expResult = false;
+        boolean result = validaciones.isFloat(n);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of isFloat method, of class validaciones.
+     */
+    @Test
+    public void testIsFloat3() {
+        System.out.println("isFloat");
+        String n = "";
+        boolean expResult = false;
         boolean result = validaciones.isFloat(n);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
@@ -94,6 +134,34 @@ public class validacionesTest {
     }
 
     /**
+     * Test of isEmpty method, of class validaciones.
+     */
+    @Test
+    public void testIsEmpty2() {
+        System.out.println("isEmpty");
+        String n = "aaa";
+        boolean expResult = false;
+        boolean result = validaciones.isEmpty(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+     /**
+     * Test of isEmpty method, of class validaciones.
+     */
+    @Test
+    public void testIsEmpty3() {
+        System.out.println("isEmpty");
+        String n = " ";
+        boolean expResult = true;
+        boolean result = validaciones.isEmpty(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
+    /**
      * Test of isString method, of class validaciones.
      */
     @Test
@@ -107,4 +175,15 @@ public class validacionesTest {
         //fail("The test case is a prototype.");
     }
     
+    @Test
+    public void testIsString1() {
+        System.out.println("isString");
+        String n = "";
+        boolean expResult = true;
+        boolean result = validaciones.isString(n);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
 }

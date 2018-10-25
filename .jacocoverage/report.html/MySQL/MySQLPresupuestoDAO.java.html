@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MySQLPresupuestoDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">MySQL</a> &gt; <span class="el_source">MySQLPresupuestoDAO.java</span></div><h1>MySQLPresupuestoDAO.java</h1><pre class="source lang-java linenums">package MySQL;
+
+import dao.DAOException;
+import dao.PresupuestoDAO;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import modelo.Presupuesto;
+
+public class MySQLPresupuestoDAO implements PresupuestoDAO {
+
+<span class="nc" id="L16">    final String INSERT = &quot;INSERT INTO presupuesto( fecha, total) VALUES( ?, ?)&quot;;</span>
+<span class="nc" id="L17">    final String UPDATE = &quot;UPDATE presupuesto SET fecha = ?, total = ?  WHERE codPresupuesto = ?&quot;;</span>
+<span class="nc" id="L18">    final String DELETE = &quot;DELETE FROM presupuesto WHERE codPresupuesto = ?&quot;;</span>
+<span class="nc" id="L19">    final String GETALL = &quot;SELECT codPresupuesto, fecha, total FROM presupuesto = ?&quot;;</span>
+<span class="nc" id="L20">    final String GETONE = &quot;SELECT * FROM presupuesto WHERE idPresupuesto = ?&quot;;</span>
+
+    private Connection conn;
+
+<span class="nc" id="L24">    public MySQLPresupuestoDAO(Connection conn) {</span>
+<span class="nc" id="L25">        this.conn = conn;</span>
+<span class="nc" id="L26">    }</span>
+
+    @Override
+    public void insertar(Presupuesto a) throws DAOException {
+<span class="nc" id="L30">        PreparedStatement stat = null;</span>
+<span class="nc" id="L31">        ResultSet rs = null;</span>
+        try {
+<span class="nc" id="L33">            stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);</span>
+
+<span class="nc" id="L35">            stat.setDate(1, a.getFecha());</span>
+<span class="nc" id="L36">            stat.setDouble(2, a.getTotal());</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L38">                throw new DAOException(&quot;Puede q no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L40">            rs = stat.getGeneratedKeys();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L42">                a.setIdPresupuesto(rs.getLong(1));</span>
+            } else {
+<span class="nc" id="L44">                throw new DAOException(&quot;puede q no se haya generado&quot;);</span>
+            }
+<span class="nc" id="L46">        } catch (SQLException ex) {</span>
+<span class="nc" id="L47">            throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L49" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L51">                    stat.close();</span>
+<span class="nc" id="L52">                } catch (SQLException ex) {</span>
+<span class="nc" id="L53">                    throw new DAOException(&quot;Error en sql&quot;, ex);</span>
+<span class="nc" id="L54">                }</span>
+            }
+        }
+
+<span class="nc" id="L58">    }</span>
+
+    @Override
+    public void eliminar(Presupuesto a) {
+<span class="nc" id="L62">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public void modificar(Presupuesto a) {
+<span class="nc" id="L67">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    private Presupuesto convertir(ResultSet rs) throws SQLException {
+<span class="nc" id="L71">        Date fecha = rs.getDate(&quot;fecha&quot;);</span>
+<span class="nc" id="L72">        Double total = rs.getDouble(&quot;total&quot;);</span>
+<span class="nc" id="L73">        Presupuesto presupuesto = new Presupuesto(fecha, total);</span>
+<span class="nc" id="L74">        presupuesto.setIdPresupuesto(rs.getLong(&quot;idPresupuesto&quot;));</span>
+<span class="nc" id="L75">        return presupuesto;</span>
+
+    }
+
+    @Override
+    public List&lt;Presupuesto&gt; obtenerTodos() {
+<span class="nc" id="L81">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+
+    }
+
+    @Override
+    public Presupuesto obtener(Long id) throws DAOException {
+<span class="nc" id="L87">        PreparedStatement stat = null;</span>
+<span class="nc" id="L88">        ResultSet rs = null;</span>
+<span class="nc" id="L89">        Presupuesto c = null;</span>
+        try {
+<span class="nc" id="L91">            stat = conn.prepareStatement(GETONE);</span>
+<span class="nc" id="L92">            stat.setLong(1, id);</span>
+<span class="nc" id="L93">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L95">                c = convertir(rs);</span>
+            } else {
+<span class="nc" id="L97">                throw new DAOException(&quot;No se ha encntrado ese registro&quot;);</span>
+            }
+<span class="nc" id="L99">        } catch (SQLException e) {</span>
+<span class="nc" id="L100">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L102" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L104">                    rs.close();</span>
+<span class="nc" id="L105">                } catch (SQLException e) {</span>
+<span class="nc" id="L106">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L107">                }</span>
+            }
+<span class="nc bnc" id="L109" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L111">                    stat.close();</span>
+<span class="nc" id="L112">                } catch (SQLException e) {</span>
+<span class="nc" id="L113">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L114">                }</span>
+            }
+        }
+<span class="nc" id="L117">        return c;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

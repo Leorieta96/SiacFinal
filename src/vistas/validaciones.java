@@ -33,6 +33,7 @@ public class validaciones {
                 Float.parseFloat(n);
                 return true;
             } catch (NumberFormatException nfe) {
+               
                 return false;
             }
         } else {

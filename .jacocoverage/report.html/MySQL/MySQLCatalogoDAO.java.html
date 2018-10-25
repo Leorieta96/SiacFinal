@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MySQLCatalogoDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">MySQL</a> &gt; <span class="el_source">MySQLCatalogoDAO.java</span></div><h1>MySQLCatalogoDAO.java</h1><pre class="source lang-java linenums">package MySQL;
+
+import dao.CatalogoDAO;
+import dao.DAOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.Catalogo;
+
+public class MySQLCatalogoDAO implements CatalogoDAO {
+
+<span class="nc" id="L18">    final String INSERT = &quot;INSERT INTO catalogo (fecha, cuit) VALUES ( ?, ?)&quot;;</span>
+<span class="nc" id="L19">    final String UPDATE = &quot;UPDATE catalogo SET fecha = ?&quot;;</span>
+<span class="nc" id="L20">    final String DELETE = &quot;DELETE FROM catalogo WHERE idCatalogo = ?&quot;;</span>
+<span class="nc" id="L21">    final String GETALL = &quot;SELECT *  FROM `catalogo`&quot;;</span>
+<span class="nc" id="L22">    final String GETONE = &quot;SELECT *  FROM `catalogo` WHERE `idCatalogo` = ?&quot;;</span>
+
+<span class="nc" id="L24">    private Long IdGenerated = null;</span>
+    private Connection conn;
+
+<span class="nc" id="L27">    public MySQLCatalogoDAO(Connection conn) {</span>
+<span class="nc" id="L28">        this.conn = conn;</span>
+<span class="nc" id="L29">    }</span>
+
+    @Override
+    public void insertar(Catalogo a) throws DAOException {
+<span class="nc" id="L33">        PreparedStatement stat = null;</span>
+<span class="nc" id="L34">        ResultSet rs = null;</span>
+        try {
+<span class="nc" id="L36">            stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);</span>
+<span class="nc" id="L37">            stat.setDate(1, a.getFecha());</span>
+<span class="nc" id="L38">            stat.setLong(2, a.getCuit());</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L40">                System.out.println(&quot;Puede q no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L42">            rs = stat.getGeneratedKeys();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L44">                a.setIdCatalogo(rs.getLong(1));</span>
+<span class="nc" id="L45">                IdGenerated = rs.getLong(1);</span>
+            } else {
+<span class="nc" id="L47">                throw new DAOException(&quot;Puede que no se haya generado&quot;);</span>
+            }
+<span class="nc" id="L49">        } catch (SQLException ex) {</span>
+<span class="nc" id="L50">            throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L52" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L54">                    rs.close();</span>
+<span class="nc" id="L55">                } catch (SQLException e) {</span>
+<span class="nc" id="L56">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L57">                }</span>
+            }
+<span class="nc bnc" id="L59" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L61">                    stat.close();</span>
+<span class="nc" id="L62">                } catch (SQLException ex) {</span>
+<span class="nc" id="L63">                    throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+<span class="nc" id="L64">                }</span>
+            }
+        }
+<span class="nc" id="L67">    }</span>
+
+    @Override
+    public void eliminar(Catalogo a) throws DAOException {
+<span class="nc" id="L71">        PreparedStatement stat = null;</span>
+        try {
+<span class="nc" id="L73">            stat = conn.prepareStatement(DELETE);</span>
+<span class="nc" id="L74">            stat.setLong(1, a.getIdCatalogo());</span>
+            //stat.setLong(1, id);
+<span class="nc bnc" id="L76" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L77">                System.out.println(&quot;Puede que no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L79">        } catch (SQLException ex) {</span>
+<span class="nc" id="L80">            throw new DAOException(&quot;Error delete&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L82" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L84">                    stat.close();</span>
+<span class="nc" id="L85">                } catch (SQLException ex) {</span>
+<span class="nc" id="L86">                    throw new DAOException(&quot;Error delete&quot;, ex);</span>
+
+<span class="nc" id="L88">                }</span>
+            }
+        }
+<span class="nc" id="L91">    }</span>
+
+    @Override
+    public void modificar(Catalogo a) {
+<span class="nc" id="L95">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    private Catalogo convertir(ResultSet rs) throws SQLException {
+<span class="nc" id="L99">        Long id = (long) rs.getInt(&quot;idCatalogo&quot;);</span>
+<span class="nc" id="L100">        Catalogo catalogo = new Catalogo(id, rs.getDate(&quot;fecha&quot;), (long) rs.getInt(&quot;cuit&quot;));</span>
+<span class="nc" id="L101">        return catalogo;</span>
+    }
+
+    @Override
+    public List&lt;Catalogo&gt; obtenerTodos() throws DAOException {
+<span class="nc" id="L106">        PreparedStatement stat = null;</span>
+<span class="nc" id="L107">        ResultSet rs = null;</span>
+<span class="nc" id="L108">        List&lt;Catalogo&gt; catalogos = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L110">            stat = conn.prepareStatement(GETALL);</span>
+<span class="nc" id="L111">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L113">                catalogos.add(convertir(rs));</span>
+            }
+<span class="nc" id="L115">        } catch (SQLException e) {</span>
+<span class="nc" id="L116">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L118" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L120">                    rs.close();</span>
+<span class="nc" id="L121">                } catch (SQLException e) {</span>
+<span class="nc" id="L122">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L123">                }</span>
+            }
+<span class="nc bnc" id="L125" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L127">                    stat.close();</span>
+<span class="nc" id="L128">                } catch (SQLException e) {</span>
+<span class="nc" id="L129">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L130">                }</span>
+            }
+        }
+<span class="nc" id="L133">        return catalogos;</span>
+    }
+
+    @Override
+    public Catalogo obtener(Long id) throws DAOException {
+<span class="nc" id="L138">        PreparedStatement stat = null;</span>
+<span class="nc" id="L139">        ResultSet rs = null;</span>
+<span class="nc" id="L140">        Catalogo c = null;</span>
+        try {
+<span class="nc" id="L142">            stat = conn.prepareStatement(GETONE);</span>
+<span class="nc" id="L143">            stat.setLong(1, id);</span>
+<span class="nc" id="L144">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L146">                c = convertir(rs);</span>
+            } else {
+<span class="nc" id="L148">                throw new DAOException(&quot;No se ha encntrado ese registro&quot;);</span>
+            }
+<span class="nc" id="L150">        } catch (SQLException e) {</span>
+<span class="nc" id="L151">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L153" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L155">                    rs.close();</span>
+<span class="nc" id="L156">                } catch (SQLException e) {</span>
+<span class="nc" id="L157">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L158">                }</span>
+            }
+<span class="nc bnc" id="L160" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L162">                    stat.close();</span>
+<span class="nc" id="L163">                } catch (SQLException e) {</span>
+<span class="nc" id="L164">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L165">                }</span>
+            }
+        }
+<span class="nc" id="L168">        return c;</span>
+    }
+
+//    public static void main(String[] args) throws SQLException, DAOException{
+//        Connection conn = null;
+//        try {
+//            conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/siac&quot;, &quot;root&quot;, &quot;&quot;);
+//            CatalogoDAO dao = new MySQLCatalogoDAO(conn);
+//            Catalogo c = new Catalogo(new Date(96,12,03), 215552L);
+//            //dao.insertar(c);
+//            //dao.eliminar(c);
+//            List&lt;Catalogo&gt; catalogo = dao.obtenerTodos();
+//            for(Catalogo a: catalogo){
+//                System.out.println(catalogo.toString());
+//            }
+//        } finally {
+//            if(conn != null){
+//                conn.close();
+//            }
+//        }
+//        
+//    }   
+    @Override
+    public Long getIdGenerated() {
+<span class="nc" id="L192">        Long id = IdGenerated;</span>
+<span class="nc" id="L193">        IdGenerated = null;</span>
+<span class="nc" id="L194">        return id;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
