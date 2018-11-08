@@ -5,24 +5,43 @@
  */
 package modelo;
 
+import java.sql.Date;
+
 /**
  *
  * @author Alumnos
  */
 public class logUsuarios {
-    
     private Long id;
-    private Long fecha;
+    private Long cuit;
+    private Date fecha;
     private String accion;
     private Long idAccion;
 
-    public logUsuarios(Long id, Long fecha, String accion, Long idAccion) {
-        this.id = id;
+    public logUsuarios(Long cuit, Date fecha, String accion, Long idAccion) {
+        this.cuit = cuit;
         this.fecha = fecha;
         this.accion = accion;
         this.idAccion = idAccion;
     }
 
+    public logUsuarios(Long id, Long cuit, Date fecha, String accion, Long idAccion) {
+        this.id = id;
+        this.cuit = cuit;
+        this.fecha = fecha;
+        this.accion = accion;
+        this.idAccion = idAccion;
+    }
+
+    
+    public Long getCuit() {
+        return cuit;
+    }
+
+    public void setCuit(Long cuit) {
+        this.cuit = cuit;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -31,11 +50,11 @@ public class logUsuarios {
         this.id = id;
     }
 
-    public Long getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(Long fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
