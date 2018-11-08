@@ -45,7 +45,8 @@ public class validacionesTest {
         System.out.println("isNumber");
         String n = "8";
         boolean expResult = true;
-        boolean result = validaciones.isNumber(n);
+        validaciones val = new validaciones();
+        boolean result = val.isNumber(n);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

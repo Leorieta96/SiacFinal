@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MySQLLogDAO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;ProyectoTaller&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">MySQL</a> &gt; <span class="el_source">MySQLLogDAO.java</span></div><h1>MySQLLogDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package MySQL;
+
+import dao.DAOException;
+import dao.LogDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import modelo.Catalogo;
+import modelo.logUsuarios;
+
+/**
+ *
+ * @author Alumnos
+ */
+public class MySQLLogDAO implements LogDAO{
+<span class="nc" id="L25">    final String INSERT = &quot;INSERT INTO catalogo (fecha, cuit) VALUES ( ?, ?)&quot;;</span>
+<span class="nc" id="L26">    final String UPDATE = &quot;UPDATE catalogo SET fecha = ?&quot;;</span>
+<span class="nc" id="L27">    final String DELETE = &quot;DELETE FROM catalogo WHERE idCatalogo = ?&quot;;</span>
+<span class="nc" id="L28">    final String GETALL = &quot;SELECT *  FROM `catalogo`&quot;;</span>
+<span class="nc" id="L29">    final String GETONE = &quot;SELECT *  FROM `catalogo` WHERE `idCatalogo` = ?&quot;;</span>
+
+<span class="nc" id="L31">    private Long IdGenerated = null;</span>
+    private Connection conn;
+
+<span class="nc" id="L34">    public MySQLLogDAO(Connection conn) {</span>
+<span class="nc" id="L35">        this.conn = conn;</span>
+<span class="nc" id="L36">    }</span>
+
+    @Override
+    public void insertar(logUsuarios a) throws DAOException {
+<span class="nc" id="L40">        PreparedStatement stat = null;</span>
+<span class="nc" id="L41">        ResultSet rs = null;</span>
+        try {
+<span class="nc" id="L43">            stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);</span>
+<span class="nc" id="L44">            stat.setLong(1, a.getCuit());</span>
+<span class="nc" id="L45">            stat.setDate(2, a.getFecha());</span>
+<span class="nc" id="L46">            stat.setString(3, a.getAccion());</span>
+<span class="nc" id="L47">            stat.setLong(4, a.getIdAccion());</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (stat.executeUpdate() == 0) {</span>
+<span class="nc" id="L49">                System.out.println(&quot;Puede q no se haya guardado&quot;);</span>
+            }
+<span class="nc" id="L51">            rs = stat.getGeneratedKeys();</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L53">                a.setId(rs.getLong(1));</span>
+<span class="nc" id="L54">                IdGenerated = rs.getLong(1);</span>
+            } else {
+<span class="nc" id="L56">                throw new DAOException(&quot;Puede que no se haya generado&quot;);</span>
+            }
+<span class="nc" id="L58">        } catch (SQLException ex) {</span>
+<span class="nc" id="L59">            throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+        } finally {
+<span class="nc bnc" id="L61" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L63">                    rs.close();</span>
+<span class="nc" id="L64">                } catch (SQLException e) {</span>
+<span class="nc" id="L65">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L66">                }</span>
+            }
+<span class="nc bnc" id="L68" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L70">                    stat.close();</span>
+<span class="nc" id="L71">                } catch (SQLException ex) {</span>
+<span class="nc" id="L72">                    throw new DAOException(&quot;Error en SQL&quot;, ex);</span>
+<span class="nc" id="L73">                }</span>
+            }
+        }
+<span class="nc" id="L76">    }</span>
+
+    @Override
+    public void eliminar(logUsuarios a) throws DAOException {
+<span class="nc" id="L80">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public void modificar(logUsuarios a) throws DAOException {
+<span class="nc" id="L85">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public List&lt;logUsuarios&gt; obtenerTodos() throws DAOException {
+<span class="nc" id="L90">        PreparedStatement stat = null;</span>
+<span class="nc" id="L91">        ResultSet rs = null;</span>
+<span class="nc" id="L92">        List&lt;logUsuarios&gt; list = new ArrayList&lt;&gt;();</span>
+        try {
+<span class="nc" id="L94">            stat = conn.prepareStatement(GETALL);</span>
+<span class="nc" id="L95">            rs = stat.executeQuery();</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L97">                list.add(convertir(rs));</span>
+            }
+<span class="nc" id="L99">        } catch (SQLException e) {</span>
+<span class="nc" id="L100">            throw new DAOException(&quot;Error SQL&quot;);</span>
+        } finally {
+<span class="nc bnc" id="L102" title="All 4 branches missed.">            if (rs != null) {</span>
+                try {
+<span class="nc" id="L104">                    rs.close();</span>
+<span class="nc" id="L105">                } catch (SQLException e) {</span>
+<span class="nc" id="L106">                    throw new DAOException(&quot;Error en SQL&quot;, e);</span>
+<span class="nc" id="L107">                }</span>
+            }
+<span class="nc bnc" id="L109" title="All 4 branches missed.">            if (stat != null) {</span>
+                try {
+<span class="nc" id="L111">                    stat.close();</span>
+<span class="nc" id="L112">                } catch (SQLException e) {</span>
+<span class="nc" id="L113">                    throw new DAOException(&quot;Error SQL&quot;, e);</span>
+<span class="nc" id="L114">                }</span>
+            }
+        }
+<span class="nc" id="L117">        return list;</span>
+    }
+
+    private logUsuarios convertir(ResultSet rs) throws SQLException {
+<span class="nc" id="L121">        Long id = (long) rs.getInt(&quot;id&quot;);</span>
+<span class="nc" id="L122">        logUsuarios log = new logUsuarios(id ,rs.getLong(&quot;cuit&quot;), rs.getDate(&quot;fecha&quot;), rs.getString(&quot;accion&quot;), rs.getLong(&quot;idAccion&quot;));</span>
+<span class="nc" id="L123">        return log;</span>
+    }
+    
+    @Override
+    public logUsuarios obtener(Long id) throws DAOException {
+<span class="nc" id="L128">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

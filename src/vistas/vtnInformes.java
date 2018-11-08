@@ -42,13 +42,27 @@ public class vtnInformes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnPedidoCliente = new javax.swing.JButton();
         btnPedidoProveedor = new javax.swing.JButton();
         jTextArea1 = new javax.swing.JTextArea();
         jTextArea3 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+
+        jDialog1.getContentPane().setLayout(null);
+
+        jLabel4.setText("Historial");
+        jDialog1.getContentPane().add(jLabel4);
+        jLabel4.setBounds(250, 30, 60, 30);
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
+        jDialog1.getContentPane().add(jLabel3);
+        jLabel3.setBounds(0, 0, 600, 500);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -112,6 +126,15 @@ public class vtnInformes extends javax.swing.JFrame {
         getContentPane().add(jButton1);
         jButton1.setBounds(40, 320, 59, 23);
 
+        jButton2.setText("Historial de Acciones");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2);
+        jButton2.setBounds(180, 260, 160, 40);
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
         getContentPane().add(jLabel2);
         jLabel2.setBounds(0, 0, 500, 400);
@@ -158,6 +181,10 @@ public class vtnInformes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnPedidoClienteActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -176,8 +203,12 @@ public class vtnInformes extends javax.swing.JFrame {
     private javax.swing.JButton btnPedidoCliente;
     private javax.swing.JButton btnPedidoProveedor;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
     // End of variables declaration//GEN-END:variables
