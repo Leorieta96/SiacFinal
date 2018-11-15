@@ -13,4 +13,5 @@ import modelo.logUsuarios;
  */
 public interface LogDAO extends DAO<logUsuarios,Long>{
     
+    
 }

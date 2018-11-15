@@ -44,6 +44,11 @@ public class vtnInformes extends javax.swing.JFrame {
 
         jDialog1 = new javax.swing.JDialog();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnPedidoCliente = new javax.swing.JButton();
@@ -58,7 +63,25 @@ public class vtnInformes extends javax.swing.JFrame {
 
         jLabel4.setText("Historial");
         jDialog1.getContentPane().add(jLabel4);
-        jLabel4.setBounds(250, 30, 60, 30);
+        jLabel4.setBounds(170, 40, 60, 30);
+
+        jLabel5.setText("Usuario: ");
+        jDialog1.getContentPane().add(jLabel5);
+        jLabel5.setBounds(60, 120, 50, 20);
+        jDialog1.getContentPane().add(txtUsuario);
+        txtUsuario.setBounds(100, 120, 120, 20);
+
+        jButton3.setText("Buscar");
+        jDialog1.getContentPane().add(jButton3);
+        jButton3.setBounds(230, 120, 65, 23);
+
+        jLabel6.setText("Fecha:");
+        jDialog1.getContentPane().add(jLabel6);
+        jLabel6.setBounds(60, 160, 50, 20);
+
+        jButton4.setText("Buscar");
+        jDialog1.getContentPane().add(jButton4);
+        jButton4.setBounds(230, 160, 65, 23);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
         jDialog1.getContentPane().add(jLabel3);
@@ -204,12 +227,17 @@ public class vtnInformes extends javax.swing.JFrame {
     private javax.swing.JButton btnPedidoProveedor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
