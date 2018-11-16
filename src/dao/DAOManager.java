@@ -25,4 +25,5 @@ public interface DAOManager {
     PedidoProveedorDAO getPedidoProveedorDAO();
     ProveedorDAO getProveedorDAO();
     PresupuestoDAO getPresupuestoDAO();
+    LogDAO getLogDAO();
 }

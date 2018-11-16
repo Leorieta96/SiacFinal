@@ -13,8 +13,8 @@ import modelo.PedidoProveedor;
 
 public class MySQLPedidoProveedorDAO implements PedidoProveedorDAO {
 
-    final String INSERT = "INSERT INTO PedidoProveedor (fechaEmision, estado, cuit) VALUES ( ?, ?, ?)";
-    final String UPDATE = "UPDATE `pedidoproveedor` SET `fechaEmision` = ?, `estado` = ?, `cuit` = ? WHERE `pedidoproveedor`.`idPedidoProveedor` = ?";
+    final String INSERT = "INSERT INTO PedidoProveedor (fechaEmision, estado, cuit, idLog) VALUES ( ?, ?, ?, ?)";
+    final String UPDATE = "UPDATE `pedidoproveedor` SET `fechaEmision` = ?, `estado` = ?, `cuit` = ?, `idLog` = ? WHERE `pedidoproveedor`.`idPedidoProveedor` = ?";
     final String DELETE = "DELETE FROM PedidoProveedor WHERE idPedidoProveedor = ? ";
     final String GETALL = "SELECT idPedidoProveedor, fechaEmision, estado, cuit";
     final String GETONE = "SELECT * FROM `pedidoproveedor` WHERE `idPedidoProveedor` = ?";
@@ -34,6 +34,7 @@ public class MySQLPedidoProveedorDAO implements PedidoProveedorDAO {
             stat.setDate(1, a.getFechaEmision());
             stat.setBoolean(2, a.getEstado());
             stat.setLong(3, a.getCuit());
+            stat.setLong(4,a.getIdLog());
             if (stat.executeUpdate() == 0) {
                 System.out.println("Puede q no se haya guardado");
             }
@@ -106,7 +107,7 @@ public class MySQLPedidoProveedorDAO implements PedidoProveedorDAO {
     }
 
     private PedidoProveedor convertir(ResultSet rs) throws SQLException {
-        PedidoProveedor pedido = new PedidoProveedor(null, rs.getDate("fechaEmision"), rs.getBoolean("estado"), rs.getLong("cuit"));
+        PedidoProveedor pedido = new PedidoProveedor(null, rs.getDate("fechaEmision"), rs.getBoolean("estado"), rs.getLong("cuit"), rs.getLong("idLog"));
         pedido.setIdPedidoProveedor(rs.getLong("idPedidoProveedor"));
         return pedido;
 

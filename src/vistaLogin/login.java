@@ -119,13 +119,13 @@ public class login extends javax.swing.JFrame {
             
             mod.setUsuario(txtUsuario.getText());
             mod.setPassword(nuevoPass);
-            
-            if (modSql.login(mod)) {
+            int id = modSql.login(mod);
+            if (id != 0) {
                 try {
                     Inicio.frmLog = null;
                     this.dispose();
                     
-                    home frmHome = new home(mod.getIdTipo());
+                    home frmHome = new home(mod.getIdTipo(), id);
                     frmHome.setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);

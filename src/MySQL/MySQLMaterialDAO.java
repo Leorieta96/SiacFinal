@@ -14,7 +14,7 @@ import modelo.Material;
 
 public class MySQLMaterialDAO implements MaterialDAO {
 
-    final String INSERT = "INSERT INTO `material` (`nombre`, `descripcion`, `stockMaterial`, `precioUnitarioM`, `rubro`) VALUES ( ?, ?, ?, ?, ?)";
+    final String INSERT = "INSERT INTO `material` (`nombre`, `descripcion`, `stockMaterial`, `precioUnitarioM`, `rubro`, `idLog` ) VALUES ( ?, ?, ?, ?, ?,?)";
     final String UPDATE = "UPDATE `material` SET `nombre` = ?, `descripcion` = ?, `stockMaterial` = ?, `precioUnitarioM` = ?, `rubro` = ? WHERE `material`.`idMaterial` = ? ";
     final String DELETE = "DELETE FROM catalogo WHERE idCatalogo = ?";
     final String GETALL = "SELECT * FROM `material`";
@@ -49,6 +49,7 @@ public class MySQLMaterialDAO implements MaterialDAO {
             stat.setLong(4, a.getPrecioUnitario());
             stat.setString(5, a.getRubro());
             stat.setLong(6, a.getidMaterial());
+            stat.setLong(7, a.getIdLog());
             if (stat.executeUpdate() == 0) {
                 throw new DAOException("Puede q no se haya guardado");
             }
@@ -206,12 +207,12 @@ public class MySQLMaterialDAO implements MaterialDAO {
 //    }
     private Material convertir(ResultSet rs) throws SQLException {
         Long id = rs.getLong("idMaterial");
-        Material material = new Material(id, rs.getString("nombre"), rs.getString("descripcion"), rs.getInt("stockMaterial"), rs.getLong("precioUnitarioM"), rs.getString("rubro"));
+        Material material = new Material(id, rs.getString("nombre"), rs.getString("descripcion"), rs.getInt("stockMaterial"), rs.getLong("precioUnitarioM"), rs.getString("rubro"),rs.getLong("idLog"));
         return material;
     }
 
     private Material convertir2(ResultSet rs) throws SQLException {
-        Material mat = new Material(rs.getLong("idMaterial"), rs.getString("tipoMaterial"), rs.getString("descripcion"), rs.getInt("stockMaterial"), rs.getLong("precioUnitario"), rs.getString("rubro"));
+        Material mat = new Material(rs.getLong("idMaterial"), rs.getString("tipoMaterial"), rs.getString("descripcion"), rs.getInt("stockMaterial"), rs.getLong("precioUnitario"), rs.getString("rubro"),rs.getLong("idLog"));
         return mat;
     }
 

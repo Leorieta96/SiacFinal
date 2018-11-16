@@ -12,6 +12,7 @@ import java.sql.Date;
  * @author Alumnos
  */
 public class logUsuarios {
+
     private Long id;
     private Long cuit;
     private Date fecha;
@@ -33,7 +34,6 @@ public class logUsuarios {
         this.idAccion = idAccion;
     }
 
-    
     public Long getCuit() {
         return cuit;
     }
@@ -41,7 +41,7 @@ public class logUsuarios {
     public void setCuit(Long cuit) {
         this.cuit = cuit;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -73,9 +73,4 @@ public class logUsuarios {
     public void setIdAccion(Long idAccion) {
         this.idAccion = idAccion;
     }
-    
-    
-    
-    
-    
 }

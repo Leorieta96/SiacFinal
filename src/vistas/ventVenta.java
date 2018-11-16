@@ -52,17 +52,19 @@ public class ventVenta extends javax.swing.JFrame {
     List<DetallePresupuesto> listDetalle = new ArrayList<>();
     private List<Material> listamateriales = new ArrayList<>();
     private List<Material> listaseleccionados = new ArrayList<>();
-    int fila = 0;
-    float total = 0;
-    int mod;
+    private int fila = 0;
+    private float total = 0;
+    private int mod;
+    private int idUsuario;
 
     /**
      * Creates new form vtcompra
      */
-    public ventVenta(DAOManager manager, int mod) throws SQLException {
+    public ventVenta(DAOManager manager, int mod, int idUsuario) throws SQLException {
         ventVenta.manager = manager;
         initComponents();
         this.mod = mod;
+        this.idUsuario = idUsuario;
     }
 
     /**
@@ -779,7 +781,7 @@ public class ventVenta extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         home ventaHome;
         try {
-            ventaHome = new home(mod);
+            ventaHome = new home(mod, idUsuario);
             ventaHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);

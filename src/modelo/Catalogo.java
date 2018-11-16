@@ -3,19 +3,31 @@ package modelo;
 import java.sql.Date;
 
 public class Catalogo {
+
     private Long idCatalogo;
     private Date fecha;
     private Long cuit;
+    private Long idLog;
 
-    public Catalogo(Date fecha, Long cuit) {
+    public Catalogo(Date fecha, Long cuit, Long idLog) {
         this.fecha = fecha;
         this.cuit = cuit;
+        this.idLog = idLog;
     }
-    
-    public Catalogo(Long idCatalogo, Date fecha, Long cuit) {
+
+    public Catalogo(Long idCatalogo, Date fecha, Long cuit, Long idLog) {
         this.idCatalogo = idCatalogo;
         this.fecha = fecha;
         this.cuit = cuit;
+        this.idLog = idLog;
+    }
+
+    public Long getIdLog() {
+        return idLog;
+    }
+
+    public void setIdLog(Long idLog) {
+        this.idLog = idLog;
     }
 
     public Long getIdCatalogo() {
@@ -45,5 +57,5 @@ public class Catalogo {
     @Override
     public String toString() {
         return "Catalogo{" + "idCatalogo=" + idCatalogo + ", cuit=" + cuit + '}';
-    }    
+    }
 }

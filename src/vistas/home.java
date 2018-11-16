@@ -19,12 +19,12 @@ import java.util.logging.Logger;
 public class home extends javax.swing.JFrame {
 
     DAOManager manager;
-    int mod;
+    private int mod;
+    private int idUsuario;
 
     /**
      * Creates new form inicio
      */
-    
     private home() throws SQLException {
         this.manager = new MySQLDaoManager("localhost", "root", "", "siac");
         initComponents();
@@ -32,13 +32,14 @@ public class home extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
     }
-    
-    public home(int mod) throws SQLException {
+
+    public home(int mod, int idUsuario) throws SQLException {
         this.manager = new MySQLDaoManager("localhost", "root", "", "siac");
         initComponents();
         setSize(800, 510);
         setResizable(false);
         setLocationRelativeTo(null);
+        this.idUsuario = idUsuario;
         this.mod = mod;
         if (mod == 1) {
             btnCompra.setVisible(false);
@@ -48,7 +49,7 @@ public class home extends javax.swing.JFrame {
             btnCompra.setVisible(true);
             btnVenta.setVisible(false);
             btnInforme.setVisible(true);
-        }else{
+        } else {
             btnCompra.setVisible(true);
             btnVenta.setVisible(true);
             btnInforme.setVisible(true);
@@ -179,7 +180,7 @@ public class home extends javax.swing.JFrame {
         // TODO add your handling code here:
         Compra ventanaCompra;
         try {
-            ventanaCompra = new Compra(manager, mod);
+            ventanaCompra = new Compra(manager, mod, idUsuario);
             ventanaCompra.setVisible(true);
             ventanaCompra.setSize(500, 400);
             ventanaCompra.setResizable(false);
@@ -204,19 +205,18 @@ public class home extends javax.swing.JFrame {
     private void btnVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentaActionPerformed
         ventVenta ventanaVenta;
         try {
-            ventanaVenta = new ventVenta(manager, mod);
+            ventanaVenta = new ventVenta(manager, mod, idUsuario);
             ventanaVenta.setVisible(true);
             ventanaVenta.setTitle("Venta");
             ventanaVenta.setSize(500, 400);
         } catch (SQLException ex) {
             Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         this.dispose();
     }//GEN-LAST:event_btnVentaActionPerformed
 
     private void btnInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformeActionPerformed
-        vtnInformes vtn = new vtnInformes(manager, mod);
+        vtnInformes vtn = new vtnInformes(manager, mod, idUsuario);
         vtn.setTitle("Informes");
         vtn.setVisible(true);
         vtn.setSize(500, 400);

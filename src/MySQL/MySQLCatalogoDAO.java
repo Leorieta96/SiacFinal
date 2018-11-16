@@ -15,7 +15,7 @@ import modelo.Catalogo;
 
 public class MySQLCatalogoDAO implements CatalogoDAO {
 
-    final String INSERT = "INSERT INTO catalogo (fecha, cuit) VALUES ( ?, ?)";
+    final String INSERT = "INSERT INTO catalogo (fecha, cuit, idLog) VALUES ( ?, ?, ?)";
     final String UPDATE = "UPDATE catalogo SET fecha = ?";
     final String DELETE = "DELETE FROM catalogo WHERE idCatalogo = ?";
     final String GETALL = "SELECT *  FROM `catalogo`";
@@ -36,6 +36,7 @@ public class MySQLCatalogoDAO implements CatalogoDAO {
             stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             stat.setDate(1, a.getFecha());
             stat.setLong(2, a.getCuit());
+            stat.setLong(3, a.getIdLog());
             if (stat.executeUpdate() == 0) {
                 System.out.println("Puede q no se haya guardado");
             }
@@ -97,7 +98,7 @@ public class MySQLCatalogoDAO implements CatalogoDAO {
 
     private Catalogo convertir(ResultSet rs) throws SQLException {
         Long id = (long) rs.getInt("idCatalogo");
-        Catalogo catalogo = new Catalogo(id, rs.getDate("fecha"), (long) rs.getInt("cuit"));
+        Catalogo catalogo = new Catalogo(id, rs.getDate("fecha"), (long) rs.getInt("cuit"), (long) rs.getInt("idLog"));
         return catalogo;
     }
 

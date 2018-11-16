@@ -14,18 +14,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Catalogo;
 import modelo.logUsuarios;
 
 /**
  *
  * @author Alumnos
  */
-public class MySQLLogDAO implements LogDAO{
-    final String INSERT = "INSERT INTO catalogo (fecha, cuit) VALUES ( ?, ?)";
-    final String UPDATE = "UPDATE catalogo SET fecha = ?";
+public class MySQLLogDAO implements LogDAO {
+
+    final String INSERT = "INSERT INTO `logusuarios` ( `idUsuario`, `fecha`, `accion`, `idAccion`) VALUES (?, ?, ?, ?)";
+    final String UPDATE = "UPDATE `logusuarios` SET `idAccion` = ? WHERE `logusuarios`.`id` = ? ";
     final String DELETE = "DELETE FROM catalogo WHERE idCatalogo = ?";
-    final String GETALL = "SELECT *  FROM `catalogo`";
+    final String GETALL = "SELECT *  FROM `logusuarios`";
     final String GETONE = "SELECT *  FROM `catalogo` WHERE `idCatalogo` = ?";
 
     private Long IdGenerated = null;
@@ -82,7 +82,22 @@ public class MySQLLogDAO implements LogDAO{
 
     @Override
     public void modificar(logUsuarios a) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stat = null;
+        try {
+            stat = conn.prepareStatement(UPDATE);
+            stat.setLong(1, a.getIdAccion());
+            stat.setLong(2, a.getId());
+        } catch (SQLException ex) {
+            throw new DAOException("Error en SQL", ex);
+        } finally {
+            if (stat != null) {
+                try {
+                    stat.close();
+                } catch (SQLException ex) {
+                    throw new DAOException("Error en sql", ex);
+                }
+            }
+        }
     }
 
     @Override
@@ -119,14 +134,13 @@ public class MySQLLogDAO implements LogDAO{
 
     private logUsuarios convertir(ResultSet rs) throws SQLException {
         Long id = (long) rs.getInt("id");
-        logUsuarios log = new logUsuarios(id ,rs.getLong("cuit"), rs.getDate("fecha"), rs.getString("accion"), rs.getLong("idAccion"));
+        logUsuarios log = new logUsuarios(id, rs.getLong("cuit"), rs.getDate("fecha"), rs.getString("accion"), rs.getLong("idAccion"));
         return log;
     }
-    
+
     @Override
     public logUsuarios obtener(Long id) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

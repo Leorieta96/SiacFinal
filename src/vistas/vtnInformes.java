@@ -25,12 +25,14 @@ import net.sf.jasperreports.view.JasperViewer;
 public class vtnInformes extends javax.swing.JFrame {
 
     private final DAOManager manager;
-    int mod;
+    private int mod;
+    private int idUsuario;
     
-    public vtnInformes(DAOManager manager, int mod) {
-        this.manager = manager;
+    public vtnInformes(DAOManager manager, int mod, int idUsuario) {
         initComponents();
+        this.manager = manager;
         this.mod = mod;
+        this.idUsuario = idUsuario;
     }
 
     /**
@@ -182,7 +184,7 @@ public class vtnInformes extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            home vtnHome = new home(mod);
+            home vtnHome = new home(mod,idUsuario);
             vtnHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(vtnInformes.class.getName()).log(Level.SEVERE, null, ex);

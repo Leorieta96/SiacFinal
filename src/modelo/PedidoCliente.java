@@ -9,17 +9,17 @@ public class PedidoCliente {
     private Date fechaEmision;
     private Date fechaRecibido;
     private Long dni;
+    private Long idLog;
 
-    public PedidoCliente(Long idPedidoCliente, String estadoPedidoC, Double totalPedidoC, Date fechaEmision, Date fechaRecibido, Long dni) {
+    public PedidoCliente(Long idPedidoCliente, String estadoPedidoC, Double totalPedidoC, Date fechaEmision, Date fechaRecibido, Long dni, Long idLog) {
         this.idPedidoCliente = idPedidoCliente;
         this.estadoPedidoC = estadoPedidoC;
         this.totalPedidoC = totalPedidoC;
         this.fechaEmision = fechaEmision;
         this.fechaRecibido = fechaRecibido;
         this.dni = dni;
+        this.idLog = idLog;
     }
-
-   
 
     public Long getIdPedidoCliente() {
         return idPedidoCliente;
@@ -67,6 +67,14 @@ public class PedidoCliente {
 
     public void setdni(Long dni) {
         this.dni = dni;
+    }
+
+    public Long getIdLog() {
+        return idLog;
+    }
+
+    public void setIdLog(Long idLog) {
+        this.idLog = idLog;
     }
 
     @Override

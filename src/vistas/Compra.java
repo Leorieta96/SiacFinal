@@ -25,6 +25,7 @@ import modelo.ItemCatalogo;
 import modelo.Material;
 import modelo.PedidoProveedor;
 import modelo.Proveedor;
+import modelo.logUsuarios;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -47,7 +48,8 @@ public class Compra extends javax.swing.JFrame {
     List<Material> datosComprarM = new ArrayList<>();
     List<Proveedor> proveedores = new ArrayList<>();
     Proveedor proveedorCompra;
-    int mod;
+    private int mod;
+    private int idUsusario;
 
     /**
      * Creates new form Compra
@@ -55,10 +57,11 @@ public class Compra extends javax.swing.JFrame {
      * @param manager
      * @throws dao.DAOException
      */
-    public Compra(DAOManager manager, int mod) throws DAOException {
+    public Compra(DAOManager manager, int mod, int idUsuario) throws DAOException {
         initComponents();
         this.manager = manager;
         this.mod = mod;
+        this.idUsusario = idUsuario;
     }
 
     /**
@@ -781,7 +784,7 @@ public class Compra extends javax.swing.JFrame {
     private void btnAtrasCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasCActionPerformed
         home ventHome;
         try {
-            ventHome = new home(mod);
+            ventHome = new home(mod, idUsusario);
             ventHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
@@ -847,8 +850,13 @@ public class Compra extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
         java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-        Catalogo catalogo = new Catalogo(sqlDate, Long.valueOf(txtCuitRC.getText()));
-
+        logUsuarios log = new logUsuarios((long) idUsusario, sqlDate, "Agregar Catalogo", 0L);
+        try {
+            manager.getLogDAO().insertar(log);
+        } catch (DAOException ex) {
+            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Catalogo catalogo = new Catalogo(sqlDate, Long.valueOf(txtCuitRC.getText()), log.getId());
         try {
             manager.getCatalogoDAO().insertar(catalogo);
             Long id = catalogo.getIdCatalogo();
@@ -862,6 +870,12 @@ public class Compra extends javax.swing.JFrame {
             }
             fila = 1;
 
+        } catch (DAOException ex) {
+            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        log.setIdAccion(catalogo.getIdCatalogo());
+        try {
+            manager.getLogDAO().modificar(log);
         } catch (DAOException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1050,34 +1064,42 @@ public class Compra extends javax.swing.JFrame {
     private void btnGuardarRPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarRPTActionPerformed
         try {
             // TODO add your handling code here:
+            Long idP = 0L;
             LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
             java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-            PedidoProveedor pedido = new PedidoProveedor(null, sqlDate, false, proveedorCompra.getCuit());
+            logUsuarios log = new logUsuarios((long) idUsusario, sqlDate, "Realizar Pedido", 0L);
             try {
-                manager.getPedidoProveedorDAO().insertar(pedido);
-            } catch (DAOException ex) {
-                Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Long idP = pedido.getIdPedidoProveedor();
-            int i = 0;
-            for (Material m : datosComprarM) {
-                int cant = (int) (tablePedidoFinal.getValueAt(i, 2));
-                double subtotal = cant * m.getPrecioUnitario();
-                DetallePedidoProveedor detalle = new DetallePedidoProveedor(
-                        idP, m.getidMaterial(), m.getNombre() + " "
-                        + m.getdescripcion(), cant, subtotal);
-                detalle.setId(detalle.new Id(idP, m.getidMaterial()));
+                manager.getLogDAO().insertar(log);
+                PedidoProveedor pedido = new PedidoProveedor(null, sqlDate, false, proveedorCompra.getCuit(), log.getId());
                 try {
-                    manager.getDetallePedidoProveedorDAO().insertar(detalle);
+                    manager.getPedidoProveedorDAO().insertar(pedido);
                 } catch (DAOException ex) {
                     Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                i++;
+                idP = pedido.getIdPedidoProveedor();
+                int i = 0;
+                for (Material m : datosComprarM) {
+                    int cant = (int) (tablePedidoFinal.getValueAt(i, 2));
+                    double subtotal = cant * m.getPrecioUnitario();
+                    DetallePedidoProveedor detalle = new DetallePedidoProveedor(
+                            idP, m.getidMaterial(), m.getNombre() + " "
+                            + m.getdescripcion(), cant, subtotal);
+                    detalle.setId(detalle.new Id(idP, m.getidMaterial()));
+                    try {
+                        manager.getDetallePedidoProveedorDAO().insertar(detalle);
+                    } catch (DAOException ex) {
+                        Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    i++;
+                }
+                log.setIdAccion(idP);
+                manager.getLogDAO().modificar(log);
+            } catch (DAOException ex) {
+                Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
             }
             datosComprar.clear();
             dialogRealizarPedidoTwo.dispose();
             JasperReport reporte = null;
-            //String path = "src\\informes\\pedidoProveedorGenerado.jasper";
             Map parametro = new HashMap();
             parametro.put("idPedidoProveedor", idP);
             reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/pedidoProveedorGenerado.jasper"));

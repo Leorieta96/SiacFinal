@@ -13,8 +13,8 @@ import modelo.PedidoCliente;
 
 public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
 
-    final String INSERT = "INSERT INTO PedidoCliente ( estadoPedidoC, totalPedidoC, fechaEmision, fechaRecibido,dni) VALUES ( ?, ?, ?, ?,?)";
-    final String UPDATE = "UPDATE `pedidocliente` SET `estadoPedidoC` = ?, `totalPedidoC` = ?, `fechaEmision` = ?, `fechaRecibido` = ? WHERE `pedidocliente`.`idPedidoCliente` = ?";
+    final String INSERT = "INSERT INTO PedidoCliente ( estadoPedidoC, totalPedidoC, fechaEmision, fechaRecibido, dni, idLog) VALUES ( ?, ?, ?, ?, ?, ?)";
+    final String UPDATE = "UPDATE `pedidocliente` SET `estadoPedidoC` = ?, `totalPedidoC` = ?, `fechaEmision` = ?, `fechaRecibido` = ? `idLog` = ? WHERE `pedidocliente`.`idPedidoCliente` = ?";
     final String DELETE = "DELETE FROM PedidoCliente WHERE idPedidoCliente = ? ";
     final String GETALL = "SELECT idPedidoCliente, estadoPedidoC, totalPedidoC, fechaEmision, fechaRecibido,dni";
     final String GETONE = "SELECT * FROM `pedidocliente` WHERE `idPedidoCliente` = ?";
@@ -36,6 +36,7 @@ public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
             stat.setDate(3, a.getFechaEmision());
             stat.setDate(4, a.getFechaRecibido());
             stat.setLong(5, a.getdni());
+            stat.setLong(6, a.getIdLog());
             if (stat.executeUpdate() == 0) {
                 System.out.println("Puede q no se haya guardado");
             }
@@ -93,6 +94,7 @@ public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
             stat.setDate(3, a.getFechaEmision());
             stat.setDate(4, a.getFechaRecibido());
             stat.setLong(5, a.getIdPedidoCliente());
+            stat.setLong(6, a.getIdLog());
             if (stat.executeUpdate() == 0) {
                 throw new DAOException("Puede q no se haya guardado");
             }
@@ -110,7 +112,7 @@ public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
     }
 
     private PedidoCliente convertir(ResultSet rs) throws SQLException {
-        PedidoCliente pedido = new PedidoCliente(null, rs.getString("estadoPedidoC"), rs.getDouble("totalPedidoC"), rs.getDate("fechaEmision"), rs.getDate("fechaRecibido"), rs.getLong("dni"));// falta el DNIIIIIII
+        PedidoCliente pedido = new PedidoCliente(null, rs.getString("estadoPedidoC"), rs.getDouble("totalPedidoC"), rs.getDate("fechaEmision"), rs.getDate("fechaRecibido"), rs.getLong("dni"), rs.getLong("idLog"));// falta el DNIIIIIII
         pedido.setIdPedidoCliente(rs.getLong("idPedidoCliente"));
         return pedido;
 

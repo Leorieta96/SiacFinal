@@ -12,6 +12,7 @@ import dao.DetallePedidoClienteDAO;
 import dao.DetallePedidoProveedorDAO;
 import dao.DetallePresupuestoDAO;
 import dao.ItemCalatalogoDAO;
+import dao.LogDAO;
 import dao.MaterialDAO;
 import dao.PedidoClienteDAO;
 import dao.PedidoProveedorDAO;
@@ -27,10 +28,10 @@ import modelo.Catalogo;
  *
  * @author leori
  */
-public class MySQLDaoManager implements dao.DAOManager{
-    
+public class MySQLDaoManager implements dao.DAOManager {
+
     private Connection conn;
-    
+
     private CatalogoDAO catalogo = null;
     private ClienteDAO cliente = null;
     private DetallePedidoClienteDAO detallePedidoCliente = null;
@@ -42,27 +43,27 @@ public class MySQLDaoManager implements dao.DAOManager{
     private PedidoProveedorDAO pedidoProveedor = null;
     private PresupuestoDAO presupuesto = null;
     private ProveedorDAO proveedor = null;
-    
+    private LogDAO log = null;
+
     public MySQLDaoManager(String host, String username, String password, String database) throws SQLException {
-        conn = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database, username, password );
+        conn = DriverManager.getConnection("jdbc:mysql://" + host + "/" + database, username, password);
     }
 
     public Connection getConn() {
         return conn;
     }
-    
+
     @Override
     public CatalogoDAO getCatalogoDAO() {
-        if(catalogo == null){
+        if (catalogo == null) {
             catalogo = new MySQLCatalogoDAO(conn);
         }
         return catalogo;
     }
 
-
     @Override
     public ClienteDAO getClienteDAO() {
-        if(cliente == null){
+        if (cliente == null) {
             cliente = new MySQLClienteDAO(conn);
         }
         return cliente;
@@ -70,7 +71,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public DetallePedidoClienteDAO getDetallePedidoDAO() {
-        if(detallePedidoCliente == null){
+        if (detallePedidoCliente == null) {
             detallePedidoCliente = new MySQLDetallePedidoClienteDAO(conn);
         }
         return detallePedidoCliente;
@@ -78,7 +79,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public DetallePedidoProveedorDAO getDetallePedidoProveedorDAO() {
-        if(detallePedidoProveedor == null){
+        if (detallePedidoProveedor == null) {
             detallePedidoProveedor = new MySQLDetallePedidoProveedorDAO(conn);
         }
         return detallePedidoProveedor;
@@ -86,7 +87,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public DetallePresupuestoDAO getDetallePresupuestoDAO() {
-        if(detallePresupuesto == null){
+        if (detallePresupuesto == null) {
             detallePresupuesto = new MySQLDetallePresupuestoDAO(conn);
         }
         return detallePresupuesto;
@@ -94,7 +95,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public ItemCalatalogoDAO getItemCalatalogoDAO() {
-        if(itemCalatalogo == null){
+        if (itemCalatalogo == null) {
             itemCalatalogo = new MySQLItemCatalogoDAO(conn);
         }
         return itemCalatalogo;
@@ -102,7 +103,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public MaterialDAO getMaterialDAO() {
-        if(material == null){
+        if (material == null) {
             material = new MySQLMaterialDAO(conn);
         }
         return material;
@@ -110,7 +111,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public PedidoClienteDAO getPedidoClienteDAO() {
-        if(pedidoCliente == null){
+        if (pedidoCliente == null) {
             pedidoCliente = new MySQLPedidoClienteDAO(conn);
         }
         return pedidoCliente;
@@ -118,7 +119,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public PedidoProveedorDAO getPedidoProveedorDAO() {
-        if(pedidoProveedor == null){
+        if (pedidoProveedor == null) {
             pedidoProveedor = new MySQLPedidoProveedorDAO(conn);
         }
         return pedidoProveedor;
@@ -126,7 +127,7 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public ProveedorDAO getProveedorDAO() {
-        if(proveedor == null){
+        if (proveedor == null) {
             proveedor = new MySQLProveedorDAO(conn);
         }
         return proveedor;
@@ -139,8 +140,17 @@ public class MySQLDaoManager implements dao.DAOManager{
 
     @Override
     public PresupuestoDAO getPresupuestoDAO() {
-        if(presupuesto == null){
-            presupuesto= new MySQLPresupuestoDAO(conn);
+        if (presupuesto == null) {
+            presupuesto = new MySQLPresupuestoDAO(conn);
         }
-        return presupuesto;}
+        return presupuesto;
+    }
+
+    @Override
+    public LogDAO getLogDAO() {
+        if (log == null) {
+            log = new MySQLLogDAO(conn);
+        }
+        return log;
+    }
 }

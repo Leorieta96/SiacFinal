@@ -38,7 +38,7 @@ public class SqlUsuarios extends Conexion {
         }
     }
 
-    public boolean login(Usuarios usr) {
+    public int login(Usuarios usr) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
@@ -55,16 +55,16 @@ public class SqlUsuarios extends Conexion {
                     usr.setId(rs.getInt(1));
                     usr.setNombre(rs.getString(4));
                     usr.setIdTipo(rs.getInt(5));
-                    return true;
+                    return rs.getInt(1);
                 } else {
-                    return false;
+                    return 0;
                 }
             }
 
-            return false;
+            return 0;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
-            return false;
+            return 0;
         } finally {
             try {
                 con.close();

@@ -7,12 +7,14 @@ public class PedidoProveedor {
     private Date fechaEmision;
     private boolean estado;
     private Long cuit;
+    private long idLog;
 
-    public PedidoProveedor(Long idPedidoProveedor, Date fechaEmision, boolean estado, Long cuit) {
+    public PedidoProveedor(Long idPedidoProveedor, Date fechaEmision, boolean estado, Long cuit, long idLog) {
         this.idPedidoProveedor = idPedidoProveedor;
         this.fechaEmision = fechaEmision;
         this.estado = estado;
         this.cuit = cuit;
+        this.idLog = idLog;
     }
 
     public Long getIdPedidoProveedor() {
@@ -45,6 +47,14 @@ public class PedidoProveedor {
 
     public void setCuit(Long cuit) {
         this.cuit = cuit;
+    }
+
+    public long getIdLog() {
+        return idLog;
+    }
+
+    public void setIdLog(long idLog) {
+        this.idLog = idLog;
     }
 
     @Override
