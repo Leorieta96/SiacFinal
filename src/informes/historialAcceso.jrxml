@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1cff6ec-9fb7-48c7-910f-d94963d5e75e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombre" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT logusuarios.`id` AS logusuarios_id, logusuarios.`idUsuario` AS logusuarios_idUsuario, logusuarios.`fecha` AS logusuarios_fecha, logusuarios.`accion` AS logusuarios_accion, logusuarios.`idAccion` AS logusuarios_idAccion 
+FROM `logusuarios` logusuarios WHERE logusuarios.`idUsuario` = $P!{id}  ]]>
+	</queryString>
+	<field name="logusuarios_id" class="java.lang.Integer"/>
+	<field name="logusuarios_idUsuario" class="java.lang.Long"/>
+	<field name="logusuarios_fecha" class="java.sql.Timestamp"/>
+	<field name="logusuarios_accion" class="java.lang.String"/>
+	<field name="logusuarios_idAccion" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="151" y="10" width="289" height="59" uuid="1e501069-4485-43ed-8964-34b4c793931d"/>
+				<textElement>
+					<font size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Historial de Acceso]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="455" y="0" width="100" height="20" uuid="0ef4f8e0-a7cd-40fe-86d5-5b7b23f269f4"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="10" y="10" width="34" height="33" uuid="7dec2fa6-aa4d-49eb-9524-7967028d13d8"/>
+				<imageExpression><![CDATA["C:\\Users\\leori\\Desktop\\Siac\\SiacFinal\\src\\images\\home.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="45" y="17" width="60" height="20" uuid="9cb55cf6-366f-4835-9a19-9a7bbb923d20"/>
+				<textElement>
+					<font fontName="Cooper Std Black" size="16"/>
+				</textElement>
+				<text><![CDATA[SIAC]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="113" y="15" width="100" height="20" uuid="f14b5f60-729c-4462-9bb6-f6b6c66f6d54"/>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="51" y="15" width="63" height="20" uuid="bbbcc414-25d9-45a2-90b4-fc6c28f6e751"/>
+				<text><![CDATA[De usuario:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="359" y="41" width="100" height="20" uuid="5795d84d-e833-43d2-8277-a3b92e2d0bce"/>
+				<text><![CDATA[Fecha y Hora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="41" width="100" height="20" uuid="395626c2-e48d-4d0a-8700-ec0747e8d21d"/>
+				<text><![CDATA[Trasaccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="41" width="100" height="20" uuid="c8e38c9b-6ba6-4c1a-8ff4-ebd930d36b45"/>
+				<text><![CDATA[N° de Transaccion]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="359" y="8" width="100" height="20" uuid="e532052d-7180-4cf0-b013-bf615979d716"/>
+				<textFieldExpression><![CDATA[$F{logusuarios_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="8" width="100" height="20" uuid="61045063-c2af-474f-9ddf-03410b836b56"/>
+				<textFieldExpression><![CDATA[$F{logusuarios_accion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="8" width="100" height="20" uuid="accd6f3b-8d6a-4abf-b102-8e1593408f75"/>
+				<textFieldExpression><![CDATA[$F{logusuarios_idAccion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement x="215" y="15" width="80" height="20" uuid="cb299771-9fd1-4dfb-bdcb-65de22841d15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="295" y="15" width="40" height="20" uuid="c434d085-4cd5-43eb-a234-98ad00fae3c2"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

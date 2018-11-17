@@ -19,6 +19,7 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setSize(400,300);
+        btnRegistro.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -30,6 +31,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnRegistro = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -37,17 +39,17 @@ public class Inicio extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/homeOne.png"))); // NOI18N
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(280, 40, 30, 40);
+        jLabel4.setBounds(270, 110, 30, 40);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/home.png"))); // NOI18N
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(90, 40, 60, 50);
+        jLabel3.setBounds(90, 110, 60, 50);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("SIAC");
+        jLabel1.setText("Bienvenido");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(150, 40, 130, 40);
+        jLabel1.setBounds(100, 40, 210, 40);
 
         btnRegistro.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnRegistro.setText("Registro");
@@ -57,7 +59,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRegistro);
-        btnRegistro.setBounds(80, 150, 83, 25);
+        btnRegistro.setBounds(160, 230, 83, 25);
 
         btnLogin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnLogin.setText("Login");
@@ -67,7 +69,13 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnLogin);
-        btnLogin.setBounds(250, 150, 65, 25);
+        btnLogin.setBounds(170, 180, 65, 25);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("SIAC");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(150, 110, 130, 40);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
         getContentPane().add(jLabel2);
@@ -82,6 +90,7 @@ public class Inicio extends javax.swing.JFrame {
             frmReg = new registro();
             frmReg.setVisible(true);
             frmReg.setSize(500,400);
+            this.dispose();
         }
 
     }//GEN-LAST:event_btnRegistroActionPerformed
@@ -91,6 +100,7 @@ public class Inicio extends javax.swing.JFrame {
             frmLog = new login();
             frmLog.setVisible(true);
             frmLog.setSize(400,300);
+            this.dispose();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -136,5 +146,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }

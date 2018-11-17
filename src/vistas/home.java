@@ -11,6 +11,8 @@ import dao.DAOManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static vistaLogin.Inicio.frmReg;
+import vistaLogin.registro;
 
 /**
  *
@@ -21,6 +23,7 @@ public class home extends javax.swing.JFrame {
     DAOManager manager;
     private int mod;
     private int idUsuario;
+    public static registro frmReg;
 
     /**
      * Creates new form inicio
@@ -72,6 +75,7 @@ public class home extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnRegistrar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -169,6 +173,15 @@ public class home extends javax.swing.JFrame {
         getContentPane().add(jLabel4);
         jLabel4.setBounds(500, 50, 30, 40);
 
+        btnRegistrar.setText("Registrar Usuario");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRegistrar);
+        btnRegistrar.setBounds(340, 340, 140, 40);
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
         getContentPane().add(jLabel2);
         jLabel2.setBounds(0, 0, 800, 520);
@@ -223,6 +236,15 @@ public class home extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnInformeActionPerformed
 
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        // TODO add your handling code here:
+        if (frmReg == null) {
+            frmReg = new registro();
+            frmReg.setVisible(true);
+            frmReg.setSize(500,400);
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -266,6 +288,7 @@ public class home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCompra;
     private javax.swing.JButton btnInforme;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVenta;
     private javax.swing.JLabel jLabel1;

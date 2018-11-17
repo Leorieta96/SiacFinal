@@ -8,10 +8,15 @@ package vistas;
 import MySQL.MySQLDaoManager;
 import dao.DAOManager;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import vistas.home;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modeloLogin.SqlUsuarios;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -28,7 +33,7 @@ public class vtnInformes extends javax.swing.JFrame {
     private final DAOManager manager;
     private int mod;
     private int idUsuario;
-    
+
     public vtnInformes(DAOManager manager, int mod, int idUsuario) {
         initComponents();
         this.manager = manager;
@@ -65,9 +70,11 @@ public class vtnInformes extends javax.swing.JFrame {
 
         dialogHistorial.getContentPane().setLayout(null);
 
-        jLabel4.setText("Historial");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Historial de Acciones");
         dialogHistorial.getContentPane().add(jLabel4);
-        jLabel4.setBounds(170, 40, 60, 30);
+        jLabel4.setBounds(90, 20, 260, 60);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -93,6 +100,11 @@ public class vtnInformes extends javax.swing.JFrame {
         btnBuscarHistorial.setBounds(270, 130, 65, 23);
 
         btnAtras.setText("Atrás");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
         dialogHistorial.getContentPane().add(btnAtras);
         btnAtras.setBounds(40, 240, 59, 23);
         dialogHistorial.getContentPane().add(dateHistorial);
@@ -192,12 +204,12 @@ public class vtnInformes extends javax.swing.JFrame {
         } catch (JRException ex) {
             Logger.getLogger(vtnInformes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_btnPedidoProveedorActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            home vtnHome = new home(mod,idUsuario);
+            home vtnHome = new home(mod, idUsuario);
             vtnHome.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(vtnInformes.class.getName()).log(Level.SEVERE, null, ex);
@@ -220,16 +232,42 @@ public class vtnInformes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPedidoClienteActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+        dialogHistorial.setVisible(true);
+        dialogHistorial.setSize(500,400);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnBuscarHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarHistorialActionPerformed
         // TODO add your handling code here:
-        if(validaciones.isString(txtUsuario.getText())){
-            Calendar date = dateHistorial.getSelectedDate();
-            
+        if (validaciones.isString(txtUsuario.getText())) {
+            try {
+                SqlUsuarios modSql = new SqlUsuarios();
+                Long id = modSql.existeUsuario(txtUsuario.getText());
+                if ( id != 0) {
+                    Calendar date = dateHistorial.getSelectedDate();
+                    java.util.Date date1 = new java.util.Date(date.getTimeInMillis());
+                    //Date date = cal.getTime();
+                    JasperReport reporte = null;
+                    Map parametro = new HashMap();
+                    parametro.put("id", id);
+                    parametro.put("nombre", txtUsuario.getText());
+                    parametro.put("fecha", new SimpleDateFormat("dd/MM/yyyy HH:MM:SS").format(date1));
+                    reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/historialAcceso.jasper"));
+                    JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
+                    JasperViewer view = new JasperViewer(jprint, false);
+                    view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                    view.setVisible(true);
+                }
+            } catch (JRException ex) {
+                Logger.getLogger(vtnInformes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
     }//GEN-LAST:event_btnBuscarHistorialActionPerformed
+
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+        dialogHistorial.dispose();
+    }//GEN-LAST:event_btnAtrasActionPerformed
 
     /**
      * @param args the command line arguments

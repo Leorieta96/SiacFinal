@@ -74,12 +74,12 @@ public class SqlUsuarios extends Conexion {
         }
     }
 
-    public int existeUsuario(String usuario) {
+    public Long existeUsuario(String usuario) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Connection con = getConexion();
 
-        String sql = "SELECT count(id) FROM usuarios WHERE usuario = ?";
+        String sql = "SELECT * FROM `usuarios` WHERE `usuario` LIKE ? ";
 
         try {
             ps = con.prepareStatement(sql);
@@ -87,14 +87,15 @@ public class SqlUsuarios extends Conexion {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt(1);
+                Long id = rs.getLong(1);
+                //return rs.getInt(id);
+                return rs.getLong(1);
             }
 
-            return 1;
-
+            return 0L;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
-            return 1;
+            return 0L;
         } finally {
             try {
                 con.close();

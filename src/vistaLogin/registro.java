@@ -56,12 +56,22 @@ public class registro extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         txtNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtNombre);
-        txtNombre.setBounds(170, 200, 200, 23);
+        txtNombre.setBounds(170, 200, 200, 25);
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtEmail);
-        txtEmail.setBounds(170, 240, 200, 23);
+        txtEmail.setBounds(170, 240, 200, 25);
 
         btnRegistrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnRegistrar.setText("Registrar");
@@ -71,7 +81,7 @@ public class registro extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnRegistrar);
-        btnRegistrar.setBounds(220, 330, 87, 25);
+        btnRegistrar.setBounds(210, 320, 110, 30);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -81,7 +91,7 @@ public class registro extends javax.swing.JFrame {
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(txtUsuario);
-        txtUsuario.setBounds(170, 80, 200, 23);
+        txtUsuario.setBounds(170, 80, 200, 25);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -115,11 +125,16 @@ public class registro extends javax.swing.JFrame {
 
         txtPassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(txtPassword);
-        txtPassword.setBounds(170, 120, 200, 23);
+        txtPassword.setBounds(170, 120, 200, 25);
 
         txtConfirmaPassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtConfirmaPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtConfirmaPasswordActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtConfirmaPassword);
-        txtConfirmaPassword.setBounds(170, 160, 200, 23);
+        txtConfirmaPassword.setBounds(170, 160, 200, 25);
 
         cbTipoEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Venta", "Compra" }));
         cbTipoEmpleado.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +143,7 @@ public class registro extends javax.swing.JFrame {
             }
         });
         getContentPane().add(cbTipoEmpleado);
-        cbTipoEmpleado.setBounds(190, 280, 90, 20);
+        cbTipoEmpleado.setBounds(190, 280, 90, 25);
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/home.png"))); // NOI18N
         getContentPane().add(jLabel7);
@@ -164,13 +179,10 @@ public class registro extends javax.swing.JFrame {
         } else {
 
             if (pass.equals(passC)) {
-
-                if (modSql.existeUsuario(txtUsuario.getText()) == 0) {
-
+                Long id = modSql.existeUsuario(txtUsuario.getText());
+                if ( id == 0) {
                     if (modSql.esEmail(txtEmail.getText())) {
-
                         String nuevoPass = Hash.sha1(pass);
-
                         mod.setUsuario(txtUsuario.getText());
                         mod.setPassword(nuevoPass);
                         mod.setNombre(txtNombre.getText());
@@ -208,6 +220,18 @@ public class registro extends javax.swing.JFrame {
     private void cbTipoEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoEmpleadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTipoEmpleadoActionPerformed
+
+    private void txtConfirmaPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmaPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConfirmaPasswordActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
 
     private void limpiar() {
         txtUsuario.setText("");
