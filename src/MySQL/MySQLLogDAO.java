@@ -23,7 +23,7 @@ import modelo.logUsuarios;
 public class MySQLLogDAO implements LogDAO {
 
     final String INSERT = "INSERT INTO `logusuarios` ( `idUsuario`, `fecha`, `accion`, `idAccion`) VALUES (?, ?, ?, ?)";
-    final String UPDATE = "UPDATE `logusuarios` SET `idAccion` = ? WHERE `logusuarios`.`id` = ? ";
+    final String UPDATE = "UPDATE `logusuarios` SET `idUsuario` = ?, `fecha` = ?, `accion` = ?, `idAccion` = ? WHERE `logusuarios`.`id` = ? ";
     final String DELETE = "DELETE FROM catalogo WHERE idCatalogo = ?";
     final String GETALL = "SELECT *  FROM `logusuarios`";
     final String GETONE = "SELECT *  FROM `catalogo` WHERE `idCatalogo` = ?";
@@ -85,8 +85,14 @@ public class MySQLLogDAO implements LogDAO {
         PreparedStatement stat = null;
         try {
             stat = conn.prepareStatement(UPDATE);
-            stat.setLong(1, a.getIdAccion());
-            stat.setLong(2, a.getId());
+            stat.setLong(1, a.getCuit());
+            stat.setDate(2, a.getFecha());
+            stat.setString(3, a.getAccion());
+            stat.setLong(4, a.getIdAccion());
+            stat.setLong(5, a.getId());
+            if (stat.executeUpdate() == 0) {
+                System.out.println("Puede q no se haya guardado");
+            }
         } catch (SQLException ex) {
             throw new DAOException("Error en SQL", ex);
         } finally {

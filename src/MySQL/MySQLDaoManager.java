@@ -151,6 +151,8 @@ public class MySQLDaoManager implements dao.DAOManager {
         if (log == null) {
             log = new MySQLLogDAO(conn);
         }
+//        log = null;
+//        log = new MySQLLogDAO(conn);
         return log;
     }
 }

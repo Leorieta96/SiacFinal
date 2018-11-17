@@ -1064,10 +1064,10 @@ public class Compra extends javax.swing.JFrame {
     private void btnGuardarRPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarRPTActionPerformed
         try {
             // TODO add your handling code here:
-            Long idP = 0L;
+            long idP = 0L;
             LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
             java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-            logUsuarios log = new logUsuarios((long) idUsusario, sqlDate, "Realizar Pedido", 0L);
+            logUsuarios log = new logUsuarios((long) idUsusario, sqlDate, "Realizar Pedido", idP);
             try {
                 manager.getLogDAO().insertar(log);
                 PedidoProveedor pedido = new PedidoProveedor(null, sqlDate, false, proveedorCompra.getCuit(), log.getId());
@@ -1092,8 +1092,6 @@ public class Compra extends javax.swing.JFrame {
                     }
                     i++;
                 }
-                log.setIdAccion(idP);
-                manager.getLogDAO().modificar(log);
             } catch (DAOException ex) {
                 Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1108,7 +1106,11 @@ public class Compra extends javax.swing.JFrame {
             JasperViewer view = new JasperViewer(jprint, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
+            log.setIdAccion(idP);
+            manager.getLogDAO().modificar(log);
         } catch (JRException ex) {
+            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DAOException ex) {
             Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnGuardarRPTActionPerformed

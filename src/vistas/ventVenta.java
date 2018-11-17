@@ -6,35 +6,26 @@
 package vistas;
 
 import MySQL.MySQLDaoManager;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import dao.DAOException;
 import dao.DAOManager;
-import dao.ItemCalatalogoDAO;
-import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
-import modelo.Catalogo;
 import modelo.Cliente;
 import modelo.DetallePedidoCliente;
 import modelo.DetallePresupuesto;
-import modelo.ItemCatalogo;
 import modelo.Material;
 import modelo.PedidoCliente;
 import modelo.Presupuesto;
-import modelo.Proveedor;
 import net.sf.jasperreports.engine.JasperReport;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
+import modelo.logUsuarios;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -874,11 +865,12 @@ public class ventVenta extends javax.swing.JFrame {
             LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
             java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
             double total = 0;
+            logUsuarios log = new logUsuarios((long)idUsuario, sqlDate, "Generar Pedido", 0L);
             for (DetallePresupuesto dp : listDetalle) {
                 total = total + dp.getSubtotal();
             }
             PedidoCliente pedido = new PedidoCliente(null, "En espera", total,
-                    sqlDate, sqlDate, clientePedidoPresupuesto.getdni());
+                    sqlDate, sqlDate, clientePedidoPresupuesto.getdni(),log.getId());
             try {
                 manager.getPedidoClienteDAO().insertar(pedido);
             } catch (DAOException ex) {
@@ -907,6 +899,12 @@ public class ventVenta extends javax.swing.JFrame {
             JasperViewer view = new JasperViewer(jprint, false);
             view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             view.setVisible(true);
+            log.setIdAccion(idPC);
+            try {
+                manager.getLogDAO().modificar(log);
+            } catch (DAOException ex) {
+                Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (JRException ex) {
             Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1170,7 +1168,9 @@ public class ventVenta extends javax.swing.JFrame {
                 if (c != null) {
                     LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
                     java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-                    PedidoCliente p = new PedidoCliente(null, "En espera", (double) total, sqlDate, sqlDate, c.getdni());
+                    logUsuarios log = new logUsuarios((long)idUsuario, sqlDate, "Generar Pedido", 0L);
+                    PedidoCliente p = new PedidoCliente(null, "En espera", 
+                            (double) total, sqlDate, sqlDate, c.getdni(), log.getId());
                     try {
                         manager.getPedidoClienteDAO().insertar(p);
                     } catch (DAOException ex) {
@@ -1198,6 +1198,8 @@ public class ventVenta extends javax.swing.JFrame {
                         JasperViewer view = new JasperViewer(jprint, false);
                         view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
                         view.setVisible(true);
+                        log.setIdAccion(idpre);
+                        manager.getLogDAO().modificar(log);
                     }
                 } else {
                     vtnCliente vtn = new vtnCliente(manager);

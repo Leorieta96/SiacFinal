@@ -17,16 +17,16 @@ public class logUsuarios {
     private Long cuit;
     private Date fecha;
     private String accion;
-    private Long idAccion;
+    private long idAccion;
 
-    public logUsuarios(Long cuit, Date fecha, String accion, Long idAccion) {
+    public logUsuarios(Long cuit, Date fecha, String accion, long idAccion) {
         this.cuit = cuit;
         this.fecha = fecha;
         this.accion = accion;
         this.idAccion = idAccion;
     }
 
-    public logUsuarios(Long id, Long cuit, Date fecha, String accion, Long idAccion) {
+    public logUsuarios(Long id, Long cuit, Date fecha, String accion, long idAccion) {
         this.id = id;
         this.cuit = cuit;
         this.fecha = fecha;
