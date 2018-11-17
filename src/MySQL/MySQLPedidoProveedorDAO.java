@@ -31,7 +31,7 @@ public class MySQLPedidoProveedorDAO implements PedidoProveedorDAO {
         ResultSet rs = null;
         try {
             stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-            stat.setDate(1, a.getFechaEmision());
+            stat.setTimestamp(1, a.getFechaEmision());
             stat.setBoolean(2, a.getEstado());
             stat.setLong(3, a.getCuit());
             stat.setLong(4,a.getIdLog());
@@ -86,7 +86,7 @@ public class MySQLPedidoProveedorDAO implements PedidoProveedorDAO {
         PreparedStatement stat = null;
         try {
             stat = conn.prepareStatement(UPDATE);
-            stat.setDate(1, a.getFechaEmision());
+            stat.setTimestamp(1, a.getFechaEmision());
             stat.setBoolean(2, a.getEstado());
             stat.setLong(3, a.getCuit());
             stat.setLong(4, a.getIdPedidoProveedor());
@@ -107,7 +107,7 @@ public class MySQLPedidoProveedorDAO implements PedidoProveedorDAO {
     }
 
     private PedidoProveedor convertir(ResultSet rs) throws SQLException {
-        PedidoProveedor pedido = new PedidoProveedor(null, rs.getDate("fechaEmision"), rs.getBoolean("estado"), rs.getLong("cuit"), rs.getLong("idLog"));
+        PedidoProveedor pedido = new PedidoProveedor(null, rs.getTimestamp("fechaEmision"), rs.getBoolean("estado"), rs.getLong("cuit"), rs.getLong("idLog"));
         pedido.setIdPedidoProveedor(rs.getLong("idPedidoProveedor"));
         return pedido;
 

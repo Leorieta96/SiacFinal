@@ -42,7 +42,7 @@ public class MySQLLogDAO implements LogDAO {
         try {
             stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             stat.setLong(1, a.getCuit());
-            stat.setDate(2, a.getFecha());
+            stat.setTimestamp(2, a.getFecha());
             stat.setString(3, a.getAccion());
             stat.setLong(4, a.getIdAccion());
             if (stat.executeUpdate() == 0) {
@@ -86,7 +86,7 @@ public class MySQLLogDAO implements LogDAO {
         try {
             stat = conn.prepareStatement(UPDATE);
             stat.setLong(1, a.getCuit());
-            stat.setDate(2, a.getFecha());
+            stat.setTimestamp(2, a.getFecha());
             stat.setString(3, a.getAccion());
             stat.setLong(4, a.getIdAccion());
             stat.setLong(5, a.getId());
@@ -140,7 +140,7 @@ public class MySQLLogDAO implements LogDAO {
 
     private logUsuarios convertir(ResultSet rs) throws SQLException {
         Long id = (long) rs.getInt("id");
-        logUsuarios log = new logUsuarios(id, rs.getLong("cuit"), rs.getDate("fecha"), rs.getString("accion"), rs.getLong("idAccion"));
+        logUsuarios log = new logUsuarios(id, rs.getLong("cuit"), rs.getTimestamp("fecha"), rs.getString("accion"), rs.getLong("idAccion"));
         return log;
     }
 

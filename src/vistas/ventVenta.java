@@ -9,6 +9,7 @@ import MySQL.MySQLDaoManager;
 import dao.DAOException;
 import dao.DAOManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -862,15 +863,16 @@ public class ventVenta extends javax.swing.JFrame {
     private void btnGenerarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPedidoActionPerformed
         try {
             // TODO add your handling code here:
-            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+//            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+//            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+            Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
             double total = 0;
-            logUsuarios log = new logUsuarios((long)idUsuario, sqlDate, "Generar Pedido", 0L);
+            logUsuarios log = new logUsuarios((long) idUsuario, sqlDate, "Generar Pedido", 0L);
             for (DetallePresupuesto dp : listDetalle) {
                 total = total + dp.getSubtotal();
             }
             PedidoCliente pedido = new PedidoCliente(null, "En espera", total,
-                    sqlDate, sqlDate, clientePedidoPresupuesto.getdni(),log.getId());
+                    sqlDate, sqlDate, clientePedidoPresupuesto.getdni(), log.getId());
             try {
                 manager.getPedidoClienteDAO().insertar(pedido);
             } catch (DAOException ex) {
@@ -969,8 +971,9 @@ public class ventVenta extends javax.swing.JFrame {
     private void btnNotificarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificarPedidoActionPerformed
 
         if (validaciones.isNumber(txtIdPedidoNotificar.getText())) {
-            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+//            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+//            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+            Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
             try {
                 // TODO add your handling code here:
                 Long idPedido = Long.valueOf(txtIdPedidoNotificar.getText());
@@ -1166,10 +1169,11 @@ public class ventVenta extends javax.swing.JFrame {
                 Long dni = Long.valueOf(txtDniVSP.getText());
                 Cliente c = manager.getClienteDAO().obtener(dni);
                 if (c != null) {
-                    LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-                    java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
-                    logUsuarios log = new logUsuarios((long)idUsuario, sqlDate, "Generar Pedido", 0L);
-                    PedidoCliente p = new PedidoCliente(null, "En espera", 
+//                    LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+//                    java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+                    Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
+                    logUsuarios log = new logUsuarios((long) idUsuario, sqlDate, "Generar Pedido", 0L);
+                    PedidoCliente p = new PedidoCliente(null, "En espera",
                             (double) total, sqlDate, sqlDate, c.getdni(), log.getId());
                     try {
                         manager.getPedidoClienteDAO().insertar(p);

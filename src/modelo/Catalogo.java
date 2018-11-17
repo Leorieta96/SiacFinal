@@ -1,21 +1,22 @@
 package modelo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Catalogo {
 
     private Long idCatalogo;
-    private Date fecha;
+    private Timestamp fecha;
     private Long cuit;
     private Long idLog;
 
-    public Catalogo(Date fecha, Long cuit, Long idLog) {
+    public Catalogo(Timestamp fecha, Long cuit, Long idLog) {
         this.fecha = fecha;
         this.cuit = cuit;
         this.idLog = idLog;
     }
 
-    public Catalogo(Long idCatalogo, Date fecha, Long cuit, Long idLog) {
+    public Catalogo(Long idCatalogo, Timestamp fecha, Long cuit, Long idLog) {
         this.idCatalogo = idCatalogo;
         this.fecha = fecha;
         this.cuit = cuit;
@@ -38,11 +39,11 @@ public class Catalogo {
         this.idCatalogo = idCatalogo;
     }
 
-    public Date getFecha() {
+    public Timestamp getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
     }
 

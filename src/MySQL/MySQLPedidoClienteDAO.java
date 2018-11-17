@@ -33,8 +33,8 @@ public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
             stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
             stat.setString(1, a.getEstadoPedidoC());
             stat.setDouble(2, a.getTotalPedidoC());
-            stat.setDate(3, a.getFechaEmision());
-            stat.setDate(4, a.getFechaRecibido());
+            stat.setTimestamp(3, a.getFechaEmision());
+            stat.setTimestamp(4, a.getFechaRecibido());
             stat.setLong(5, a.getdni());
             stat.setLong(6, a.getIdLog());
             if (stat.executeUpdate() == 0) {
@@ -91,8 +91,8 @@ public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
             stat = conn.prepareStatement(UPDATE);
             stat.setString(1, a.getEstadoPedidoC());
             stat.setDouble(2, a.getTotalPedidoC());
-            stat.setDate(3, a.getFechaEmision());
-            stat.setDate(4, a.getFechaRecibido());
+            stat.setTimestamp(3, a.getFechaEmision());
+            stat.setTimestamp(4, a.getFechaRecibido());
             stat.setLong(5, a.getIdPedidoCliente());
             stat.setLong(6, a.getIdLog());
             if (stat.executeUpdate() == 0) {
@@ -112,7 +112,7 @@ public class MySQLPedidoClienteDAO implements PedidoClienteDAO {
     }
 
     private PedidoCliente convertir(ResultSet rs) throws SQLException {
-        PedidoCliente pedido = new PedidoCliente(null, rs.getString("estadoPedidoC"), rs.getDouble("totalPedidoC"), rs.getDate("fechaEmision"), rs.getDate("fechaRecibido"), rs.getLong("dni"), rs.getLong("idLog"));// falta el DNIIIIIII
+        PedidoCliente pedido = new PedidoCliente(null, rs.getString("estadoPedidoC"), rs.getDouble("totalPedidoC"), rs.getTimestamp("fechaEmision"), rs.getTimestamp("fechaRecibido"), rs.getLong("dni"), rs.getLong("idLog"));// falta el DNIIIIIII
         pedido.setIdPedidoCliente(rs.getLong("idPedidoCliente"));
         return pedido;
 

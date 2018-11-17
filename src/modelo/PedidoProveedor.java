@@ -1,15 +1,16 @@
 package modelo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class PedidoProveedor {
     private Long idPedidoProveedor;
-    private Date fechaEmision;
+    private Timestamp fechaEmision;
     private boolean estado;
     private Long cuit;
     private long idLog;
 
-    public PedidoProveedor(Long idPedidoProveedor, Date fechaEmision, boolean estado, Long cuit, long idLog) {
+    public PedidoProveedor(Long idPedidoProveedor, Timestamp fechaEmision, boolean estado, Long cuit, long idLog) {
         this.idPedidoProveedor = idPedidoProveedor;
         this.fechaEmision = fechaEmision;
         this.estado = estado;
@@ -25,11 +26,11 @@ public class PedidoProveedor {
         this.idPedidoProveedor = idPedidoProveedor;
     }
 
-    public Date getFechaEmision() {
+    public Timestamp getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(Date fechaEmision) {
+    public void setFechaEmision(Timestamp fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 

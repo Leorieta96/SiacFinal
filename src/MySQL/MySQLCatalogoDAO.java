@@ -34,7 +34,7 @@ public class MySQLCatalogoDAO implements CatalogoDAO {
         ResultSet rs = null;
         try {
             stat = conn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
-            stat.setDate(1, a.getFecha());
+            stat.setTimestamp(1, a.getFecha());
             stat.setLong(2, a.getCuit());
             stat.setLong(3, a.getIdLog());
             if (stat.executeUpdate() == 0) {
@@ -98,7 +98,7 @@ public class MySQLCatalogoDAO implements CatalogoDAO {
 
     private Catalogo convertir(ResultSet rs) throws SQLException {
         Long id = (long) rs.getInt("idCatalogo");
-        Catalogo catalogo = new Catalogo(id, rs.getDate("fecha"), (long) rs.getInt("cuit"), (long) rs.getInt("idLog"));
+        Catalogo catalogo = new Catalogo(id, rs.getTimestamp("fecha"), (long) rs.getInt("cuit"), (long) rs.getInt("idLog"));
         return catalogo;
     }
 

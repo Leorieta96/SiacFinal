@@ -8,6 +8,7 @@ package vistas;
 import dao.DAOException;
 import dao.DAOManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -848,8 +849,9 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRecibirCatalogoActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+//        LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+//        java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+        Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
         logUsuarios log = new logUsuarios((long) idUsusario, sqlDate, "Agregar Catalogo", 0L);
         try {
             manager.getLogDAO().insertar(log);
@@ -1065,8 +1067,9 @@ public class Compra extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             long idP = 0L;
-            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
-            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+//            LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
+//            java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
+            Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
             logUsuarios log = new logUsuarios((long) idUsusario, sqlDate, "Realizar Pedido", idP);
             try {
                 manager.getLogDAO().insertar(log);

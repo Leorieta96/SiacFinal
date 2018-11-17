@@ -8,6 +8,7 @@ package vistas;
 import MySQL.MySQLDaoManager;
 import dao.DAOManager;
 import java.sql.SQLException;
+import java.util.Calendar;
 import vistas.home;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,13 +45,14 @@ public class vtnInformes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
+        dialogHistorial = new javax.swing.JDialog();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        btnBuscarHistorial = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
+        dateHistorial = new datechooser.beans.DateChooserCombo();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnPedidoCliente = new javax.swing.JButton();
@@ -61,32 +63,43 @@ public class vtnInformes extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-        jDialog1.getContentPane().setLayout(null);
+        dialogHistorial.getContentPane().setLayout(null);
 
         jLabel4.setText("Historial");
-        jDialog1.getContentPane().add(jLabel4);
+        dialogHistorial.getContentPane().add(jLabel4);
         jLabel4.setBounds(170, 40, 60, 30);
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Usuario: ");
-        jDialog1.getContentPane().add(jLabel5);
-        jLabel5.setBounds(60, 120, 50, 20);
-        jDialog1.getContentPane().add(txtUsuario);
-        txtUsuario.setBounds(100, 120, 120, 20);
+        dialogHistorial.getContentPane().add(jLabel5);
+        jLabel5.setBounds(80, 90, 60, 20);
+        dialogHistorial.getContentPane().add(txtUsuario);
+        txtUsuario.setBounds(150, 90, 120, 20);
 
-        jButton3.setText("Buscar");
-        jDialog1.getContentPane().add(jButton3);
-        jButton3.setBounds(230, 120, 65, 23);
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Desde:");
+        dialogHistorial.getContentPane().add(jLabel6);
+        jLabel6.setBounds(90, 130, 50, 20);
 
-        jLabel6.setText("Fecha:");
-        jDialog1.getContentPane().add(jLabel6);
-        jLabel6.setBounds(60, 160, 50, 20);
+        btnBuscarHistorial.setText("Buscar");
+        btnBuscarHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarHistorialActionPerformed(evt);
+            }
+        });
+        dialogHistorial.getContentPane().add(btnBuscarHistorial);
+        btnBuscarHistorial.setBounds(270, 130, 65, 23);
 
-        jButton4.setText("Buscar");
-        jDialog1.getContentPane().add(jButton4);
-        jButton4.setBounds(230, 160, 65, 23);
+        btnAtras.setText("Atrás");
+        dialogHistorial.getContentPane().add(btnAtras);
+        btnAtras.setBounds(40, 240, 59, 23);
+        dialogHistorial.getContentPane().add(dateHistorial);
+        dateHistorial.setBounds(140, 130, 120, 20);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
-        jDialog1.getContentPane().add(jLabel3);
+        dialogHistorial.getContentPane().add(jLabel3);
         jLabel3.setBounds(0, 0, 600, 500);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -210,6 +223,14 @@ public class vtnInformes extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnBuscarHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarHistorialActionPerformed
+        // TODO add your handling code here:
+        if(validaciones.isString(txtUsuario.getText())){
+            Calendar date = dateHistorial.getSelectedDate();
+            
+        }
+    }//GEN-LAST:event_btnBuscarHistorialActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -225,13 +246,14 @@ public class vtnInformes extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnBuscarHistorial;
     private javax.swing.JButton btnPedidoCliente;
     private javax.swing.JButton btnPedidoProveedor;
+    private datechooser.beans.DateChooserCombo dateHistorial;
+    private javax.swing.JDialog dialogHistorial;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

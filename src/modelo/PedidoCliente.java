@@ -1,17 +1,20 @@
 package modelo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class PedidoCliente {
     private Long idPedidoCliente;
     private String estadoPedidoC;
     private Double totalPedidoC;
-    private Date fechaEmision;
-    private Date fechaRecibido;
+    private Timestamp fechaEmision;
+    private Timestamp fechaRecibido;
     private Long dni;
     private Long idLog;
 
-    public PedidoCliente(Long idPedidoCliente, String estadoPedidoC, Double totalPedidoC, Date fechaEmision, Date fechaRecibido, Long dni, Long idLog) {
+    public PedidoCliente(Long idPedidoCliente, String estadoPedidoC, 
+            Double totalPedidoC, Timestamp fechaEmision, Timestamp fechaRecibido,
+            Long dni, Long idLog) {
         this.idPedidoCliente = idPedidoCliente;
         this.estadoPedidoC = estadoPedidoC;
         this.totalPedidoC = totalPedidoC;
@@ -45,19 +48,19 @@ public class PedidoCliente {
         this.totalPedidoC = totalPedidoC;
     }
 
-    public Date getFechaEmision() {
+    public Timestamp getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(Date fechaEmision) {
+    public void setFechaEmision(Timestamp fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 
-    public Date getFechaRecibido() {
+    public Timestamp getFechaRecibido() {
         return fechaRecibido;
     }
 
-    public void setFechaRecibido(Date fechaRecibido) {
+    public void setFechaRecibido(Timestamp fechaRecibido) {
         this.fechaRecibido = fechaRecibido;
     }
 
