@@ -174,14 +174,29 @@ public class home extends javax.swing.JFrame {
         getContentPane().add(jLabel4);
         jLabel4.setBounds(500, 50, 30, 40);
 
+        btnRegistrar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/account medium.png"))); // NOI18N
         btnRegistrar.setText("Registrar Usuario");
+        btnRegistrar.setBorder(null);
+        btnRegistrar.setBorderPainted(false);
+        btnRegistrar.setContentAreaFilled(false);
+        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRegistrar.setIconTextGap(-3);
+        btnRegistrar.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/account small.png"))); // NOI18N
+        btnRegistrar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/account.png"))); // NOI18N
+        btnRegistrar.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/account small.png"))); // NOI18N
+        btnRegistrar.setVerifyInputWhenFocusTarget(false);
+        btnRegistrar.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnRegistrar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarActionPerformed(evt);
             }
         });
         getContentPane().add(btnRegistrar);
-        btnRegistrar.setBounds(340, 340, 140, 40);
+        btnRegistrar.setBounds(320, 290, 170, 100);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
         getContentPane().add(jLabel2);

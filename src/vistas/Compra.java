@@ -154,11 +154,11 @@ public class Compra extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
+        txtPrecioMaterial = new javax.swing.JTextField();
+        txtNombreMaterial = new javax.swing.JTextField();
+        txtDescripcionMaterial = new javax.swing.JTextField();
+        txtStockMaterial = new javax.swing.JTextField();
+        cbRubro = new javax.swing.JComboBox();
         btnAtrasM = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jLabel34 = new javax.swing.JLabel();
@@ -722,23 +722,23 @@ public class Compra extends javax.swing.JFrame {
         jLabel33.setText("Rubro:");
         dialogMaterial.getContentPane().add(jLabel33);
         jLabel33.setBounds(133, 210, 50, 20);
-        dialogMaterial.getContentPane().add(jTextField1);
-        jTextField1.setBounds(180, 170, 100, 25);
-        dialogMaterial.getContentPane().add(jTextField2);
-        jTextField2.setBounds(180, 80, 100, 25);
-        dialogMaterial.getContentPane().add(jTextField3);
-        jTextField3.setBounds(180, 110, 100, 25);
-        dialogMaterial.getContentPane().add(jTextField4);
-        jTextField4.setBounds(180, 140, 100, 25);
+        dialogMaterial.getContentPane().add(txtPrecioMaterial);
+        txtPrecioMaterial.setBounds(180, 170, 100, 25);
+        dialogMaterial.getContentPane().add(txtNombreMaterial);
+        txtNombreMaterial.setBounds(180, 80, 100, 25);
+        dialogMaterial.getContentPane().add(txtDescripcionMaterial);
+        txtDescripcionMaterial.setBounds(180, 110, 100, 25);
+        dialogMaterial.getContentPane().add(txtStockMaterial);
+        txtStockMaterial.setBounds(180, 140, 100, 25);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PVC", "Pintureria", "Construccion", "Ferreteria", "Electricidad" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbRubro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccionar", "PVC", "Pintureria", "Construccion", "Ferreteria", "Electricidad" }));
+        cbRubro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cbRubroActionPerformed(evt);
             }
         });
-        dialogMaterial.getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(180, 210, 56, 20);
+        dialogMaterial.getContentPane().add(cbRubro);
+        cbRubro.setBounds(180, 210, 110, 20);
 
         btnAtrasM.setText("Atras");
         btnAtrasM.addActionListener(new java.awt.event.ActionListener() {
@@ -750,6 +750,11 @@ public class Compra extends javax.swing.JFrame {
         btnAtrasM.setBounds(20, 260, 59, 23);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         dialogMaterial.getContentPane().add(btnGuardar);
         btnGuardar.setBounds(310, 260, 71, 23);
 
@@ -1340,18 +1345,66 @@ public class Compra extends javax.swing.JFrame {
         // TODO add your handling code here:
         dialogMaterial.setVisible(true);
         dialogMaterial.setResizable(false);
-        dialogMaterial.setSize(400,300);
+        dialogMaterial.setSize(400, 300);
         dialogMaterial.setTitle("Agregar Material");
         dialogMaterial.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnMaterialActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cbRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRubroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cbRubroActionPerformed
 
     private void btnAtrasMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasMActionPerformed
         dialogMaterial.dispose();
     }//GEN-LAST:event_btnAtrasMActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (validaciones.isString(txtNombreMaterial.getText())) {
+            if (validaciones.isEmpty(txtDescripcionMaterial.getText())) {
+                if (validaciones.isNumber(txtStockMaterial.getText())) {
+                    if (validaciones.isFloat(txtPrecioMaterial.getText())) {
+                        if (cbRubro.getSelectedItem().toString().equals("Seleccionar")) {
+                            Material m = new Material(null, 
+                                    txtNombreMaterial.getText(), 
+                                    txtDescripcionMaterial.getText(),
+                                    Integer.valueOf(txtStockMaterial.getText()),
+                                    Long.valueOf(txtPrecioMaterial.getText()), 
+                                    cbRubro.getSelectedItem().toString(), 
+                                    idUsusario);
+                            JOptionPane.showMessageDialog(this,
+                            "Guardado Corectamente", "Information",
+                            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                            txtNombreMaterial.setText("");
+                            txtDescripcionMaterial.setText("");
+                            txtStockMaterial.setText("");
+                            txtPrecioMaterial.setText("");
+                            cbRubro.setSelectedItem("Seleccionar");
+                        } else {
+                            JOptionPane.showMessageDialog(this,
+                                    "Seleccione el rubro", "Information",
+                                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Ingrese precio unitario valido", "Information",
+                                javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Ingrese numero de stock valido", "Information",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Ingrese descripcion", "Information",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Ingrese un nombre valido", "Information",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     public void setTablePedido() {
 
@@ -1484,6 +1537,7 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnSiguienteRPO;
     private javax.swing.JButton btnVerCatalogos;
+    private javax.swing.JComboBox cbRubro;
     private javax.swing.JDialog dialogMaterial;
     private javax.swing.JDialog dialogRealizarPedido;
     private javax.swing.JDialog dialogRealizarPedidoOne;
@@ -1494,7 +1548,6 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JDialog dialogSuccesPrint;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1540,24 +1593,24 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextArea jTextArea5;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel labelRubro;
     private javax.swing.JTable tableItemCatalogo;
     private javax.swing.JTable tablePedidoFinal;
     private javax.swing.JTable tableProveedoresxRubro;
     private javax.swing.JTextField txtCuitRC;
+    private javax.swing.JTextField txtDescripcionMaterial;
     private javax.swing.JTextField txtDireccionP;
     private javax.swing.JTextField txtDireccionRPT;
     private javax.swing.JLabel txtInexistente;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtMaterial;
+    private javax.swing.JTextField txtNombreMaterial;
     private javax.swing.JTextField txtNombreP;
     private javax.swing.JTextField txtNumeroPedido;
     private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtPrecioMaterial;
     private javax.swing.JTextField txtProveedorRPT;
+    private javax.swing.JTextField txtStockMaterial;
     private javax.swing.JTextField txtTelefonoRPT;
     // End of variables declaration//GEN-END:variables
 }
