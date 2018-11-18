@@ -147,6 +147,21 @@ public class Compra extends javax.swing.JFrame {
         btnAtrasRO = new javax.swing.JButton();
         txtInexistente = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
+        dialogMaterial = new javax.swing.JDialog();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox();
+        btnAtrasM = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnAtrasC = new javax.swing.JButton();
         btnRealizarPedido = new javax.swing.JButton();
@@ -157,6 +172,9 @@ public class Compra extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jTextArea3 = new javax.swing.JTextArea();
         jTextArea4 = new javax.swing.JTextArea();
+        btnMaterial = new javax.swing.JButton();
+        jTextArea5 = new javax.swing.JTextArea();
+        btnProveedor1 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
 
         dialogRealizarPedido.setResizable(false);
@@ -667,6 +685,78 @@ public class Compra extends javax.swing.JFrame {
         dialogRecibirPedido.getContentPane().add(jLabel27);
         jLabel27.setBounds(0, 0, 400, 300);
 
+        dialogMaterial.getContentPane().setLayout(null);
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Agregar Material");
+        dialogMaterial.getContentPane().add(jLabel28);
+        jLabel28.setBounds(90, 20, 230, 40);
+
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setText("Nombre: ");
+        dialogMaterial.getContentPane().add(jLabel29);
+        jLabel29.setBounds(120, 80, 60, 20);
+
+        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel30.setText("Descripcion:");
+        dialogMaterial.getContentPane().add(jLabel30);
+        jLabel30.setBounds(100, 110, 90, 30);
+
+        jLabel31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel31.setText("Stock:");
+        dialogMaterial.getContentPane().add(jLabel31);
+        jLabel31.setBounds(130, 145, 50, 20);
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel32.setText("Precio Unitario:");
+        dialogMaterial.getContentPane().add(jLabel32);
+        jLabel32.setBounds(80, 170, 100, 20);
+
+        jLabel33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel33.setText("Rubro:");
+        dialogMaterial.getContentPane().add(jLabel33);
+        jLabel33.setBounds(133, 210, 50, 20);
+        dialogMaterial.getContentPane().add(jTextField1);
+        jTextField1.setBounds(180, 170, 100, 25);
+        dialogMaterial.getContentPane().add(jTextField2);
+        jTextField2.setBounds(180, 80, 100, 25);
+        dialogMaterial.getContentPane().add(jTextField3);
+        jTextField3.setBounds(180, 110, 100, 25);
+        dialogMaterial.getContentPane().add(jTextField4);
+        jTextField4.setBounds(180, 140, 100, 25);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PVC", "Pintureria", "Construccion", "Ferreteria", "Electricidad" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        dialogMaterial.getContentPane().add(jComboBox1);
+        jComboBox1.setBounds(180, 210, 56, 20);
+
+        btnAtrasM.setText("Atras");
+        btnAtrasM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasMActionPerformed(evt);
+            }
+        });
+        dialogMaterial.getContentPane().add(btnAtrasM);
+        btnAtrasM.setBounds(20, 260, 59, 23);
+
+        btnGuardar.setText("Guardar");
+        dialogMaterial.getContentPane().add(btnGuardar);
+        btnGuardar.setBounds(310, 260, 71, 23);
+
+        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
+        dialogMaterial.getContentPane().add(jLabel34);
+        jLabel34.setBounds(0, -6, 400, 310);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(500, 500));
@@ -774,6 +864,42 @@ public class Compra extends javax.swing.JFrame {
         jTextArea4.setEnabled(false);
         getContentPane().add(jTextArea4);
         jTextArea4.setBounds(330, 180, 140, 40);
+
+        btnMaterial.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnMaterial.setForeground(new java.awt.Color(102, 102, 102));
+        btnMaterial.setText("Agregar Material");
+        btnMaterial.setBorder(null);
+        btnMaterial.setBorderPainted(false);
+        btnMaterial.setContentAreaFilled(false);
+        btnMaterial.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaterial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMaterialActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnMaterial);
+        btnMaterial.setBounds(330, 240, 140, 40);
+
+        jTextArea5.setColumns(20);
+        jTextArea5.setRows(5);
+        jTextArea5.setEnabled(false);
+        getContentPane().add(jTextArea5);
+        jTextArea5.setBounds(330, 240, 140, 40);
+
+        btnProveedor1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnProveedor1.setForeground(new java.awt.Color(102, 102, 102));
+        btnProveedor1.setText("Proveedores");
+        btnProveedor1.setBorder(null);
+        btnProveedor1.setBorderPainted(false);
+        btnProveedor1.setContentAreaFilled(false);
+        btnProveedor1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnProveedor1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProveedor1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnProveedor1);
+        btnProveedor1.setBounds(350, 240, 140, 40);
 
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
         getContentPane().add(jLabel18);
@@ -1206,6 +1332,27 @@ public class Compra extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVerCatalogosActionPerformed
 
+    private void btnProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedor1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProveedor1ActionPerformed
+
+    private void btnMaterialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMaterialActionPerformed
+        // TODO add your handling code here:
+        dialogMaterial.setVisible(true);
+        dialogMaterial.setResizable(false);
+        dialogMaterial.setSize(400,300);
+        dialogMaterial.setTitle("Agregar Material");
+        dialogMaterial.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnMaterialActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void btnAtrasMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasMActionPerformed
+        dialogMaterial.dispose();
+    }//GEN-LAST:event_btnAtrasMActionPerformed
+
     public void setTablePedido() {
 
         tableProveedoresxRubro.removeAll();
@@ -1314,6 +1461,7 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarTabla;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnAtrasC;
+    private javax.swing.JButton btnAtrasM;
     private javax.swing.JButton btnAtrasRC;
     private javax.swing.JButton btnAtrasRO;
     private javax.swing.JButton btnAtrasRPO;
@@ -1323,16 +1471,20 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JButton btnConstruccion;
     private javax.swing.JButton btnElectricidad;
     private javax.swing.JButton btnFerreteria;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnGuardarRPT;
+    private javax.swing.JButton btnMaterial;
     private javax.swing.JButton btnPVC;
     private javax.swing.JButton btnPintureria;
     private javax.swing.JButton btnProveedor;
+    private javax.swing.JButton btnProveedor1;
     private javax.swing.JButton btnRealizarPedido;
     private javax.swing.JButton btnRecibirCatalogo;
     private javax.swing.JButton btnRecibirPedido;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnSiguienteRPO;
     private javax.swing.JButton btnVerCatalogos;
+    private javax.swing.JDialog dialogMaterial;
     private javax.swing.JDialog dialogRealizarPedido;
     private javax.swing.JDialog dialogRealizarPedidoOne;
     private javax.swing.JDialog dialogRealizarPedidoTwo;
@@ -1342,6 +1494,7 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JDialog dialogSuccesPrint;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1362,7 +1515,14 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1379,6 +1539,11 @@ public class Compra extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
+    private javax.swing.JTextArea jTextArea5;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel labelRubro;
     private javax.swing.JTable tableItemCatalogo;
     private javax.swing.JTable tablePedidoFinal;

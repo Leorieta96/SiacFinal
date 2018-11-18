@@ -248,6 +248,7 @@ public class home extends javax.swing.JFrame {
             frmReg = new registro();
             frmReg.setVisible(true);
             frmReg.setSize(500, 400);
+            frmReg.setLocationRelativeTo(null);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
