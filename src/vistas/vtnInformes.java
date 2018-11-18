@@ -5,17 +5,15 @@
  */
 package vistas;
 
-import MySQL.MySQLDaoManager;
+import dao.DAOException;
 import dao.DAOManager;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import vistas.home;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import modelo.logUsuarios;
 import modeloLogin.SqlUsuarios;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -57,8 +55,19 @@ public class vtnInformes extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnBuscarHistorial = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
-        dateHistorial = new datechooser.beans.DateChooserCombo();
+        dateInicio = new datechooser.beans.DateChooserCombo();
+        jLabel8 = new javax.swing.JLabel();
+        dateFin = new datechooser.beans.DateChooserCombo();
         jLabel3 = new javax.swing.JLabel();
+        dialogHistorialOne = new javax.swing.JDialog();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtUser = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableHistorial = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        txtIdUser = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnPedidoCliente = new javax.swing.JButton();
         btnPedidoProveedor = new javax.swing.JButton();
@@ -68,6 +77,7 @@ public class vtnInformes extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
+        dialogHistorial.setResizable(false);
         dialogHistorial.getContentPane().setLayout(null);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -80,15 +90,15 @@ public class vtnInformes extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Usuario: ");
         dialogHistorial.getContentPane().add(jLabel5);
-        jLabel5.setBounds(80, 90, 60, 20);
+        jLabel5.setBounds(100, 100, 60, 20);
         dialogHistorial.getContentPane().add(txtUsuario);
-        txtUsuario.setBounds(150, 90, 120, 20);
+        txtUsuario.setBounds(160, 100, 120, 25);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Desde:");
         dialogHistorial.getContentPane().add(jLabel6);
-        jLabel6.setBounds(90, 130, 50, 20);
+        jLabel6.setBounds(90, 150, 50, 30);
 
         btnBuscarHistorial.setText("Buscar");
         btnBuscarHistorial.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +107,7 @@ public class vtnInformes extends javax.swing.JFrame {
             }
         });
         dialogHistorial.getContentPane().add(btnBuscarHistorial);
-        btnBuscarHistorial.setBounds(270, 130, 65, 23);
+        btnBuscarHistorial.setBounds(280, 200, 80, 30);
 
         btnAtras.setText("Atrás");
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
@@ -106,13 +116,72 @@ public class vtnInformes extends javax.swing.JFrame {
             }
         });
         dialogHistorial.getContentPane().add(btnAtras);
-        btnAtras.setBounds(40, 240, 59, 23);
-        dialogHistorial.getContentPane().add(dateHistorial);
-        dateHistorial.setBounds(140, 130, 120, 20);
+        btnAtras.setBounds(30, 240, 59, 23);
+        dialogHistorial.getContentPane().add(dateInicio);
+        dateInicio.setBounds(140, 140, 130, 40);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Hasta:");
+        dialogHistorial.getContentPane().add(jLabel8);
+        jLabel8.setBounds(90, 200, 50, 30);
+        dialogHistorial.getContentPane().add(dateFin);
+        dateFin.setBounds(140, 190, 130, 40);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
         dialogHistorial.getContentPane().add(jLabel3);
         jLabel3.setBounds(0, 0, 600, 500);
+
+        dialogHistorialOne.getContentPane().setLayout(null);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Historial de Accesos");
+        dialogHistorialOne.getContentPane().add(jLabel7);
+        jLabel7.setBounds(70, 10, 370, 60);
+
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Usuario:");
+        dialogHistorialOne.getContentPane().add(jLabel9);
+        jLabel9.setBounds(50, 70, 50, 20);
+
+        txtUser.setEditable(false);
+        txtUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserActionPerformed(evt);
+            }
+        });
+        dialogHistorialOne.getContentPane().add(txtUser);
+        txtUser.setBounds(100, 70, 100, 25);
+
+        tableHistorial.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tableHistorial);
+
+        dialogHistorialOne.getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(20, 110, 452, 240);
+
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Id Usuario:");
+        dialogHistorialOne.getContentPane().add(jLabel10);
+        jLabel10.setBounds(260, 64, 80, 30);
+
+        txtIdUser.setEditable(false);
+        dialogHistorialOne.getContentPane().add(txtIdUser);
+        txtIdUser.setBounds(320, 70, 100, 25);
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backgroundHome.png"))); // NOI18N
+        dialogHistorialOne.getContentPane().add(jLabel11);
+        jLabel11.setBounds(0, 0, 700, 510);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -233,7 +302,10 @@ public class vtnInformes extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         dialogHistorial.setVisible(true);
-        dialogHistorial.setSize(500,400);
+        dialogHistorial.setSize(400,300);
+        dialogHistorial.setResizable(false);
+        dialogHistorial.setTitle("Historial");
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnBuscarHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarHistorialActionPerformed
@@ -242,32 +314,62 @@ public class vtnInformes extends javax.swing.JFrame {
             try {
                 SqlUsuarios modSql = new SqlUsuarios();
                 Long id = modSql.existeUsuario(txtUsuario.getText());
-                if ( id != 0) {
-                    Calendar date = dateHistorial.getSelectedDate();
-                    java.util.Date date1 = new java.util.Date(date.getTimeInMillis());
-                    //Date date = cal.getTime();
-                    JasperReport reporte = null;
-                    Map parametro = new HashMap();
-                    parametro.put("id", id);
-                    parametro.put("nombre", txtUsuario.getText());
-                    parametro.put("fecha", new SimpleDateFormat("dd/MM/yyyy HH:MM:SS").format(date1));
-                    reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/historialAcceso.jasper"));
-                    JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
-                    JasperViewer view = new JasperViewer(jprint, false);
-                    view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-                    view.setVisible(true);
+                if (id != 0) {
+                    Calendar cal = dateInicio.getSelectedDate();
+                    java.sql.Date fechaInicio = new java.sql.Date(cal.getTimeInMillis());
+                    cal = dateFin.getSelectedDate();
+                    java.sql.Date fechaFin = new java.sql.Date(cal.getTimeInMillis());
+                    if (fechaInicio.compareTo(fechaFin) < 0) {
+                        dialogHistorialOne.setVisible(true);
+                        dialogHistorialOne.setSize(500,400);
+                        dialogHistorialOne.setLocationRelativeTo(null);
+                        dialogHistorialOne.setResizable(false);
+                        List<logUsuarios> logs = manager.getLogDAO().obtenerXfecha(fechaInicio, fechaFin, id);
+                        settableHistorial(logs);
+                        txtUser.setText(txtUsuario.getText());
+                        txtIdUser.setText(id.toString());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ingreso incoreccto de fechas");
+                    }
+                    //java.util.Date date1 = new java.util.Date(date.getTimeInMillis());
+//                    java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
+//                    JasperReport reporte = null;
+//                    Map parametro = new HashMap();
+//                    parametro.put("id", id);
+//                    parametro.put("nombre", txtUsuario.getText());
+//                    parametro.put("fecha", new SimpleDateFormat("YYYY-MM-dd").format(date.getTime()));
+////                    parametro.put("fecha", date);
+//                    reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/informes/historialAcceso.jasper"));
+//                    JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, manager.getConn());
+//                    JasperViewer view = new JasperViewer(jprint, false);
+//                    view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//                    view.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuario inexistente");
                 }
-            } catch (JRException ex) {
+//            } catch (JRException ex) {
+//                Logger.getLogger(vtnInformes.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DAOException ex) {
                 Logger.getLogger(vtnInformes.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese Usuario");
         }
     }//GEN-LAST:event_btnBuscarHistorialActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
+        vtnInformes vtn = new vtnInformes(manager, mod, idUsuario);
+        vtn.setVisible(true);
+        vtn.setSize(500,400);
+        vtn.setResizable(false);
+        vtn.setTitle("Informes");
         dialogHistorial.dispose();
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,18 +390,63 @@ public class vtnInformes extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarHistorial;
     private javax.swing.JButton btnPedidoCliente;
     private javax.swing.JButton btnPedidoProveedor;
-    private datechooser.beans.DateChooserCombo dateHistorial;
+    private datechooser.beans.DateChooserCombo dateFin;
+    private datechooser.beans.DateChooserCombo dateInicio;
     private javax.swing.JDialog dialogHistorial;
+    private javax.swing.JDialog dialogHistorialOne;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTable tableHistorial;
+    private javax.swing.JTextField txtIdUser;
+    private javax.swing.JTextField txtUser;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    private void settableHistorial(List<logUsuarios> logs) {
+        tableHistorial.removeAll();
+        String[] columnas = new String[]{
+            "Transaccion",
+            "N° de transaccion",
+            "Fecha"};
+        final Class[] tiposColumnas = new Class[]{
+            java.lang.String.class,
+            java.lang.Long.class,
+            java.sql.Date.class, //JButton.class
+        };
+        Object[][] datos = new Object[logs.size()][3];
+        int i = 0;
+        for (logUsuarios l : logs) {
+            datos[i][0] = l.getAccion();
+            datos[i][1] = l.getIdAccion();
+            datos[i][2] = l.getFecha();
+            i++;
+        }
+        tableHistorial.setModel(new javax.swing.table.DefaultTableModel(datos, columnas) {
+            Class[] tipos = tiposColumnas;
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return tipos[columnIndex];
+            }
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+    }
 }

@@ -27,6 +27,7 @@ public class MySQLLogDAO implements LogDAO {
     final String DELETE = "DELETE FROM catalogo WHERE idCatalogo = ?";
     final String GETALL = "SELECT *  FROM `logusuarios`";
     final String GETONE = "SELECT *  FROM `catalogo` WHERE `idCatalogo` = ?";
+    final String GETFECHA = "SELECT * FROM `logusuarios` WHERE `idUsuario` = ? AND `fecha` BETWEEN ? AND ?";
 
     private Long IdGenerated = null;
     private Connection conn;
@@ -140,13 +141,48 @@ public class MySQLLogDAO implements LogDAO {
 
     private logUsuarios convertir(ResultSet rs) throws SQLException {
         Long id = (long) rs.getInt("id");
-        logUsuarios log = new logUsuarios(id, rs.getLong("cuit"), rs.getTimestamp("fecha"), rs.getString("accion"), rs.getLong("idAccion"));
+        logUsuarios log = new logUsuarios(id, rs.getLong("idUsuario"), rs.getTimestamp("fecha"), rs.getString("accion"), rs.getLong("idAccion"));
         return log;
     }
 
     @Override
     public logUsuarios obtener(Long id) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<logUsuarios> obtenerXfecha(java.sql.Date fechaInicio, java.sql.Date fechaFin, Long id) throws DAOException{
+        PreparedStatement stat = null;
+        ResultSet rs = null;
+        List<logUsuarios> log = new ArrayList<>();
+        try {
+            stat = conn.prepareStatement(GETFECHA);
+            stat.setLong(1, id);
+            stat.setDate(2, fechaInicio);
+            stat.setDate(3, fechaFin);
+            rs = stat.executeQuery();
+            while(rs.next()){
+                log.add(convertir(rs));
+            }
+        } catch(SQLException e) {
+            throw new DAOException("Error SQL");
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    throw new DAOException("Error en SQL", e);
+                }
+            }
+            if (stat != null) {
+                try {
+                    stat.close();
+                } catch (SQLException e) {
+                    throw new DAOException("Error SQL", e);
+                }
+            }
+        }
+        return log;
     }
 
 }

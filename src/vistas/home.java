@@ -11,6 +11,7 @@ import dao.DAOManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vistaLogin.Inicio;
 import static vistaLogin.Inicio.frmReg;
 import vistaLogin.registro;
 
@@ -211,7 +212,12 @@ public class home extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        //this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        Inicio home = new Inicio();
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.setTitle("SIAC");
+        home.setResizable(false);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -241,7 +247,7 @@ public class home extends javax.swing.JFrame {
         if (frmReg == null) {
             frmReg = new registro();
             frmReg.setVisible(true);
-            frmReg.setSize(500,400);
+            frmReg.setSize(500, 400);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 

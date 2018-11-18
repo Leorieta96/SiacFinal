@@ -63,7 +63,7 @@ public class login extends javax.swing.JFrame {
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(txtUsuario);
-        txtUsuario.setBounds(160, 110, 150, 23);
+        txtUsuario.setBounds(150, 120, 150, 25);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -79,11 +79,11 @@ public class login extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnEntrar);
-        btnEntrar.setBounds(170, 210, 71, 25);
+        btnEntrar.setBounds(160, 210, 80, 40);
 
         txtPassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         getContentPane().add(txtPassword);
-        txtPassword.setBounds(160, 160, 150, 23);
+        txtPassword.setBounds(150, 160, 150, 25);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/home.png"))); // NOI18N
         getContentPane().add(jLabel3);

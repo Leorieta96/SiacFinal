@@ -868,6 +868,11 @@ public class ventVenta extends javax.swing.JFrame {
             Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
             double total = 0;
             logUsuarios log = new logUsuarios((long) idUsuario, sqlDate, "Generar Pedido", 0L);
+            try {
+                manager.getLogDAO().insertar(log);
+            } catch (DAOException ex) {
+                Logger.getLogger(ventVenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
             for (DetallePresupuesto dp : listDetalle) {
                 total = total + dp.getSubtotal();
             }
@@ -1172,7 +1177,8 @@ public class ventVenta extends javax.swing.JFrame {
 //                    LocalDate todayLocalDate = LocalDate.now(ZoneId.of("America/Argentina/Buenos_Aires"));
 //                    java.sql.Date sqlDate = java.sql.Date.valueOf(todayLocalDate);
                     Timestamp sqlDate = new Timestamp(System.currentTimeMillis());
-                    logUsuarios log = new logUsuarios((long) idUsuario, sqlDate, "Generar Pedido", 0L);
+                    logUsuarios log = new logUsuarios((long) idUsuario, sqlDate, "Generar Pedido cliente", 0L);
+                    manager.getLogDAO().insertar(log);
                     PedidoCliente p = new PedidoCliente(null, "En espera",
                             (double) total, sqlDate, sqlDate, c.getdni(), log.getId());
                     try {

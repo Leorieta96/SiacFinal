@@ -14,7 +14,8 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT logusuarios.`id` AS logusuarios_id, logusuarios.`idUsuario` AS logusuarios_idUsuario, logusuarios.`fecha` AS logusuarios_fecha, logusuarios.`accion` AS logusuarios_accion, logusuarios.`idAccion` AS logusuarios_idAccion 
-FROM `logusuarios` logusuarios WHERE logusuarios.`idUsuario` = $P!{id}  ]]>
+FROM `logusuarios` logusuarios WHERE logusuarios.`idUsuario` = $P!{id}
+AND logusuarios.`fecha` >= $P!{fecha}]]>
 	</queryString>
 	<field name="logusuarios_id" class="java.lang.Integer"/>
 	<field name="logusuarios_idUsuario" class="java.lang.Long"/>

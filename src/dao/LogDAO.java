@@ -5,13 +5,14 @@
  */
 package dao;
 
+import java.util.List;
 import modelo.logUsuarios;
 
 /**
  *
  * @author Alumnos
  */
-public interface LogDAO extends DAO<logUsuarios,Long>{
-    
-    
+public interface LogDAO extends DAO<logUsuarios, Long> {
+
+    public List<logUsuarios> obtenerXfecha(java.sql.Date fechaInicio, java.sql.Date fechaFin, Long id) throws DAOException;
 }

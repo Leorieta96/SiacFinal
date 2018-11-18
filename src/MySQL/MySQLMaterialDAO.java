@@ -49,7 +49,6 @@ public class MySQLMaterialDAO implements MaterialDAO {
             stat.setLong(4, a.getPrecioUnitario());
             stat.setString(5, a.getRubro());
             stat.setLong(6, a.getidMaterial());
-            stat.setLong(7, a.getIdLog());
             if (stat.executeUpdate() == 0) {
                 throw new DAOException("Puede q no se haya guardado");
             }
